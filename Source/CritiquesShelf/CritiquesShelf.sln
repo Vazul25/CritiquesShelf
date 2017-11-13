@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CritiquesShelf", "CritiquesShelf\CritiquesShelf.csproj", "{569F8A07-0F23-4ED3-AF0E-C224DFE7BBBE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CritiquesShelfBLL", "CritiquesShelfBLL\CritiquesShelfBLL.csproj", "{CBC7B142-3620-417B-ADAF-700B757FBA54}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{569F8A07-0F23-4ED3-AF0E-C224DFE7BBBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{569F8A07-0F23-4ED3-AF0E-C224DFE7BBBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{569F8A07-0F23-4ED3-AF0E-C224DFE7BBBE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBC7B142-3620-417B-ADAF-700B757FBA54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBC7B142-3620-417B-ADAF-700B757FBA54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBC7B142-3620-417B-ADAF-700B757FBA54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBC7B142-3620-417B-ADAF-700B757FBA54}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

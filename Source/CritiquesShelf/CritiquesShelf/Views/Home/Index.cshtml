@@ -1,9 +1,12 @@
 @{
     ViewData["Title"] = "Home Page";
 }
+ 
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+<link href="node_modules/@@angular/material/prebuilt-themes/indigo-pink.css" rel="stylesheet">
 
-<app asp-prerender-module="ClientApp/dist/main-server">Loading...</app>
-
+      @*<app asp-prerender-module="ClientApp/dist/main-server">Loading...</app>*@
+<app></app>
 <script src="~/dist/vendor.js" asp-append-version="true"></script>
 @section scripts {
     <script src="~/dist/main-client.js" asp-append-version="true"></script>
