@@ -15,8 +15,10 @@ namespace CritiquesShelfBLL
 
         {
 
-            services.AddScoped<IExampleRepository, ExampleManager>();
-           
+            services.AddScoped<IUserRepository,UserManager>();
+            services.AddScoped<IReviewRepository, ReviewManager>();
+            services.AddScoped<IBookRepository, BookManager>();
+
             services.AddDbContext<CritiquesShelfDbContext>(options =>
 
                         options.UseSqlServer(sqlConnectionString));
