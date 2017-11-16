@@ -14,9 +14,9 @@ using CritiquesShelf.Models;
 using CritiquesShelf.Models.AccountViewModels;
 using CritiquesShelf.Services;
 using CritiquesShelfBLL.Entities;
- 
+
 using CritiquesShelf.Controllers;
- 
+using CritiquesShelfBLL.Utility;
 
 namespace CritiquesShelf.Controllers
 {
@@ -28,17 +28,19 @@ namespace CritiquesShelf.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
-
+        private readonly RoleManager<IdentityRole> _roleManager;
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
-            ILogger<AccountController> logger)
+            ILogger<AccountController> logger,
+            RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
+            _roleManager = roleManager;
         }
 
         [TempData]
@@ -229,6 +231,13 @@ namespace CritiquesShelf.Controllers
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
+                    IdentityRole role = await _roleManager.FindByNameAsync(CritiquesShelfRoles.User.GetName());
+
+                    if (role != null)
+                    {
+                        IdentityResult roleResult = await _userManager.AddToRoleAsync(user, role.Name);
+
+                    }
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);

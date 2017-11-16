@@ -8,14 +8,15 @@ namespace CritiquesShelfBLL.Utility
 {
     public static class RoleInitializer
     {
+        //
         private static readonly string[] roles = new[] {
-        "Admin",
-        "User"
+        CritiquesShelfRoles.User.GetName(),
+        CritiquesShelfRoles.Admin.GetName()
     };
 
         public static async Task SeedRoles(RoleManager<IdentityRole> roleManager)
         {
-
+            
             foreach (var role in roles)
             {
 
