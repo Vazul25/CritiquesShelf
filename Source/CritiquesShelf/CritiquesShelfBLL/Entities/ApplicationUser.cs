@@ -1,9 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 using CritiquesShelfBLL.ConnectionTables;
+using Microsoft.AspNetCore.Identity;
 
 namespace CritiquesShelfBLL.Entities
 {
@@ -13,7 +11,6 @@ namespace CritiquesShelfBLL.Entities
         public string FirstName { get; set; }
         [StringLength(50)]
         public string LastName { get; set; }
-
 
         public List<FavouritesConnector> Favourites { get; set; }
    

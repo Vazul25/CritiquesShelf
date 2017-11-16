@@ -2,7 +2,10 @@
 
 namespace CritiquesShelfBLL.Managers
 {
-    class BookManager : IBookRepository
+    public class BookManager : RepositoryBase, IBookRepository
     {
+        public BookManager(CritiquesShelfDbContext context): base(context) {
+            
+        }
     }
 }

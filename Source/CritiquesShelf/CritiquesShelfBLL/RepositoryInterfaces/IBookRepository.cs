@@ -6,5 +6,6 @@ namespace CritiquesShelfBLL.RepositoryInterfaces
 {
     interface IBookRepository
     {
+        
     }
 }
