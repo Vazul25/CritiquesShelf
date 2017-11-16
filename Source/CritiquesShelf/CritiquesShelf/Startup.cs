@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Identity;
 using CritiquesShelf.Services;
 using CritiquesShelfBLL;
 using CritiquesShelfBLL.Entities;
+using CritiquesShelfBLL.Utility;
 
 namespace CritiquesShelf
 {
@@ -25,7 +26,7 @@ namespace CritiquesShelf
         }
 
         public IConfiguration Configuration { get; }
-
+        
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -79,8 +80,9 @@ namespace CritiquesShelf
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, RoleManager<IdentityRole> roleManager)
         {
+            RoleInitializer.SeedRoles(roleManager);
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -108,4 +110,6 @@ namespace CritiquesShelf
             });
         }
     }
+
+
 }

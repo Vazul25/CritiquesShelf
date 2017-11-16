@@ -23,7 +23,7 @@ namespace CritiquesShelfBLL
         public CritiquesShelfDbContext(DbContextOptions<CritiquesShelfDbContext> options)
             : base(options)
         {
-
+            
 
         }
          
