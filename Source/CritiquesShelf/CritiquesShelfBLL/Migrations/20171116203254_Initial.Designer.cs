@@ -11,7 +11,7 @@ using System;
 namespace CritiquesShelfBLL.Migrations
 {
     [DbContext(typeof(CritiquesShelfDbContext))]
-    [Migration("20171116171526_Initial")]
+    [Migration("20171116203254_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,6 +20,62 @@ namespace CritiquesShelfBLL.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.0.0-rtm-26452")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("CritiquesShelfBLL.ConnectionTables.FavouritesConnector", b =>
+                {
+                    b.Property<long>("BookId");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("BookId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("FavouritesConnector");
+                });
+
+            modelBuilder.Entity("CritiquesShelfBLL.ConnectionTables.LikeToReadConnector", b =>
+                {
+                    b.Property<long>("BookId");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("BookId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("LikeToReadConnector");
+                });
+
+            modelBuilder.Entity("CritiquesShelfBLL.ConnectionTables.ReadConnector", b =>
+                {
+                    b.Property<long>("BookId");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("BookId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ReadConnector");
+                });
+
+            modelBuilder.Entity("CritiquesShelfBLL.ConnectionTables.TagConnector", b =>
+                {
+                    b.Property<long>("BookId");
+
+                    b.Property<long>("TagId");
+
+                    b.Property<long?>("BookProposalId");
+
+                    b.HasKey("BookId", "TagId");
+
+                    b.HasIndex("BookProposalId");
+
+                    b.HasIndex("TagId");
+
+                    b.ToTable("TagConnector");
+                });
 
             modelBuilder.Entity("CritiquesShelfBLL.Entities.ApplicationUser", b =>
                 {
@@ -76,6 +132,84 @@ namespace CritiquesShelfBLL.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("CritiquesShelfBLL.Entities.Book", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AuthorFirstName");
+
+                    b.Property<string>("AuthorLastName");
+
+                    b.Property<DateTime>("DatePublished");
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("Title");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Books");
+                });
+
+            modelBuilder.Entity("CritiquesShelfBLL.Entities.BookProposal", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AuthorFirstName");
+
+                    b.Property<string>("AuthorLastName");
+
+                    b.Property<DateTime>("DatePublished");
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("ProposerId");
+
+                    b.Property<string>("Title");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProposerId");
+
+                    b.ToTable("BookProposals");
+                });
+
+            modelBuilder.Entity("CritiquesShelfBLL.Entities.Review", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<long?>("BookId");
+
+                    b.Property<string>("Description");
+
+                    b.Property<int>("Score");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Reviews");
+                });
+
+            modelBuilder.Entity("CritiquesShelfBLL.Entities.Tag", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Label");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Tags");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -184,6 +318,80 @@ namespace CritiquesShelfBLL.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("CritiquesShelfBLL.ConnectionTables.FavouritesConnector", b =>
+                {
+                    b.HasOne("CritiquesShelfBLL.Entities.Book", "Book")
+                        .WithMany()
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("CritiquesShelfBLL.Entities.ApplicationUser", "User")
+                        .WithMany("Favourites")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("CritiquesShelfBLL.ConnectionTables.LikeToReadConnector", b =>
+                {
+                    b.HasOne("CritiquesShelfBLL.Entities.Book", "Book")
+                        .WithMany()
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("CritiquesShelfBLL.Entities.ApplicationUser", "User")
+                        .WithMany("LikeToRead")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("CritiquesShelfBLL.ConnectionTables.ReadConnector", b =>
+                {
+                    b.HasOne("CritiquesShelfBLL.Entities.Book", "Book")
+                        .WithMany()
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("CritiquesShelfBLL.Entities.ApplicationUser", "User")
+                        .WithMany("Read")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("CritiquesShelfBLL.ConnectionTables.TagConnector", b =>
+                {
+                    b.HasOne("CritiquesShelfBLL.Entities.Book", "Book")
+                        .WithMany("Tags")
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("CritiquesShelfBLL.Entities.BookProposal")
+                        .WithMany("Tags")
+                        .HasForeignKey("BookProposalId");
+
+                    b.HasOne("CritiquesShelfBLL.Entities.Tag", "Tag")
+                        .WithMany()
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("CritiquesShelfBLL.Entities.BookProposal", b =>
+                {
+                    b.HasOne("CritiquesShelfBLL.Entities.ApplicationUser", "Proposer")
+                        .WithMany()
+                        .HasForeignKey("ProposerId");
+                });
+
+            modelBuilder.Entity("CritiquesShelfBLL.Entities.Review", b =>
+                {
+                    b.HasOne("CritiquesShelfBLL.Entities.Book")
+                        .WithMany("Reviews")
+                        .HasForeignKey("BookId");
+
+                    b.HasOne("CritiquesShelfBLL.Entities.ApplicationUser", "User")
+                        .WithMany("Reviews")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

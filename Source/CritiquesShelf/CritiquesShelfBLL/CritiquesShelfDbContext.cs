@@ -4,28 +4,45 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Xml.Linq;
+using CritiquesShelfBLL.ConnectionTables;
 
 namespace CritiquesShelfBLL
 {
     public class CritiquesShelfDbContext : IdentityDbContext<ApplicationUser>
     {
+        public DbSet<Book> Books { get; set; }
+		public DbSet<BookProposal> BookProposals { get; set; }
+        public DbSet<Review> Reviews { get; set; }
+		public DbSet<Tag> Tags { get; set; }
+        public DbSet<FavouritesConnector> FavouritesConnector { get; set; }
+        public DbSet<LikeToReadConnector> LikeToReadConnector { get; set; }
+        public DbSet<ReadConnector> ReadConnector { get; set; }
+        public DbSet<TagConnector> TagConnector { get; set; }
+
         public CritiquesShelfDbContext(DbContextOptions<CritiquesShelfDbContext> options)
             : base(options)
         {
 
 
         }
-      //  public virtual DbSet<Type1> Name1{ get; set; }
-       
          
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            // Customize the ASP.NET Identity model and override the defaults if needed.
-            // For example, you can rename the ASP.NET Identity table names and more.
-            // Add your customizations after calling base.OnModelCreating(builder);
-          //  builder.Entity<Type1>().ToTable("TableName1");
-         
+
+            builder.Entity<FavouritesConnector>()
+                   .HasKey(x => new { x.BookId, x.UserId });
+
+            builder.Entity<LikeToReadConnector>()
+                   .HasKey(x => new { x.BookId, x.UserId });
+
+            builder.Entity<ReadConnector>()
+                   .HasKey(x => new { x.BookId, x.UserId });
+
+            builder.Entity<TagConnector>()
+                   .HasKey(x => new { x.BookId, x.TagId });
+
         }
     }
 }
