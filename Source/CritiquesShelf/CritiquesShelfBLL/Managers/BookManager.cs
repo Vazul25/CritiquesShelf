@@ -1,4 +1,5 @@
 ﻿using CritiquesShelfBLL.RepositoryInterfaces;
+using CritiquesShelfBLL.Entities;
 
 namespace CritiquesShelfBLL.Managers
 {
@@ -7,5 +8,6 @@ namespace CritiquesShelfBLL.Managers
         public BookManager(CritiquesShelfDbContext context): base(context) {
             
         }
+
     }
 }
