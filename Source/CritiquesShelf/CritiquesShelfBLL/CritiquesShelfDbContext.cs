@@ -12,7 +12,7 @@ namespace CritiquesShelfBLL
         public CritiquesShelfDbContext(DbContextOptions<CritiquesShelfDbContext> options)
             : base(options)
         {
-
+            
 
         }
       //  public virtual DbSet<Type1> Name1{ get; set; }
