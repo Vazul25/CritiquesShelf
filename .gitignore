@@ -1,5 +1,4 @@
-Source/CritiquesShelf/.vs/CritiquesShelf/v15/sqlite3/storage.ide
-Source/CritiquesShelf/.vs/*
+Source/CritiquesShelf/.vs/
 Source/CritiquesShelf/CritiquesShelfBLL/obj/
 Source/CritiquesShelf/CritiquesShelfBLL/bin/
 *.DS_Store
