@@ -18,7 +18,7 @@ using CritiquesShelfBLL.Entities;
 using CritiquesShelf.Controllers;
  
 
-namespace GroupUp.Controllers
+namespace CritiquesShelf.Controllers
 {
     [Authorize]
     [Route("[controller]/[action]")]
@@ -260,7 +260,6 @@ namespace GroupUp.Controllers
         public IActionResult ExternalLogin(string provider, string returnUrl = null)
         {
             // Request a redirect to the external login provider.
-            // var redirectUrl = Url.Action(nameof(ExternalLoginCallback), "Account", new { returnUrl });
             var redirectUrl = Url.Action(nameof(ExternalLoginCallback), "Account", new { returnUrl });
             var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
             return Challenge(properties, provider);
@@ -283,12 +282,9 @@ namespace GroupUp.Controllers
 
             // Sign in the user with this external login provider if the user already has a login.
             var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
-
             if (result.Succeeded)
             {
                 _logger.LogInformation("User logged in with {Name} provider.", info.LoginProvider);
-
-                 
                 return RedirectToLocal(returnUrl);
             }
             if (result.IsLockedOut)
@@ -318,16 +314,7 @@ namespace GroupUp.Controllers
                 {
                     throw new ApplicationException("Error loading external login information during confirmation.");
                 }
-               
-
-                var user = new ApplicationUser
-                {
-            
-                    UserName = info.Principal.FindFirstValue(ClaimTypes.Email),
-                    Email = info.Principal.FindFirstValue(ClaimTypes.Email),
-                    FirstName = info.Principal.FindFirstValue(ClaimTypes.Surname),
-                    LastName = info.Principal.FindFirstValue(ClaimTypes.GivenName)
-                };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {

@@ -34,16 +34,7 @@ namespace CritiquesShelf
             services.AddIdentity<ApplicationUser, IdentityRole>()
                          .AddEntityFrameworkStores<CritiquesShelfDbContext>()
                          .AddDefaultTokenProviders();
-            services.AddAuthentication().AddFacebook(facebookOptions =>
-            {
-
-                facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
-                facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
-                facebookOptions.Scope.Add("public_profile");
-                facebookOptions.Scope.Add("user_friends");
-                facebookOptions.SaveTokens = true;
-
-            });
+            
 
             services.Configure<IdentityOptions>(options =>
             {

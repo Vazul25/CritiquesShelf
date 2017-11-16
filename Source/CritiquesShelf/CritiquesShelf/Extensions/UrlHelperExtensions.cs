@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using GroupUp.Controllers;
+using System.Threading.Tasks; 
+using CritiquesShelf.Controllers;
 
 namespace Microsoft.AspNetCore.Mvc
 {

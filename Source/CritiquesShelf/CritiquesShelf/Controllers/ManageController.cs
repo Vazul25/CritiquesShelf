@@ -16,7 +16,7 @@ using CritiquesShelf.Models.ManageViewModels;
 using CritiquesShelfBLL.Entities;
 using CritiquesShelf.Services;
 
-namespace GroupUp.Controllers
+namespace CritiquesShelf.Controllers
 {
     [Authorize]
     [Route("[controller]/[action]")]
