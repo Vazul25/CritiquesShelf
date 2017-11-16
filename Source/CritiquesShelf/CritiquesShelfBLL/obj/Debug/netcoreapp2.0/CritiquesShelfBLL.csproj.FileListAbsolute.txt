@@ -1,9 +1,0 @@
-F:\Programozas\MSC2\szar\CritiquesShelf\Source\CritiquesShelf\CritiquesShelfBLL\bin\Debug\netcoreapp2.0\CritiquesShelfBLL.deps.json
-F:\Programozas\MSC2\szar\CritiquesShelf\Source\CritiquesShelf\CritiquesShelfBLL\bin\Debug\netcoreapp2.0\CritiquesShelfBLL.dll
-F:\Programozas\MSC2\szar\CritiquesShelf\Source\CritiquesShelf\CritiquesShelfBLL\obj\Debug\netcoreapp2.0\CritiquesShelfBLL.csprojResolveAssemblyReference.cache
-F:\Programozas\MSC2\szar\CritiquesShelf\Source\CritiquesShelf\CritiquesShelfBLL\obj\Debug\netcoreapp2.0\CritiquesShelfBLL.csproj.CoreCompileInputs.cache
-F:\Programozas\MSC2\szar\CritiquesShelf\Source\CritiquesShelf\CritiquesShelfBLL\obj\Debug\netcoreapp2.0\CritiquesShelfBLL.AssemblyInfoInputs.cache
-F:\Programozas\MSC2\szar\CritiquesShelf\Source\CritiquesShelf\CritiquesShelfBLL\obj\Debug\netcoreapp2.0\CritiquesShelfBLL.AssemblyInfo.cs
-F:\Programozas\MSC2\szar\CritiquesShelf\Source\CritiquesShelf\CritiquesShelfBLL\bin\Debug\netcoreapp2.0\CritiquesShelfBLL.pdb
-F:\Programozas\MSC2\szar\CritiquesShelf\Source\CritiquesShelf\CritiquesShelfBLL\obj\Debug\netcoreapp2.0\CritiquesShelfBLL.dll
-F:\Programozas\MSC2\szar\CritiquesShelf\Source\CritiquesShelf\CritiquesShelfBLL\obj\Debug\netcoreapp2.0\CritiquesShelfBLL.pdb
