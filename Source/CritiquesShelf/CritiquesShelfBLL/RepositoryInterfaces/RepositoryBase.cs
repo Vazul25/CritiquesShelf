@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using CritiquesShelfBLL.Entities;
 namespace CritiquesShelfBLL.RepositoryInterfaces
 {
-    public class RepositoryBase
+    public class RepositoryBase<T> where T: class
     {
         protected readonly CritiquesShelfDbContext _context;
 
@@ -14,31 +14,31 @@ namespace CritiquesShelfBLL.RepositoryInterfaces
             _context = context;
         }
 
-        public void Insert<T>(T entity, bool doSave = false) where T : class
+        public void Insert (T entity, bool doSave = false)  
         {
             _context.Set<T>().Add(entity);
             _saveChanges(doSave);
 
         }
 
-        public T Find<T>(long id) where T : PersistentEntity
+        public T Find(long id)  
         {
             return _context.Set<T>().Find(id);
         }
 
-        public void Delete<T>(long id, bool doSave = false) where T : PersistentEntity
+        public void Delete(long id, bool doSave = false)  
         {
-            var entity = Find<T>(id);
+            var entity = Find(id);
             _context.Set<T>().Remove(entity);
             _saveChanges(doSave);
         }
 
-        public List<T> List<T>() where T : class
+        public List<T> List() 
         {
             return _context.Set<T>().ToList();
         }
 
-        public List<T> List<T>(Expression<Func<T, bool>> predicate) where T : class
+        public List<T> List(Expression<Func<T, bool>> predicate)
         {
             return _context.Set<T>()
                            .Where(predicate)
