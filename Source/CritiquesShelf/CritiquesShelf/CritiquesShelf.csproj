@@ -21,7 +21,20 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\app\models\Book.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\CritiquesShelfBLL\CritiquesShelfBLL.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ClientApp\app\components\shared\bookList\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\app\models\Book.ts" />
+    <TypeScriptCompile Include="ClientApp\app\services\book.service.ts" />
   </ItemGroup>
 
   <Target Name="DebugRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('wwwroot\dist') ">
