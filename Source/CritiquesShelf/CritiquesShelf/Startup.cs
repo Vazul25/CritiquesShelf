@@ -80,9 +80,10 @@ namespace CritiquesShelf
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, RoleManager<IdentityRole> roleManager)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            RoleInitializer.SeedRoles(roleManager);
+            InitializeDatabase(app);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -108,6 +109,21 @@ namespace CritiquesShelf
                     name: "spa-fallback",
                     defaults: new { controller = "Home", action = "Index" });
             });
+        }
+
+        private async void InitializeDatabase(IApplicationBuilder app) 
+        {
+            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            {
+                var roleManager = serviceScope.ServiceProvider.GetService<RoleManager<IdentityRole>>();  
+
+                await RoleInitializer.SeedRoles(roleManager);
+
+                var context = serviceScope.ServiceProvider.GetService<CritiquesShelfDbContext>();
+
+				await BookInitializer.SeedBooks(context, Configuration["GoogleBooksApiKey"]);
+            }
+
         }
     }
 

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using System;
 using System.Collections.Generic;
+using CritiquesShelfBLL.ConnectionTables;
 
 namespace CritiquesShelfBLL.Entities
 {
@@ -8,6 +8,8 @@ namespace CritiquesShelfBLL.Entities
     {
 
         public List<Review> Reviews { get; set; }
+
+        public HashSet<TagConnector> TagConnectors { get; set; }
 
         #region Computed Properties
 

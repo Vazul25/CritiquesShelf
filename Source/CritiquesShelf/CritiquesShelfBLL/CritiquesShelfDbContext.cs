@@ -13,6 +13,7 @@ namespace CritiquesShelfBLL
     {
         public DbSet<Book> Books { get; set; }
 		public DbSet<BookProposal> BookProposals { get; set; }
+        public DbSet<Author> Authors { get; set;  }
         public DbSet<Review> Reviews { get; set; }
 		public DbSet<Tag> Tags { get; set; }
         public DbSet<FavouritesConnector> FavouritesConnector { get; set; }
@@ -23,8 +24,7 @@ namespace CritiquesShelfBLL
         public CritiquesShelfDbContext(DbContextOptions<CritiquesShelfDbContext> options)
             : base(options)
         {
-            
-
+            Database.EnsureCreated();   
         }
          
         protected override void OnModelCreating(ModelBuilder builder)
@@ -42,6 +42,9 @@ namespace CritiquesShelfBLL
 
             builder.Entity<TagConnector>()
                    .HasKey(x => new { x.BookId, x.TagId });
+
+            builder.Entity<Tag>()
+                   .HasAlternateKey(x => x.Label);
 
         }
     }

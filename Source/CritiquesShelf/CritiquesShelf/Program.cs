@@ -19,7 +19,13 @@ namespace CritiquesShelf
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .Build();
+                   .UseContentRoot(Directory.GetCurrentDirectory())
+                   .ConfigureAppConfiguration((builderContext, config) =>
+                   {
+                       IHostingEnvironment env = builderContext.HostingEnvironment;
+                       config.AddJsonFile("secret.json", optional: false, reloadOnChange: true);
+                   })
+                   .UseStartup<Startup>()
+                   .Build();
     }
 }
