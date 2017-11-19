@@ -9,9 +9,9 @@ export class BookService {
      constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) { }
     rootRoute: string = "api/Book/";
     //TODO baseurlel
-    getOrgNodes(): Observable<any> {
+    getBooks(page: number, pageSize: number): Observable<any> {
 
-        return this.http.get(this.rootRoute + "getBooks");
+        return this.http.get(this.rootRoute + "getBooks?page=" + page+"&&pageSize="+ pageSize);
     }
 
     

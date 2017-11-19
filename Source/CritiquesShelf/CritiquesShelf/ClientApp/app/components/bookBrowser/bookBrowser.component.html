@@ -5,6 +5,12 @@
     <title></title>
 </head>
 <body>
-
+    <bookList [books]="books"></bookList>
+    <span class="page-bar">
+      
+        <button mat-fab color="accent" style="margin:auto 10px auto 10px" (click)="prevPage()" [disabled]="page!=0"><</button>
+         <a *ngFor="let pageNumber of numbers" [routerLink]="['/browse']"  [queryParams]="{page:pageNumber,pageSize:this.pageSize}" class="page-link" > {{pageNumber}}</a> 
+      <button mat-fab color="accent" style="margin:auto 10px auto 10px" (click)="nextPage()" [disabled]="!hasNext && !requestInProgress">></button>
+    </span>
 </body>
 </html>

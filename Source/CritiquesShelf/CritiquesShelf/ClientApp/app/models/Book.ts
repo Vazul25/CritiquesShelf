@@ -1,9 +1,9 @@
 ﻿export interface Book {
 
     title: string;
-    authorName: string;
+    authorsNames: string[];
     description: string;
-    datePublished: Date;
-    Tags: Set<string>;
+    Tags: string[];
+    rateing: number;
 
 }

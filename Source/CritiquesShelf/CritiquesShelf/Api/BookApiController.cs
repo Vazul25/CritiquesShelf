@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using CritiquesShelfBLL.Entities;
 using CritiquesShelfBLL.Managers;
+using CritiquesShelfBLL.ViewModels;
+using CritiquesShelfBLL.RepositoryInterfaces;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -13,21 +15,23 @@ namespace CritiquesShelf.Api
     [Route("api/Book")]
     public class BookApiController : Controller
     {
-        BookManager _bookManager;
-        public BookApiController(BookManager bookManager)
+        IBookRepository _bookManager;
+        public BookApiController(IBookRepository bookManager)
         {
             _bookManager = bookManager;
         }
         // GET: api/values
+
+        [Route("getBooks")]
         [HttpGet]
-        public List<Book> Get()
+        public IActionResult Get(  int page=0, int pageSize=0)
         {
-            return _bookManager.List();
+            return Ok(_bookManager.GetBooks(page,pageSize));
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public Book Get(long id)
+        public BookModel Get(long id)
         {
             return _bookManager.Find(id);
         }

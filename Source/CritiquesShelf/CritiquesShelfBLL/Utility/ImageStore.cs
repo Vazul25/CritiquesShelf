@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using Microsoft.Extensions.Configuration;
-using ImageSharp;
+ 
 
 namespace CritiquesShelfBLL.Utility
 {

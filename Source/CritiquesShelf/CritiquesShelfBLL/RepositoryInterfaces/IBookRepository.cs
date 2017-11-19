@@ -1,11 +1,13 @@
-﻿using System;
+﻿using CritiquesShelfBLL.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace CritiquesShelfBLL.RepositoryInterfaces
 {
-    interface IBookRepository
+    public interface IBookRepository
     {
-        
+    PagedData<List<BookModel>> GetBooks(int page = 0, int pageSize = 0);
+        BookModel Find(long id);
     }
 }

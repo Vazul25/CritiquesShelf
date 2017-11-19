@@ -1,0 +1,23 @@
+<div class="container-fluid" style="height:100px;width:400px">
+    <div class="row">
+        <div class="col-md-6"><img style="height:150px;width:100px" src="{{book.cover}}" /></div>
+        <div class="col-md-6">
+            <div class="row">Title:{{book.title}}</div>
+
+            <div class="row">
+                Authors:
+                <div *ngFor="let author of book.authorsNames">{{author}} </div>
+            </div>
+            <div class="row">Tags:<div *ngFor="let tag of book.tags">{{tag}} </div></div>
+            <div class="row">Score:{{book.score}}</div>
+
+        </div>
+        <span class="spacer" ></span>
+        <div class="col-md-12">
+             {{book.description}}
+
+
+        
+        </div>
+    </div>
+</div>

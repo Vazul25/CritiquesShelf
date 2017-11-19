@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CritiquesShelfBLL.ViewModels
 {
-    class BookModel
+    public class BookModel
     {
         public string Title{ get; set; }
         public string Description { get; set; }

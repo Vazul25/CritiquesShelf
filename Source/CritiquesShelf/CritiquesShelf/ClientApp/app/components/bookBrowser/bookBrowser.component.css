@@ -1,2 +1,12 @@
 ﻿body {
 }
+.page-link {
+    font-size: 18px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.page-bar {
+    display: table;
+    margin-right: auto;
+    margin-left: auto;
+}

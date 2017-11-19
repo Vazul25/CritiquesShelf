@@ -14,6 +14,9 @@ import { HomeComponent } from './components/home/home.component';
 import { FetchDataComponent } from './components/fetchdata/fetchdata.component';
 import { CounterComponent } from './components/counter/counter.component';
 import { BookBrowserComponent } from './components/bookBrowser/bookBrowser.component';
+import { BookListComponent } from './components/shared/bookList/bookList.component';
+import { BookDisplayComponent } from './components/shared/book/book.component';
+
 import { ProfileComponent } from './components/profile/profile.component';
 import { ReviewComponent } from './components/shared/review/review.component';
 
@@ -26,7 +29,9 @@ import { ReviewComponent } from './components/shared/review/review.component';
         BookBrowserComponent,
         HomeComponent,
         ProfileComponent,
-        ReviewComponent
+        ReviewComponent,
+        BookDisplayComponent,
+        BookListComponent
     ],
     imports: [
         CommonModule,
