@@ -28,8 +28,6 @@ namespace CritiquesShelfBLL.Managers
                            .Where(x => x.Id == id)
                            .FirstOrDefault();
 
-            user.PhotoId = "img.png";
-            _context.SaveChanges();
             if (user.PhotoId != null) {
 				user.Photo = _imageStore.GetImage(user.PhotoId);
             }
