@@ -30,11 +30,15 @@
 
   <ItemGroup>
     <Folder Include="ClientApp\app\components\shared\bookList\" />
+    <Folder Include="ClientApp\app\services\" />
+    <Folder Include="ClientApp\app\components\profile\" />
+    <Folder Include="ClientApp\app\components\shared\review\" />
+    <Folder Include="ClientApp\app\components\shared\book\" />
+    <Folder Include="storedImages\" />
   </ItemGroup>
 
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\app\models\Book.ts" />
-    <TypeScriptCompile Include="ClientApp\app\services\book.service.ts" />
   </ItemGroup>
 
   <Target Name="DebugRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('wwwroot\dist') ">

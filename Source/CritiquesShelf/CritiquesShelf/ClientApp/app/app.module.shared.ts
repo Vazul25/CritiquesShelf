@@ -14,6 +14,8 @@ import { HomeComponent } from './components/home/home.component';
 import { FetchDataComponent } from './components/fetchdata/fetchdata.component';
 import { CounterComponent } from './components/counter/counter.component';
 import { BookBrowserComponent } from './components/bookBrowser/bookBrowser.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { ReviewComponent } from './components/shared/review/review.component';
 
 @NgModule({
     declarations: [
@@ -22,7 +24,9 @@ import { BookBrowserComponent } from './components/bookBrowser/bookBrowser.compo
         CounterComponent,
         FetchDataComponent,
         BookBrowserComponent,
-        HomeComponent
+        HomeComponent,
+        ProfileComponent,
+        ReviewComponent
     ],
     imports: [
         CommonModule,
@@ -42,6 +46,7 @@ import { BookBrowserComponent } from './components/bookBrowser/bookBrowser.compo
             { path: 'home', component: HomeComponent },
             { path: 'browse', component: BookBrowserComponent },
             //{ path: 'bookDetails/:id', component: BookDetailsComponent },
+            { path: 'profile', component: ProfileComponent },
             { path: 'counter', component: CounterComponent },
             { path: 'fetch-data', component: FetchDataComponent },
             { path: '**', redirectTo: 'home' }

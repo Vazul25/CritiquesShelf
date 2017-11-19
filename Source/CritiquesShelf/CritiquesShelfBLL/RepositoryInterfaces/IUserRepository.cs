@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using CritiquesShelfBLL.Entities;
 
 namespace CritiquesShelfBLL.RepositoryInterfaces
 {
-    interface IUserRepository
+    public interface IUserRepository
     {
+        ApplicationUser Find(string id);
     }
 }

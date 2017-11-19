@@ -109,6 +109,8 @@ namespace CritiquesShelfBLL.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
+                    b.Property<string>("PhotoId");
+
                     b.Property<string>("SecurityStamp");
 
                     b.Property<bool>("TwoFactorEnabled");
@@ -191,6 +193,8 @@ namespace CritiquesShelfBLL.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<long?>("BookId");
+
+                    b.Property<DateTime>("Date");
 
                     b.Property<string>("Description");
 

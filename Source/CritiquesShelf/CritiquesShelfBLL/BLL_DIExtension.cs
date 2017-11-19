@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using CritiquesShelfBLL.Utility;
 
 namespace CritiquesShelfBLL
 {
@@ -15,15 +16,13 @@ namespace CritiquesShelfBLL
 
         {
 
+			services.AddDbContext<CritiquesShelfDbContext>(options =>
+			                                               options.UseSqlServer(sqlConnectionString));
+            
             services.AddScoped<IUserRepository,UserManager>();
             services.AddScoped<IReviewRepository, ReviewManager>();
             services.AddScoped<IBookRepository, BookManager>();
-
-            services.AddDbContext<CritiquesShelfDbContext>(options =>
-
-                        options.UseSqlServer(sqlConnectionString));
-
-
+            services.AddScoped<ImageStore, ImageStore>();
 
             return services;
 
