@@ -21,6 +21,7 @@ const nonTreeShakableModules = [
     'es6-shim',
     'event-source-polyfill',
     'jquery',
+    '@angular/material/prebuilt-themes/indigo-pink.css',
 ];
 const allModules = treeShakableModules.concat(nonTreeShakableModules);
 

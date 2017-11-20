@@ -16,6 +16,8 @@ import { CounterComponent } from './components/counter/counter.component';
 import { BookBrowserComponent } from './components/bookBrowser/bookBrowser.component';
 import { BookListComponent } from './components/shared/bookList/bookList.component';
 import { BookDisplayComponent } from './components/shared/book/book.component';
+import { BookApprovalComponent } from './components/bookApproval/bookApproval.component';
+
 
 import { ProfileComponent } from './components/profile/profile.component';
 import { ReviewComponent } from './components/shared/review/review.component';
@@ -31,7 +33,8 @@ import { ReviewComponent } from './components/shared/review/review.component';
         ProfileComponent,
         ReviewComponent,
         BookDisplayComponent,
-        BookListComponent
+        BookListComponent,
+        BookApprovalComponent
     ],
     imports: [
         CommonModule,
@@ -50,6 +53,7 @@ import { ReviewComponent } from './components/shared/review/review.component';
             { path: '', redirectTo: 'home', pathMatch: 'full' },
             { path: 'home', component: HomeComponent },
             { path: 'browse', component: BookBrowserComponent },
+            { path: 'bookAproval', component: BookApprovalComponent },
             //{ path: 'bookDetails/:id', component: BookDetailsComponent },
             { path: 'profile', component: ProfileComponent },
             { path: 'counter', component: CounterComponent },

@@ -3,3 +3,6 @@ Source/CritiquesShelf/CritiquesShelfBLL/obj/
 Source/CritiquesShelf/CritiquesShelfBLL/bin/
 *.DS_Store
 Source/CritiquesShelf/CritiquesShelf.userprefs
+Source/CritiquesShelf/CritiquesShelf/secret.json
+Source/CritiquesShelf/CritiquesShelf/secret.json
+*.targets

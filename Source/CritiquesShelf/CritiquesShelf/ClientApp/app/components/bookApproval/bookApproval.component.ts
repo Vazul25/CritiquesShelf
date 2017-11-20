@@ -2,31 +2,47 @@
 import { Http } from '@angular/http';
 import { BookService } from '../../services/book.service';
 import { Book } from '../../models/book';
+import { UserService } from '../../services/user.service';
+import { CritiquesShelfRoles } from '../../models/CritiquesShelfRoles';
 
 import { ActivatedRoute, Router } from '@angular/router'
 @Component({
-    selector: 'bookBrowser',
-    providers: [BookService],
-    templateUrl: './bookBrowser.component.html',
-    styleUrls: ['./bookBrowser.component.css']
+    selector: 'bookApproval',
+    providers: [BookService, UserService],
+    templateUrl: './bookApproval.component.html',
+    styleUrls: ['./bookApproval.component.css']
 })
-export class BookBrowserComponent implements OnInit {
+export class BookApprovalComponent implements OnInit {
 
-    page: number ;
+    page: number;
     pageSize: number;
     books: Book[];
     hasNext: boolean;
     requestInProgress: boolean;
-    numbers: number[]=Array(10);
+    numbers: number[] = Array(10);
     private sub: any;
+
     ngOnInit() {
-        
-       
-        this.requestInProgress= true;
+
+
+        this.requestInProgress = true;
+        this.sub = this.route.url.subscribe(dontCare => {
+            let sub2 = this.userService.getCurrentUserRole().subscribe(data => {
+                console.log(data);
+                if (data["role"] != CritiquesShelfRoles.Admin) this.router.navigateByUrl("/home");
+                else {
+
+
+                }
+                sub2.unsubscribe();
+            })
+         
+        });
+        /*
         this.sub = this.route
             .queryParams
             .subscribe(params => {
-
+                
                 this.page = +params['page'] || 0;
                 this.pageSize = +params['pageSize'] ||20;
 
@@ -34,38 +50,28 @@ export class BookBrowserComponent implements OnInit {
                 
                 this.refresh();
                 
-
+                
             });
-        
+        */
 
 
     }
     ngOnDestroy() {
         this.sub.unsubscribe();
     }
-    private reciveResponse(data: any): void {
-        this.books = data["data"];
-        this.hasNext = data["hasNext"];
-        this.page = data["page"];
-        this.pageSize = data["pageSize"];
-        this.router.navigate(['/browse'], { queryParams: { page: this.page, pageSize: this.pageSize } })
-        this.requestInProgress = false;
-        this.refreshPageNumbers();
-    }
     refreshPageNumbers() {
         let offset = Math.max(this.page - 5, 0)
         for (let i = offset; i < this.page + 5 + Math.abs(Math.min(this.page - 5, 0)); i++) {
             this.numbers[i - offset] = i;
         }
-        
-        
+
+
     }
     nextPage() {
         if (this.hasNext) {
             this.requestInProgress = true;
-            this.bookService.getBooks(this.page+1, this.pageSize).subscribe(data => {
+            this.bookService.getBooks(this.page + 1, this.pageSize).subscribe(data => {
                 this.reciveResponse(data);
-                
             });
         }
     }
@@ -78,16 +84,27 @@ export class BookBrowserComponent implements OnInit {
             });
         }
     }
+
+    private reciveResponse(data: any): void {
+        this.books = data["data"];
+        this.hasNext = data["hasNext"];
+        this.page = data["page"];
+        this.pageSize = data["pageSize"];
+        this.router.navigate(['/browse'], { queryParams: { page: this.page, pageSize: this.pageSize } })
+        this.requestInProgress = false;
+        this.refreshPageNumbers();
+    }
+
     refresh(): void {
         this.requestInProgress = true;
         this.bookService.getBooks(this.page, this.pageSize).subscribe(data => {
-          
+
             this.reciveResponse(data);
         });
     }
 
     constructor(http: Http, @Inject('BASE_URL') baseUrl: string, private bookService: BookService, private route: ActivatedRoute,
-        private router: Router) {
+        private router: Router, private userService: UserService) {
 
     }
 }

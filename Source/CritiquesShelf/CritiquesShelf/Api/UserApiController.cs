@@ -5,6 +5,7 @@ using CritiquesShelfBLL.Entities;
 using CritiquesShelfBLL.RepositoryInterfaces;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
+using CritiquesShelfBLL.Utility;
 
 namespace CritiquesShelf.Api
 {
@@ -33,5 +34,12 @@ namespace CritiquesShelf.Api
         {
             return _userRepository.Find(id);
         }
+        [HttpGet("Role")]
+        public IActionResult GetCurrentUsersRole()
+        {
+            var userid = _identityUserManager.GetUserId(HttpContext.User);
+            return Ok(new {Role= _userRepository.GetRole(userid).GetName() } );
+        }
+
     }
 }

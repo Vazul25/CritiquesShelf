@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Linq;
 using CritiquesShelfBLL.ConnectionTables;
 using CritiquesShelfBLL.Utility;
+using System;
 
 namespace CritiquesShelfBLL.Managers
 {
@@ -33,6 +34,16 @@ namespace CritiquesShelfBLL.Managers
             }
 
             return user;
+        }
+
+        public CritiquesShelfRoles GetRole(string userId)
+        {
+            var roleName=   _context.Roles.First(r => r.Id == _context.UserRoles.First(ur => ur.UserId == userId).RoleId).Name;
+            foreach(CritiquesShelfRoles enumValue in Enum.GetValues(typeof(CritiquesShelfRoles))  )
+            {
+                if(enumValue.GetName() == roleName) return enumValue;
+            }
+            throw new Exception($"There was no CritiquesShelfRoles enum defined to the roleName in the database: {roleName}");
         }
     }
 }

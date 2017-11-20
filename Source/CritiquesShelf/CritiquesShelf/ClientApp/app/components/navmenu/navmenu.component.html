@@ -28,9 +28,14 @@
                         <span class='glyphicon glyphicon-user'></span> Profile
                     </a>
                 </li>
-                <li [routerLinkActive]="['link-active']">
+                <!--<li [routerLinkActive]="['link-active']">
                     <a [routerLink]="['/fetch-data']">
                         <span class='glyphicon glyphicon-th-list'></span> Fetch data
+                    </a>
+                </li>-->
+                <li *ngIf="isAdmin" [routerLinkActive]="['link-active']">
+                    <a [routerLink]="['/bookAproval']">
+                        <span class='glyphicon glyphicon-th-list'></span> Book Approvals
                     </a>
                 </li>
             </ul>
