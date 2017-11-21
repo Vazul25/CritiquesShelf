@@ -21,43 +21,48 @@ export class BookApprovalComponent implements OnInit {
     requestInProgress: boolean;
     numbers: number[] = Array(10);
     private sub: any;
-
+    private sub3: any;
     ngOnInit() {
 
 
         this.requestInProgress = true;
         this.sub = this.route.url.subscribe(dontCare => {
             let sub2 = this.userService.getCurrentUserRole().subscribe(data => {
-                console.log(data);
-                if (data["role"] != CritiquesShelfRoles.Admin) this.router.navigateByUrl("/home");
+
+                if (data["role"] == CritiquesShelfRoles.Admin) {
+                    console.log("itt1");
+                    this.sub3 = this.route
+                        .queryParams
+                        .subscribe(params => {
+                            console.log(params);
+                            this.page = +params['page'] || 0;
+                            this.pageSize = +params['pageSize'] || 20;
+
+                          
+
+                            this.refresh();
+
+
+                        });
+                }
                 else {
 
-
+                    this.router.navigateByUrl("/home");
                 }
                 sub2.unsubscribe();
             })
-         
-        });
-        /*
-        this.sub = this.route
-            .queryParams
-            .subscribe(params => {
-                
-                this.page = +params['page'] || 0;
-                this.pageSize = +params['pageSize'] ||20;
 
-                this.router.navigate(['/browse'], { queryParams: { page: this.page, pageSize: this.pageSize } })
-                
-                this.refresh();
-                
-                
-            });
-        */
+        });
+
 
 
     }
     ngOnDestroy() {
-        this.sub.unsubscribe();
+        console.log("Destroyed");
+        if (this.sub)
+            this.sub.unsubscribe();
+        if (this.sub3)
+            this.sub3.unsubscribe();
     }
     refreshPageNumbers() {
         let offset = Math.max(this.page - 5, 0)
@@ -70,34 +75,32 @@ export class BookApprovalComponent implements OnInit {
     nextPage() {
         if (this.hasNext) {
             this.requestInProgress = true;
-            this.bookService.getBooks(this.page + 1, this.pageSize).subscribe(data => {
-                this.reciveResponse(data);
-            });
+            this.router.navigate(['/bookApproval'], { queryParams: { page: this.page+1, pageSize: this.pageSize } })
+           
         }
     }
     prevPage() {
         if (this.page > 0) {
             this.requestInProgress = true;
-            this.bookService.getBooks(this.page - 1, this.pageSize).subscribe(data => {
-                this.reciveResponse(data);
+            this.router.navigate(['/bookApproval'], { queryParams: { page: this.page - 1, pageSize: this.pageSize } })
 
-            });
         }
     }
 
     private reciveResponse(data: any): void {
+        console.log("itt4");
         this.books = data["data"];
         this.hasNext = data["hasNext"];
         this.page = data["page"];
         this.pageSize = data["pageSize"];
-        this.router.navigate(['/browse'], { queryParams: { page: this.page, pageSize: this.pageSize } })
+         
         this.requestInProgress = false;
         this.refreshPageNumbers();
     }
 
     refresh(): void {
         this.requestInProgress = true;
-        this.bookService.getBooks(this.page, this.pageSize).subscribe(data => {
+        this.bookService.getBookProposals(this.page, this.pageSize).subscribe(data => {
 
             this.reciveResponse(data);
         });

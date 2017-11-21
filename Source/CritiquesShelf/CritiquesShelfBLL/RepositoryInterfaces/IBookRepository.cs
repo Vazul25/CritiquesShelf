@@ -9,5 +9,6 @@ namespace CritiquesShelfBLL.RepositoryInterfaces
     {
     PagedData<List<BookModel>> GetBooks(int page = 0, int pageSize = 0);
         BookModel Find(long id);
+        PagedData<List<BookProposalModel>>  GetBookProposals(int page, int pageSize);
     }
 }

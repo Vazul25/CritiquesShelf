@@ -30,7 +30,6 @@ export class BookBrowserComponent implements OnInit {
                 this.page = +params['page'] || 0;
                 this.pageSize = +params['pageSize'] ||20;
 
-                this.router.navigate(['/browse'], { queryParams: { page: this.page, pageSize: this.pageSize } })
                 
                 this.refresh();
                 
@@ -48,7 +47,7 @@ export class BookBrowserComponent implements OnInit {
         this.hasNext = data["hasNext"];
         this.page = data["page"];
         this.pageSize = data["pageSize"];
-        this.router.navigate(['/browse'], { queryParams: { page: this.page, pageSize: this.pageSize } })
+        
         this.requestInProgress = false;
         this.refreshPageNumbers();
     }
@@ -63,19 +62,16 @@ export class BookBrowserComponent implements OnInit {
     nextPage() {
         if (this.hasNext) {
             this.requestInProgress = true;
-            this.bookService.getBooks(this.page+1, this.pageSize).subscribe(data => {
-                this.reciveResponse(data);
-                
-            });
+            this.router.navigate(['/browse'], { queryParams: { page: this.page  + 1, pageSize: this.pageSize } });
+             
         }
     }
     prevPage() {
         if (this.page > 0) {
             this.requestInProgress = true;
-            this.bookService.getBooks(this.page - 1, this.pageSize).subscribe(data => {
-                this.reciveResponse(data);
-
-            });
+            this.router.navigate(['/browse'], { queryParams: { page: this.page - 1, pageSize: this.pageSize } });
+           
+          
         }
     }
     refresh(): void {

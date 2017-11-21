@@ -28,9 +28,15 @@ namespace CritiquesShelf.Api
         {
             return Ok(_bookManager.GetBooks(page,pageSize));
         }
-
-        // GET api/values/5
-        [HttpGet("{id}")]
+        [Route("getBookProposals")]
+        [HttpGet]
+        public IActionResult GetBookProposals(int page = 0, int pageSize = 0)
+        {
+            return Ok(_bookManager.GetBookProposals(page, pageSize));
+        }
+      
+         // GET api/values/5
+         [HttpGet("{id}")]
         public BookModel Get(long id)
         {
             return _bookManager.Find(id);

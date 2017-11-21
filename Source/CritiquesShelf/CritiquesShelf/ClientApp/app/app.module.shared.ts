@@ -53,7 +53,7 @@ import { ReviewComponent } from './components/shared/review/review.component';
             { path: '', redirectTo: 'home', pathMatch: 'full' },
             { path: 'home', component: HomeComponent },
             { path: 'browse', component: BookBrowserComponent },
-            { path: 'bookAproval', component: BookApprovalComponent },
+            { path: 'bookApproval', component: BookApprovalComponent },
             //{ path: 'bookDetails/:id', component: BookDetailsComponent },
             { path: 'profile', component: ProfileComponent },
             { path: 'counter', component: CounterComponent },

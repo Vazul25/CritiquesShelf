@@ -5,11 +5,20 @@
     <title></title>
 </head>
 <body>
-    <bookList [books]="books"></bookList>
+    <div class="book-container">
+        <div *ngFor="let book of books" class="book-container-item">
+            <bookDisplay [book]="book"></bookDisplay>
+            <span>
+                <button (click)="Approve(book.id)" class="approve-button" mat-raised-button>Approve</button>
+                <button mat-raised-button class="reject-button" (click)="reject(book.id)">Reject</button>
+            </span>
+
+        </div>
+    </div>
     <span class="page-bar">
       
         <button mat-fab color="accent" style="margin:auto 10px auto 10px" (click)="prevPage()" [disabled]="page!=0"><</button>
-         <a *ngFor="let pageNumber of numbers" [routerLink]="['/browse']"  [queryParams]="{page:pageNumber,pageSize:this.pageSize}" class="page-link" > {{pageNumber}}</a> 
+         <a *ngFor="let pageNumber of numbers" [routerLink]="['/bookAproval']"  [queryParams]="{page:pageNumber,pageSize:this.pageSize}" class="page-link" > {{pageNumber}}</a> 
       <button mat-fab color="accent" style="margin:auto 10px auto 10px" (click)="nextPage()" [disabled]="!hasNext && !requestInProgress">></button>
     </span>
 </body>

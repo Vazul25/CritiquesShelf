@@ -13,6 +13,9 @@ export class BookService {
 
         return this.http.get(this.rootRoute + "getBooks?page=" + page+"&&pageSize="+ pageSize);
     }
+    getBookProposals(page: number, pageSize: number): Observable<any> {
 
+        return this.http.get(this.rootRoute + "getBookProposals?page=" + page + "&&pageSize=" + pageSize);
+    }
     
 }

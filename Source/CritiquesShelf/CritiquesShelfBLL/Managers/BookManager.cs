@@ -13,6 +13,34 @@ namespace CritiquesShelfBLL.Managers
         {
 
         }
+
+        public PagedData<List<BookProposalModel>> GetBookProposals(int page, int pageSize)
+        {
+            IQueryable<BookProposal> query;
+
+            if (pageSize == 0) query = _context.BookProposals.Include(b=>b.Proposer).Include(b => b.Tags).OrderBy(b => b.Id);
+            else if (page == 0) query = _context.BookProposals.Include(b => b.Proposer).Include(b => b.Tags).OrderBy(b => b.Id).Take(pageSize);
+            else query = _context.BookProposals.Include(b => b.Proposer).Include(b => b.Tags).OrderBy(b => b.Id).Skip(pageSize * page).Take(pageSize);
+            var data = query.Select(b => new BookProposalModel
+            {
+                AuthorsNames = b.Authors.Select(a => a.Name).ToList(),
+                Description = b.Description,
+                Id=b.Id,
+                ProposerName=b.Proposer.UserName,
+                Tags = b.Tags.Select(t=>t.Label).ToList(),
+                Title = b.Title
+            })?.ToList();
+            
+            return new PagedData<List<BookProposalModel>>()
+            {
+                Page = page,
+                PageSize = pageSize,
+                Data = data,
+                HasNext = data.Count == pageSize ? true : false
+            };
+
+        }
+
         public PagedData<List<BookModel>> GetBooks(int page, int pageSize)
         {
 
