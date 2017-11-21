@@ -20,6 +20,7 @@ namespace CritiquesShelfBLL
 			                                               options.UseSqlServer(sqlConnectionString));
             
             services.AddScoped<IUserRepository,UserManager>();
+            services.AddScoped<ITagRepository, TagManager>();
             services.AddScoped<IReviewRepository, ReviewManager>();
             services.AddScoped<IBookRepository, BookManager>();
             services.AddScoped<ImageStore, ImageStore>();

@@ -1,12 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { MatCommonModule } from '@angular/material';
-import { MatGridListModule, MatInputModule, MatFormFieldModule, MatCardModule, MatToolbarModule, MatDialogModule, MatButtonModule, MatTabsModule } from '@angular/material';
-
-
+import { MatGridListModule, MatSelectModule,MatInputModule, MatFormFieldModule, MatCardModule, MatToolbarModule, MatDialogModule, MatButtonModule, MatTabsModule } from '@angular/material';
+ 
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './components/app/app.component';
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
@@ -38,10 +37,12 @@ import { ReviewComponent } from './components/shared/review/review.component';
     ],
     imports: [
         CommonModule,
+        MatSelectModule,
         MatInputModule,
         MatCardModule,
         HttpModule,
         FormsModule,
+        ReactiveFormsModule,
         MatTabsModule,
         MatButtonModule,
         NoopAnimationsModule,

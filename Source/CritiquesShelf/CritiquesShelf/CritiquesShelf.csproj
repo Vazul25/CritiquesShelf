@@ -30,7 +30,6 @@
 
   <ItemGroup>
     <Folder Include="ClientApp\app\components\shared\bookList\" />
-    <Folder Include="ClientApp\app\services\" />
     <Folder Include="ClientApp\app\components\profile\" />
     <Folder Include="ClientApp\app\components\shared\review\" />
     <Folder Include="ClientApp\app\components\shared\book\" />
@@ -40,6 +39,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\app\models\Book.ts" />
     <TypeScriptCompile Include="ClientApp\app\models\CritiquesShelfRoles.ts" />
+    <TypeScriptCompile Include="ClientApp\app\services\storage.service.ts" />
   </ItemGroup>
 
   <Target Name="DebugRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('wwwroot\dist') ">

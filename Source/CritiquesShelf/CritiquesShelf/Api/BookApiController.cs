@@ -16,9 +16,11 @@ namespace CritiquesShelf.Api
     public class BookApiController : Controller
     {
         IBookRepository _bookManager;
-        public BookApiController(IBookRepository bookManager)
+        ITagRepository _tagManager;
+        public BookApiController(IBookRepository bookManager, ITagRepository tagManager)
         {
             _bookManager = bookManager;
+            _tagManager = tagManager;
         }
         // GET: api/values
 
@@ -34,9 +36,11 @@ namespace CritiquesShelf.Api
         {
             return Ok(_bookManager.GetBookProposals(page, pageSize));
         }
-      
-         // GET api/values/5
-         [HttpGet("{id}")]
+        [Route("getTags")]
+        [HttpGet]
+ 
+        // GET api/values/5
+        [HttpGet("{id}")]
         public BookModel Get(long id)
         {
             return _bookManager.Find(id);
