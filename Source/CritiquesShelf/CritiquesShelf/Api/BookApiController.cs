@@ -7,6 +7,7 @@ using CritiquesShelfBLL.Entities;
 using CritiquesShelfBLL.Managers;
 using CritiquesShelfBLL.ViewModels;
 using CritiquesShelfBLL.RepositoryInterfaces;
+using CritiquesShelf.BookApiModels;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -32,9 +33,10 @@ namespace CritiquesShelf.Api
         }
         [Route("getBooks")]
         [HttpPost]
-        public IActionResult GetFiltered([FromBody]int Page = 0, [FromBody] int PageSize = 20, [FromBody] List<string> Tags=null, [FromBody] string SearchText = null)
+        public IActionResult GetFiltered([FromBody] GetFilteredRequest request)
         {
-            return Ok(_bookManager.GetBooks(Page, PageSize,Tags,SearchText));
+            
+            return Ok(_bookManager.GetBooks(request.Page, request.PageSize, request.Tags, request.SearchText));
         }
         [Route("getBookProposals")]
         [HttpGet]
