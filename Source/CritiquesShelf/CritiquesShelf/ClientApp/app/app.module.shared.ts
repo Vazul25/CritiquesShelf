@@ -5,7 +5,7 @@ import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { MatCommonModule } from '@angular/material';
 import { MatGridListModule, MatSelectModule,MatInputModule, MatFormFieldModule, MatCardModule, MatToolbarModule, MatDialogModule, MatButtonModule, MatTabsModule } from '@angular/material';
- 
+
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './components/app/app.component';
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
@@ -20,6 +20,8 @@ import { BookApprovalComponent } from './components/bookApproval/bookApproval.co
 
 import { ProfileComponent } from './components/profile/profile.component';
 import { ReviewComponent } from './components/shared/review/review.component';
+import { StarsComponent } from './components/shared/stars/stars.component';
+
 
 @NgModule({
     declarations: [
@@ -33,7 +35,8 @@ import { ReviewComponent } from './components/shared/review/review.component';
         ReviewComponent,
         BookDisplayComponent,
         BookListComponent,
-        BookApprovalComponent
+        BookApprovalComponent,
+        StarsComponent
     ],
     imports: [
         CommonModule,
