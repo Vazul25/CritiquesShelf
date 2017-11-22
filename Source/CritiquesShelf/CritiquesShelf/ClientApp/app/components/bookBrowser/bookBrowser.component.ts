@@ -4,7 +4,9 @@ import { BookService } from '../../services/book.service';
 import { DataStorageService } from '../../services/storage.service';
 import { Book } from '../../models/book';
 import { FormControl } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router'
+import { ActivatedRoute, Router } from '@angular/router';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+
 @Component({
     selector: 'bookBrowser',
     providers: [BookService, DataStorageService],  
@@ -13,8 +15,20 @@ import { ActivatedRoute, Router } from '@angular/router'
 })
 export class BookBrowserComponent implements OnInit {
     tagsFc: FormControl = new FormControl();
-
-     
+    constructor(http: Http, @Inject('BASE_URL') baseUrl: string, private bookService: BookService, private route: ActivatedRoute, private storageService: DataStorageService,
+        private router: Router, public dialog: MatDialog) {
+        this.tagsChangedSubscription = this.storageService.tagsChanged$.subscribe(() => {
+            console.log("change catched");
+            this.tags = this.storageService.tags;
+            console.log(this.tags);
+        });
+        this.authorsChangedSubscription = this.storageService.tagsChanged$.subscribe(() => {
+            console.log("change catched");
+            this.authors = this.storageService.authors;
+            console.log(this.authors);
+        });
+    }
+    authors: Author[];
     tags: string[];
     page: number;
     pageSize: number;
@@ -25,9 +39,10 @@ export class BookBrowserComponent implements OnInit {
     numbers: number[] = Array(10);
     private sub: any;
     private tagsChangedSubscription: EventEmitter<any>;
+    private authorsChangedSubscription: EventEmitter<any>;
     ngOnInit() {
 
-        this.tagsFc.valueChanges.subscribe(value => { console.log(value); })
+         
         this.requestInProgress = true;
         this.sub = this.route
             .queryParams
@@ -35,7 +50,7 @@ export class BookBrowserComponent implements OnInit {
 
                 this.page = +params['page'] || 0;
                 this.pageSize = +params['pageSize'] || 20;
-
+                this.authors = this.storageService.authors;
                 this.tags = this.storageService.tags;
                 console.log(this.tags); console.log(this.storageService.tags);
                 this.refresh();
@@ -90,14 +105,44 @@ export class BookBrowserComponent implements OnInit {
         });
     }
 
-    constructor(http: Http, @Inject('BASE_URL') baseUrl: string, private bookService: BookService, private route: ActivatedRoute, private storageService: DataStorageService,
-        private router: Router) {
-        this.tagsChangedSubscription = this.storageService.tagsChanged$.subscribe(() => {
-            console.log("change catched");
-            this.tags = this.storageService.tags;
-            console.log(this.tags);
+
+    openOrgDialog(): void {
+        console.log("dialog");
+         
+        let dialogRef = this.dialog.open(DialogNewBookProposal, {
+            width: '450px',
+            data: { tags: this.tags, authors: this.authors }
         });
+
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('The dialog was closed');
+            console.log(result);
+
+            if (result) {
+                  }
+        });
+        console.log(dialogRef);
     }
+
+    
 }
 
+@Component({
+    selector: 'dialog-new-book-proposal',
+    templateUrl: 'dialog-new-book-proposal.html',
+})
+export class DialogNewBookProposal {
 
+    constructor(
+        public dialogRef: MatDialogRef<DialogNewBookProposal>,
+        @Inject(MAT_DIALOG_DATA) public data: any) {
+        let a: Book = { authorsNames: [], description: "", rateing: 0, Tags: [], title: "" };
+        this.data.book = a;
+        
+        }
+
+    onNoClick(): void {
+        this.dialogRef.close();
+    }
+
+}

@@ -15,6 +15,11 @@ namespace CritiquesShelfBLL.Managers
 
         }
 
+        public List<Author> GetAuthors()
+        {
+           return _context.Authors.ToList();
+        }
+
         public PagedData<List<BookProposalModel>> GetBookProposals(int page, int pageSize)
         {
             IQueryable<BookProposal> query;

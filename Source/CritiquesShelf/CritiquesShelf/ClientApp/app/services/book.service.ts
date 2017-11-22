@@ -24,5 +24,6 @@ export class BookService {
 
         return this.http.get(this.rootRoute + "getBookProposals?page=" + page + "&&pageSize=" + pageSize);
     }
+   
     
 }

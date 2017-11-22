@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { MatCommonModule } from '@angular/material';
-import { MatGridListModule, MatSelectModule,MatInputModule, MatFormFieldModule, MatCardModule, MatToolbarModule, MatDialogModule, MatButtonModule, MatTabsModule } from '@angular/material';
+import { MatGridListModule, MatAutocompleteModule,MatSelectModule,MatInputModule, MatFormFieldModule, MatCardModule, MatToolbarModule, MatDialogModule, MatButtonModule, MatTabsModule } from '@angular/material';
  
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './components/app/app.component';
@@ -16,7 +16,7 @@ import { BookBrowserComponent } from './components/bookBrowser/bookBrowser.compo
 import { BookListComponent } from './components/shared/bookList/bookList.component';
 import { BookDisplayComponent } from './components/shared/book/book.component';
 import { BookApprovalComponent } from './components/bookApproval/bookApproval.component';
-
+import { DialogNewBookProposal } from './components/bookBrowser/bookBrowser.component';
 
 import { ProfileComponent } from './components/profile/profile.component';
 import { ReviewComponent } from './components/shared/review/review.component';
@@ -28,6 +28,7 @@ import { ReviewComponent } from './components/shared/review/review.component';
         CounterComponent,
         FetchDataComponent,
         BookBrowserComponent,
+        DialogNewBookProposal,
         HomeComponent,
         ProfileComponent,
         ReviewComponent,
@@ -38,6 +39,7 @@ import { ReviewComponent } from './components/shared/review/review.component';
     imports: [
         CommonModule,
         MatSelectModule,
+        MatAutocompleteModule,
         MatInputModule,
         MatCardModule,
         HttpModule,

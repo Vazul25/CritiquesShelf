@@ -34,6 +34,8 @@ namespace CritiquesShelf.Api
         [HttpPost]
         public IActionResult GetFiltered([FromBody]int Page = 0, [FromBody] int PageSize = 20, [FromBody] List<string> Tags=null, [FromBody] string SearchText = null)
         {
+            var teszt1 = Request;
+            
             return Ok(_bookManager.GetBooks(Page, PageSize,Tags,SearchText));
         }
         [Route("getBookProposals")]
@@ -41,6 +43,12 @@ namespace CritiquesShelf.Api
         public IActionResult GetBookProposals(int page = 0, int pageSize = 0)
         {
             return Ok(_bookManager.GetBookProposals(page, pageSize));
+        }
+        [Route("getAuthors")]
+        [HttpGet]
+        public IActionResult GetAuthors(int page = 0, int pageSize = 0)
+        {
+            return Ok(_bookManager.GetAuthors());
         }
         [Route("getTags")]
         [HttpGet]
