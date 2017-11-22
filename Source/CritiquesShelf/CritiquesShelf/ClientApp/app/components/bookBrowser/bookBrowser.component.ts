@@ -83,7 +83,8 @@ export class BookBrowserComponent implements OnInit {
     }
     refresh(): void {
         this.requestInProgress = true;
-        this.bookService.getBooks(this.page, this.pageSize).subscribe(data => {
+        console.log(this.tagsFc.value);
+        this.bookService.getBooks(this.page, this.pageSize, this.tagsFc.value, this.searchText).subscribe(data => {
 
             this.reciveResponse(data);
         });

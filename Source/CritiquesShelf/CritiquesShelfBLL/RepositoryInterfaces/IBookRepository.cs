@@ -7,7 +7,7 @@ namespace CritiquesShelfBLL.RepositoryInterfaces
 {
     public interface IBookRepository
     {
-    PagedData<List<BookModel>> GetBooks(int page = 0, int pageSize = 0);
+        PagedData<List<BookModel>> GetBooks(int page = 0, int pageSize = 0, List<string> Tags = null,string searchText=null);
         BookModel Find(long id);
         PagedData<List<BookProposalModel>>  GetBookProposals(int page, int pageSize);
     }

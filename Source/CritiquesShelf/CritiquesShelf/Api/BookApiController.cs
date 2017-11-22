@@ -30,6 +30,12 @@ namespace CritiquesShelf.Api
         {
             return Ok(_bookManager.GetBooks(page,pageSize));
         }
+        [Route("getBooks")]
+        [HttpPost]
+        public IActionResult GetFiltered([FromBody]int Page = 0, [FromBody] int PageSize = 20, [FromBody] List<string> Tags=null, [FromBody] string SearchText = null)
+        {
+            return Ok(_bookManager.GetBooks(Page, PageSize,Tags,SearchText));
+        }
         [Route("getBookProposals")]
         [HttpGet]
         public IActionResult GetBookProposals(int page = 0, int pageSize = 0)

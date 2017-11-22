@@ -4,6 +4,7 @@ using CritiquesShelfBLL.ViewModels;
 using System.Linq;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using CritiquesShelfBLL.Utility;
 
 namespace CritiquesShelfBLL.Managers
 {
@@ -18,19 +19,19 @@ namespace CritiquesShelfBLL.Managers
         {
             IQueryable<BookProposal> query;
 
-            if (pageSize == 0) query = _context.BookProposals.Include(b=>b.Proposer).Include(b => b.Tags).OrderBy(b => b.Id);
+            if (pageSize == 0) query = _context.BookProposals.Include(b => b.Proposer).Include(b => b.Tags).OrderBy(b => b.Id);
             else if (page == 0) query = _context.BookProposals.Include(b => b.Proposer).Include(b => b.Tags).OrderBy(b => b.Id).Take(pageSize);
             else query = _context.BookProposals.Include(b => b.Proposer).Include(b => b.Tags).OrderBy(b => b.Id).Skip(pageSize * page).Take(pageSize);
             var data = query.Select(b => new BookProposalModel
             {
                 AuthorsNames = b.Authors.Select(a => a.Name).ToList(),
                 Description = b.Description,
-                Id=b.Id,
-                ProposerName=b.Proposer.UserName,
-                Tags = b.Tags.Select(t=>t.Label).ToList(),
+                Id = b.Id,
+                ProposerName = b.Proposer.UserName,
+                Tags = b.Tags.Select(t => t.Label).ToList(),
                 Title = b.Title
             })?.ToList();
-            
+
             return new PagedData<List<BookProposalModel>>()
             {
                 Page = page,
@@ -41,95 +42,43 @@ namespace CritiquesShelfBLL.Managers
 
         }
 
-        public PagedData<List<BookModel>> GetBooks(int page, int pageSize)
+        public PagedData<List<BookModel>> GetBooks(int page, int pageSize,List<string> Tags,string searchText )
         {
-
-            #region Test
-            /*
-            if (pageSize == 0)
-            {
-                var data = _context.Books.Include(b => b.TagConnectors).ThenInclude(tc => tc.Book).OrderBy(b => b.Id).Select(b => new BookModel
-                {
-                    AuthorsNames = b.Authors.Select(a => a.Name).ToList(),
-                    Description = b.Description,
-                    Rateing = b.ReviewScore,
-                    Tags = b.TagConnectors.Select(tc => tc.Tag.Label).ToList(),
-                    Title = b.Title
-                })?.ToList();
-                return new PagedData<List<BookModel>>()
-                {
-                    Page = page,
-                    PageSize = pageSize,
-                    Data = data,
-                    HasNext = data.Count == pageSize ? true : false
-                };
-            }
-
-            else if (page == 0)
-            {
-                var data = _context.Books.Include(b => b.TagConnectors).ThenInclude(tc => tc.Book).OrderBy(b => b.Id).Take(pageSize).Select(b => new BookModel
-                {
-                    AuthorsNames = b.Authors.Select(a => a.Name).ToList(),
-                    Description = b.Description,
-                    Rateing = b.ReviewScore,
-                    Tags = b.TagConnectors.Select(tc => tc.Tag.Label).ToList(),
-                    Title = b.Title
-                })?.ToList();
-                return new PagedData<List<BookModel>>()
-                {
-                    Page = page,
-                    PageSize = pageSize,
-                    Data = data,
-                    HasNext = data.Count == pageSize ? true : false
-                };
-            }
-
-            else
-            {
-                var data = _context.Books.Include(b => b.TagConnectors).ThenInclude(tc => tc.Book).OrderBy(b => b.Id).Skip(pageSize * page).Take(pageSize).Select(b => new BookModel
-                {
-                    AuthorsNames = b.Authors.Select(a => a.Name).ToList(),
-                    Description = b.Description,
-                    Rateing = b.ReviewScore,
-                    Tags = b.TagConnectors.Select(tc => tc.Tag.Label).ToList(),
-                    Title = b.Title
-                })?.ToList();
-                return new PagedData<List<BookModel>>()
-                {
-                    Page = page,
-                    PageSize = pageSize,
-                    Data = data,
-                    HasNext = data.Count == pageSize ? true : false
-                };
-            }*/
-            #endregion
-
+ 
 
 
             IQueryable<Book> query;
 
-            if (pageSize == 0) query = _context.Books.Include(b => b.TagConnectors).ThenInclude(tc => tc.Book).OrderBy(b => b.Id);
-            else if (page == 0) query = _context.Books.Include(b => b.TagConnectors).ThenInclude(tc => tc.Book).OrderBy(b => b.Id).Take(pageSize);
-            else query = _context.Books.Include(b => b.TagConnectors).ThenInclude(tc => tc.Book).OrderBy(b => b.Id).Skip(pageSize * page).Take(pageSize);
-            var data = query.Select(b => new BookModel
+            if (pageSize == 0) query = _context.Books.Include(b => b.Authors).Include(b => b.TagConnectors).ThenInclude(tc => tc.Tag).OrderBy(b => b.Id);
+            else query = _context.Books.Include(b => b.Authors).Include(b => b.TagConnectors).ThenInclude(tc => tc.Tag).OrderBy(b => b.Id).Skip(pageSize * page).Take(pageSize);
+            //var teszt10 = query.ToList();
+            if (!searchText.IsNullOrEmpty())
+            {
+                query = query.Where(b=>b.Title.Contains(searchText) || b.Authors.Any(a=>a.Name.Contains(searchText)));
+            }
+            if (!Tags.IsNullOrEmpty()) {
+                query = query.Where(b => Tags.All(t=>b.TagConnectors.Any(bt=>bt.Tag.Label==t))) ;
+            }
+          
+            var result= new List<BookModel>();
+            query.ToList().ForEach(b => result.Add(
+            new BookModel
             {
                 AuthorsNames = b.Authors.Select(a => a.Name).ToList(),
-                Description = b.Description,
+                Description = b.Description == null || b.Description.Length < 200 ? b.Description : b.Description.Substring(200),
                 Rateing = b.ReviewScore,
                 Tags = b.TagConnectors.Select(tc => tc.Tag.Label).ToList(),
                 Title = b.Title
-            })?.ToList();
-            foreach (var book in data)
-            {
-                if (book.Description != null && book.Description.Length > 200)
-                    book.Description = book.Description.Substring(0, 200) + "...";
-            }
+            }));
+            
+          
+           
             return new PagedData<List<BookModel>>()
             {
                 Page = page,
                 PageSize = pageSize,
-                Data = data,
-                HasNext = data.Count == pageSize ? true : false
+                Data = result,
+                HasNext = result.Count == pageSize ? true : false
             };
 
 

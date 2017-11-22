@@ -4,35 +4,38 @@
     <meta charset="utf-8" />
     <title></title>
 </head>
-<body  >
+<body>
 
-    <div class="no-padding"  >
-        <mat-toolbar   color="peru">
+    <div class="no-padding">
+        <mat-toolbar color="peru">
             <span>Search</span>
-             
+
             <span class="spacer"></span>
             <mat-form-field>
                 <mat-select placeholder="Tags" [formControl]="tagsFc" multiple>
                     <mat-option *ngFor="let tag of tags" [value]="tag">{{tag}}</mat-option>
                 </mat-select>
             </mat-form-field>
+            <span class="spacer"></span>
             <mat-form-field>
                 <input matInput type="text" placeholder="Search" [(ngModel)]="searchText" />
                 <button mat-button *ngIf="searchText" matSuffix mat-icon-button aria-label="Clear" (click)="searchText=''">
                     <mat-icon>close</mat-icon>
                 </button>
             </mat-form-field>
-            
+            <span class="spacer"></span>
+            <button mat-raised-button color="primary" (click)="refresh()">Search</button>
+
 
         </mat-toolbar>
     </div>
-   
+
     <bookList [books]="books"></bookList>
     <span class="page-bar">
-      
+
         <button mat-fab color="accent" style="margin:auto 10px auto 10px" (click)="prevPage()" [disabled]="page==0 || requestInProgress"><</button>
-         <a *ngFor="let pageNumber of numbers" [routerLink]="['/browse']"  [queryParams]="{page:pageNumber,pageSize:this.pageSize}" class="page-link" > {{pageNumber}}</a> 
-      <button mat-fab color="accent" style="margin:auto 10px auto 10px" (click)="nextPage()" [disabled]="!hasNext || requestInProgress">></button>
+        <a *ngFor="let pageNumber of numbers" [routerLink]="['/browse']" [queryParams]="{page:pageNumber,pageSize:this.pageSize}" class="page-link"> {{pageNumber}}</a>
+        <button mat-fab color="accent" style="margin:auto 10px auto 10px" (click)="nextPage()" [disabled]="!hasNext || requestInProgress">></button>
     </span>
 </body>
 </html>
