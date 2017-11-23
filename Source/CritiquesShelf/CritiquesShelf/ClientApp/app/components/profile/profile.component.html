@@ -1,55 +1,15 @@
 ﻿<!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8" />
-    <title>Profile</title>
-</head>
-<body>
-    <h2>Profile</h2>
-    <div class="parallel-divs-parent">
-        <div class="parallel-divs-narrow">
-            <div class="container-fluid" style="height:100px;width:400px">
-                <div class="row">
-                    <div class="col-md-4">
-                        <img style="height:150px;width:100px" src="data:image/JPEG;base64,{{user.photo}}"/>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="row">First Name:{{user.firstName}}</div>
-                        <div class="row">Last Name:{{user.lastName}}</div>
-                        <div class="row">E-mail:{{user.email}}</div>
-                    </div>
-                </div>
-            </div>
+    <head>
+        <meta charset="utf-8" />
+        <title>Profile</title>
+    </head>
+    <body>
+    <ng-template [ngIf]="user">
+        <div>
+            <user [user]="user" [readOnly]="false"></user>
         </div>
-        <div class="parallel-divs-wide">
-            favourites grid
-        </div>
-    </div>
-    <div>
-        <h3>Reviews</h3>
-        <review [review]="review"></review>
-    </div>
-         
-         
-</body>
-
-<style>
-    .parallel-divs-parent {
-        display: flex;
-    }
-
-    .parallel-divs-narrow {
-        width: 400px;
-        background: lightblue;
-        /* Just so it's visible */
-    }
-
-    .parallel-divs-wide {
-        flex: 1;
-        /* Grow to rest of container */
-        background: lightgreen;
-        /* Just so it's visible */
-    }
-</style>
+    </ng-template>
+    </body>
 </html>
 

@@ -21,6 +21,7 @@ import { BookApprovalComponent } from './components/bookApproval/bookApproval.co
 import { ProfileComponent } from './components/profile/profile.component';
 import { ReviewComponent } from './components/shared/review/review.component';
 import { StarsComponent } from './components/shared/stars/stars.component';
+import { UserComponent } from './components/shared/user/user.component';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { StarsComponent } from './components/shared/stars/stars.component';
         BookDisplayComponent,
         BookListComponent,
         BookApprovalComponent,
-        StarsComponent
+        StarsComponent,
+        UserComponent
     ],
     imports: [
         CommonModule,

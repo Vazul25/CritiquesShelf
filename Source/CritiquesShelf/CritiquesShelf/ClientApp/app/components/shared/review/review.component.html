@@ -1,8 +1,9 @@
 ﻿<div>
-    score: {{review.score}}
-    userName: {{review.userName}}
-    description: {{review.description}}
-    date: {{review.date}}
+    <span>{{review.userName}}</span>
+    Review.score: {{review.score}}
+    <stars [rating]="review.score" [readOnly]="readOnly" (ratingChange)="onRatingChanged($event)"></stars>
+    <span>{{review.date}}</span>
 
+    {{review.description}}
 </div>
      

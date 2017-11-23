@@ -10,3 +10,17 @@ body {
     flex: 1;
     /* Grow to rest of container */
 }
+
+.img {
+	border-style: ridge;
+	margin: 0px 15px 10px 0px;
+}
+
+.profile-data-div {
+	margin-top: 25px;
+	margin-bottom: 20px;
+}
+
+.file-upload-div {
+	margin-right: 13px;
+}
