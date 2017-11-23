@@ -15,5 +15,8 @@ namespace CritiquesShelfBLL.Entities
         public int? DatePublished { get; set; }
 
         public List<Author> Authors { get; set; }
+
+        public string CoverId { get; set; }
+
     }
 }

@@ -68,7 +68,8 @@ namespace CritiquesShelfBLL.Managers
                 Description = b.Description == null || b.Description.Length < 200 ? b.Description : b.Description.Substring(200),
                 Rateing = b.ReviewScore,
                 Tags = b.TagConnectors.Select(tc => tc.Tag.Label).ToList(),
-                Title = b.Title
+                Title = b.Title,
+                CoverSource = b.CoverId
             }));
             
           

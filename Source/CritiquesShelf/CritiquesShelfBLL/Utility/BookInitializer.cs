@@ -7,15 +7,23 @@ using System.Linq;
 using System.Globalization;
 using CritiquesShelfBLL.ConnectionTables;
 using System.Collections.Generic;
+using System.Net;
+using Microsoft.EntityFrameworkCore;
 
 namespace CritiquesShelfBLL.Utility
 {
     public static class BookInitializer
     {
 
-        public static async Task SeedBooks(CritiquesShelfDbContext dbContext, string googleBooksApiKey)
+        public static async Task SeedBooks(CritiquesShelfDbContext dbContext, GoogleBooksApiConfig config)
         {
-            if (dbContext.Books.Any()) 
+            var hasBooksInDb = dbContext.Books.Any();
+
+            if (hasBooksInDb && config.ForceUpdate)
+            {
+                DeleteTableContents(dbContext);
+            }
+            else if (hasBooksInDb)
             {
                 return;
             }
@@ -23,7 +31,7 @@ namespace CritiquesShelfBLL.Utility
             var service = new BooksService(
                 new BaseClientService.Initializer
                 {
-                    ApiKey = googleBooksApiKey,
+                    ApiKey = config.Key,
                     ApplicationName = "CritiquesShelf"
                 });
 
@@ -77,6 +85,15 @@ namespace CritiquesShelfBLL.Utility
                         bookEntity.DatePublished = successParse ? year : (int?)null;
                     }
 
+                    var link = item.VolumeInfo?.ImageLinks?.ExtraLarge ??
+                                   item.VolumeInfo?.ImageLinks?.Large ??
+                                   item.VolumeInfo?.ImageLinks?.Medium ??
+                                   item.VolumeInfo?.ImageLinks?.Small ??
+                                   item.VolumeInfo?.ImageLinks?.Thumbnail ??
+                                   item.VolumeInfo?.ImageLinks?.SmallThumbnail;
+                    
+                    bookEntity.CoverId = link;   
+
                     dbContext.Books.Add(bookEntity);
                     dbContext.SaveChanges();
                 }
@@ -84,6 +101,13 @@ namespace CritiquesShelfBLL.Utility
                 volumesQuery.StartIndex = i+40;
                 volumes = await volumesQuery.ExecuteAsync();
             }
+        }
+
+        private static void DeleteTableContents(CritiquesShelfDbContext dbContext) {
+            dbContext.Database.ExecuteSqlCommand("DELETE FROM dbo.Authors");
+            dbContext.Database.ExecuteSqlCommand("DELETE FROM dbo.TagConnector");
+            dbContext.Database.ExecuteSqlCommand("DELETE FROM dbo.Books");
+            dbContext.Database.ExecuteSqlCommand("DELETE FROM dbo.Tags");
         }
     }
 }

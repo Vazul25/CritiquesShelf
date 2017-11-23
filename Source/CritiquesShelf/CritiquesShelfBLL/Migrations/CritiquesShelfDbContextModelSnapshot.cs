@@ -156,6 +156,8 @@ namespace CritiquesShelfBLL.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("CoverId");
+
                     b.Property<int?>("DatePublished");
 
                     b.Property<string>("Description");
@@ -171,6 +173,8 @@ namespace CritiquesShelfBLL.Migrations
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<string>("CoverId");
 
                     b.Property<int?>("DatePublished");
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.EntityFrameworkCore.ValueGeneration.Internal;
 
 namespace CritiquesShelfBLL.ViewModels
 {
@@ -11,5 +12,6 @@ namespace CritiquesShelfBLL.ViewModels
         public List<string> AuthorsNames { get; set; }
         public double Rateing { get; set; }
         public List<string> Tags { get; set; }
+        public string CoverSource { get; set; }
     }
 }
