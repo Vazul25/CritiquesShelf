@@ -10,7 +10,7 @@
         <button type="button" class="btn btn-success" (click)="onSaveClick()">
             <span class="glyphicon glyphicon-ok"></span> Save
         </button>
-        <button type="button" class="btn btn-danger" (click)="onSaveClick()">
+        <button type="button" class="btn btn-danger" (click)="onCancelClick()">
             <span class="glyphicon glyphicon-remove"></span> Cancel
         </button>    
     </div>
@@ -58,7 +58,7 @@
 </div>
 
 
-<div>
+<div class="reviews">
     <h3>Reviews</h3>
     <div *ngFor="let review of user.reviews">
         <div>

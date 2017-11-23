@@ -1,2 +1,23 @@
 ﻿body {
 }
+.review {
+	margin-bottom: 25px;
+}
+
+.header-row {
+	width: 100%;
+}
+
+.stars-col {
+	text-align: center;
+	margin-left: 20px;
+	margin-top: 5px;
+}
+
+.date-col {
+	text-align: right;
+}
+
+.description-ta {
+	width: 100%;
+}

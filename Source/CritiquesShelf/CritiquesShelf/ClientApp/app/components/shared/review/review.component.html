@@ -1,9 +1,28 @@
-﻿<div>
-    <span>{{review.userName}}</span>
-    Review.score: {{review.score}}
-    <stars [rating]="review.score" [readOnly]="readOnly" (ratingChange)="onRatingChanged($event)"></stars>
-    <span>{{review.date}}</span>
-
-    {{review.description}}
-</div>
+﻿<mat-card class="review">
+	<mat-card-header>
+	    <mat-card-title>{{review.userName}}</mat-card-title>
+		<mat-card-subtitle>{{review.bookTitle}}</mat-card-subtitle>
+    	<div class="row header-row">
+    		<div class="stars-col col-sm-6">
+    			<stars [rating]="review.score" [readOnly]="readOnly" (ratingChange)="onRatingChanged($event)"></stars>	
+    		</div>
+    		<div class="date-col col-sm-4">
+    			<span>{{review.date | date:'short'}}</span>			
+    		</div>
+    	</div>
+  	</mat-card-header>
+	<mat-card-content>
+		<form [hidden]="readOnly && (review.description == null || review.description == '')">
+  			<mat-form-field class="description-ta">
+				<textarea matInput placeholder="Comment" [disabled]="readOnly" [(ngModel)]="review.description" name="description" ></textarea>	
+			</mat-form-field>
+		</form>
+	</mat-card-content>
+  	<mat-card-actions>
+  		<div [hidden]="readOnly">
+  			<button type="button" mat-button (click)="onSendClick()">SEND</button>
+	    	<button type="button" mat-button (click)="onCancelClick()">CANCEL</button>
+  		</div>
+  </mat-card-actions>
+</mat-card>
      

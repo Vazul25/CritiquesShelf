@@ -13,4 +13,12 @@ export class ReviewComponent {
     {
     	this.review.score = value;
     }
+
+    onSendClick() {
+    	console.log("Send clicked");
+    }
+
+    onCancelClick() {
+    	console.log("Cancel clicked");
+    }
 }

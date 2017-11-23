@@ -41,6 +41,11 @@ export class UserComponent {
         this.isEditing = false;
     }
 
+    onCancelClick() {
+        console.log("OnCancelClick! editing:", this.isEditing);
+        this.isEditing = false;
+    }
+
     private getBase64(file: any) {
        var reader = new FileReader();
        reader.readAsDataURL(file);

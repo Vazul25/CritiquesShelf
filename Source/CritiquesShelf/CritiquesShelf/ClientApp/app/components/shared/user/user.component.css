@@ -5,6 +5,7 @@ body {
 }
 .parallel-divs-narrow {
     width: 400px;
+    border-right-style: groove;
 }
 .parallel-divs-wide {
     flex: 1;
@@ -23,4 +24,9 @@ body {
 
 .file-upload-div {
 	margin-right: 13px;
+}
+
+.reviews {
+	border-top-style: groove;	
+	margin-top: 10px;
 }
