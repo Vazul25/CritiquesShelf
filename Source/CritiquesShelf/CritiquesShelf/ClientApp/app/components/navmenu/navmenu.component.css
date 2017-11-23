@@ -19,7 +19,7 @@ li.link-active a:focus {
     z-index: 1;
 }
 .navbar-inverse {
-    background-image:url("/0000.png");
+    /*background-image:url("/0000.png");*/
     opacity:0.9;
 }
 @media (min-width: 768px) {
