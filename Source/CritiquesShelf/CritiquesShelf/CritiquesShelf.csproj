@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\app\models\Author.ts" />
     <None Remove="ClientApp\app\models\Book.ts" />
   </ItemGroup>
 
@@ -37,6 +38,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\app\models\Author.ts" />
     <TypeScriptCompile Include="ClientApp\app\models\Book.ts" />
     <TypeScriptCompile Include="ClientApp\app\models\CritiquesShelfRoles.ts" />
     <TypeScriptCompile Include="ClientApp\app\services\storage.service.ts" />
