@@ -3,16 +3,10 @@
 .parallel-divs-parent {
     display: flex;
 }
-
 .parallel-divs-narrow {
-    width: 200px;
-    background: lightblue;
-    /* Just so it's visible */
+    width: 400px;
 }
-
 .parallel-divs-wide {
     flex: 1;
     /* Grow to rest of container */
-    background: lightgreen;
-    /* Just so it's visible */
 }

@@ -1,39 +1,69 @@
 <h2>Profile</h2>
+<ng-template [ngIf]="!readOnly">
+    <div [hidden]="isEditing">
+        <button type="button" class="btn btn-default" (click)="onEditClick()">
+            <span class="glyphicon glyphicon-pencil"></span> Edit
+        </button>
+    </div>
+
+    <div [hidden]="!isEditing">
+        <button type="button" class="btn btn-success" (click)="onSaveClick()">
+            <span class="glyphicon glyphicon-ok"></span> Save
+        </button>
+        <button type="button" class="btn btn-danger" (click)="onCancelClick()">
+            <span class="glyphicon glyphicon-remove"></span> Cancel
+        </button>    
+    </div>
+</ng-template>
+
 <div class="parallel-divs-parent">
-    <div class="parallel-divs-narrow">
-        <div class="container-fluid" style="height:100px;width:400px">
-            <div class="row">
-                <div class="col-md-4">
-                    <img style="height:150px;width:100px" src="data:image/JPEG;base64,{{user.photo}}"/>
-                </div>
-                <div class="col-md-6" ng-disabled="true">
-                    <form>    
-                        <mat-form-field>
-                            <input matInput placeholder="First Name" ng-model="user.firstName" value="{{user.firstName}}"/>
-                        </mat-form-field>
+        <div class="parallel-divs-narrow">
+            <fieldset [disabled]="readOnly || !isEditing">
+            <div class="container-fluid" style="height:100px;width:400px">
+                <div class="row profile-data-div">
+                    <div class="col-md-5">
+                        <div class="img">
+                            <img style="height:150px;width:100px" src="{{photoSource}}"/>    
+                        </div>
+                        
+                        <div class="file-upload-div" [hidden]="!isEditing">
+                            <label for="file-upload" class="btn btn-default">
+                                <span class="glyphicon glyphicon-plus"></span> Photo Upload
+                            </label>
+                            <input id="file-upload" style="display: none;" type="file" (change)="onFileUpload($event)"/>
+                        </div>
+                    </div>
+                    <div class="col-md-6" ng-disabled="true">
+                        <form>    
+                            <mat-form-field>
+                                <input matInput placeholder="First Name" ng-model="user.firstName" value="{{user.firstName}}"/>
+                            </mat-form-field>
 
-                        <mat-form-field>
-                            <input matInput placeholder="Last Name" ng-model="user.lastName" value="{{user.lastName}}" />
-                        </mat-form-field>
+                            <mat-form-field>
+                                <input matInput placeholder="Last Name" ng-model="user.lastName" value="{{user.lastName}}" />
+                            </mat-form-field>
 
-                        <mat-form-field>
-                            <input matInput placeholder="E-mail" ng-model="user.email" value="{{user.email}}" />
-                        </mat-form-field>
-                    </form>
+                            <mat-form-field>
+                                <input matInput placeholder="E-mail" ng-model="user.email" value="{{user.email}}" />
+                            </mat-form-field>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
+            </fieldset>
+     </div>
     <div class="parallel-divs-wide">
         favourites grid
     </div>
 </div>
-<div>
+
+
+<div class="reviews">
     <h3>Reviews</h3>
     <div *ngFor="let review of user.reviews">
         <div>
-            <review [review]="review"></review>    
+            <review [review]="review" [readOnly]="true"></review>    
         </div>
         
-    </div>
+    </div>    
 </div>

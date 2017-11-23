@@ -27,6 +27,7 @@ namespace CritiquesShelf
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<GoogleBooksApiConfig>(Configuration.GetSection("GoogleBooksApi"));
 
             services.AddBll(Configuration.GetConnectionString("DefaultConnection"));
             services.AddIdentity<ApplicationUser, IdentityRole>()
@@ -110,6 +111,7 @@ namespace CritiquesShelf
 
         private async void InitializeDatabase(IApplicationBuilder app) 
         {
+
             using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
                 var roleManager = serviceScope.ServiceProvider.GetService<RoleManager<IdentityRole>>();  
@@ -117,8 +119,20 @@ namespace CritiquesShelf
                 await RoleInitializer.SeedRoles(roleManager);
 
                 var context = serviceScope.ServiceProvider.GetService<CritiquesShelfDbContext>();
+         
+                // Not working, sadly
+                var googleApiConfig = serviceScope.ServiceProvider.GetService<GoogleBooksApiConfig>();
 
-				await BookInitializer.SeedBooks(context, Configuration["GoogleBooksApiKey"]);
+                var key = Configuration["GoogleBooksApi:Key"];
+                var forceUpdate = bool.Parse(Configuration["GoogleBooksApi:ForceUpdate"]);
+
+                googleApiConfig = new GoogleBooksApiConfig
+                {
+                    Key = key,
+                    ForceUpdate = forceUpdate
+                };
+
+                await BookInitializer.SeedBooks(context, googleApiConfig);
             }
 
         }

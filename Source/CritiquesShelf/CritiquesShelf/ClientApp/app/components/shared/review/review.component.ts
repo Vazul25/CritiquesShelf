@@ -7,4 +7,18 @@ import { Review } from '../../../models/Review';
 })
 export class ReviewComponent {
     @Input() review: Review;
+    @Input() readOnly: boolean = false;
+
+    onRatingChanged(value: number) 
+    {
+    	this.review.score = value;
+    }
+
+    onSendClick() {
+    	console.log("Send clicked");
+    }
+
+    onCancelClick() {
+    	console.log("Cancel clicked");
+    }
 }
