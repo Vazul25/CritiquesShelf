@@ -1,4 +1,4 @@
-﻿export interface Book {
+export interface Book {
 
     title: string;
     authorsNames: string[];
@@ -6,4 +6,5 @@
     Tags: string[];
     rateing: number;
     datePublished: number;
+    cover: string;
 }

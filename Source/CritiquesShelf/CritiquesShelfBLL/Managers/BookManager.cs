@@ -1,4 +1,4 @@
-﻿using CritiquesShelfBLL.RepositoryInterfaces;
+using CritiquesShelfBLL.RepositoryInterfaces;
 using CritiquesShelfBLL.Entities;
 using CritiquesShelfBLL.ViewModels;
 using System.Linq;
@@ -78,8 +78,7 @@ namespace CritiquesShelfBLL.Managers
                 Rateing = b.ReviewScore,
                 Tags = b.TagConnectors.Select(tc => tc.Tag.Label).ToList(),
                 Title = b.Title,
-                CoverSource = b.CoverId
-          
+                Cover = b.CoverId
                 DatePublished = b.DatePublished
             }));
 
