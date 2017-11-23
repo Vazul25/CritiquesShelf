@@ -9,12 +9,14 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
     selector: 'bookBrowser',
-    providers: [BookService, DataStorageService],  
+    providers: [BookService, DataStorageService],
     templateUrl: './bookBrowser.component.html',
     styleUrls: ['./bookBrowser.component.css']
 })
 export class BookBrowserComponent implements OnInit {
+
     tagsFc: FormControl = new FormControl();
+
     constructor(http: Http, @Inject('BASE_URL') baseUrl: string, private bookService: BookService, private route: ActivatedRoute, private storageService: DataStorageService,
         private router: Router, public dialog: MatDialog) {
         this.tagsChangedSubscription = this.storageService.tagsChanged$.subscribe(() => {
@@ -22,7 +24,7 @@ export class BookBrowserComponent implements OnInit {
             this.tags = this.storageService.tags;
             console.log(this.tags);
         });
-        this.authorsChangedSubscription = this.storageService.tagsChanged$.subscribe(() => {
+        this.authorsChangedSubscription = this.storageService.authorsChanged$.subscribe(() => {
             console.log("change catched");
             this.authors = this.storageService.authors;
             console.log(this.authors);
@@ -42,7 +44,7 @@ export class BookBrowserComponent implements OnInit {
     private authorsChangedSubscription: EventEmitter<any>;
     ngOnInit() {
 
-         
+
         this.requestInProgress = true;
         this.sub = this.route
             .queryParams
@@ -106,9 +108,9 @@ export class BookBrowserComponent implements OnInit {
     }
 
 
-    openOrgDialog(): void {
+    openNewBookDialog(): void {
         console.log("dialog");
-         
+
         let dialogRef = this.dialog.open(DialogNewBookProposal, {
             width: '450px',
             data: { tags: this.tags, authors: this.authors }
@@ -119,30 +121,75 @@ export class BookBrowserComponent implements OnInit {
             console.log(result);
 
             if (result) {
-                  }
+
+                this.bookService.postBookProposal(result.title, result.description, result.tags, result.authors, result.datePublished).subscribe();
+            }
         });
         console.log(dialogRef);
     }
 
-    
+
 }
 
 @Component({
     selector: 'dialog-new-book-proposal',
     templateUrl: 'dialog-new-book-proposal.html',
+    styleUrls: ['bookBrowser.component.css']
 })
-export class DialogNewBookProposal {
+export class DialogNewBookProposal implements OnInit {
+    ngOnInit(): void {
 
+        this.authorFc.setValue('');
+        this.tagsFc.valueChanges.subscribe(value => { this.data.bookProposal.tags = value; });
+        this.authorFc.valueChanges.subscribe(value => {
+
+            //this.filteredAuthors = (this.data.authors as Author[]).filter(a => { a.name.toLocaleLowerCase().startsWith(value); });
+            var tmp = new Array();
+            tmp.push({ name: value, id: undefined });
+            for (let a of this.data.authors as Author[]) {
+                if (a.name.indexOf(value) !== -1) { tmp.push(a); }
+
+            }
+            this.filteredAuthors = tmp;
+
+        });
+
+
+    }
+
+
+
+    filteredAuthors: Author[];
+    tagsFc: FormControl = new FormControl();
+    authorFc: FormControl = new FormControl();
     constructor(
         public dialogRef: MatDialogRef<DialogNewBookProposal>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
-        let a: Book = { authorsNames: [], description: "", rateing: 0, Tags: [], title: "" };
-        this.data.book = a;
-        
-        }
 
-    onNoClick(): void {
-        this.dialogRef.close();
+
+        this.data.bookProposal = { authors: [], description: "", tags: [], title: "" , datePublished:2017};
+
     }
 
+    selectAuthor(a: Author) {
+        console.log("selectAuthor");
+        this.authorFc.reset();
+        if ((this.data.bookProposal.authors as Author[]).indexOf(a) == -1) {
+            this.data.bookProposal.authors.push(a);
+        }
+    }
+
+    onNoClick(): void {
+        this.authorFc.reset();
+        this.dialogRef.close();
+    }
+    removeAuthor(a: Author) {
+        console.log(this.data.bookProposal.authors);
+        let index = (this.data.bookProposal.authors as Author[]).indexOf(a);
+
+        if (index > -1) {
+            (this.data.bookProposal.authors as Author[]).splice(index, 1);
+        }
+        console.log(this.data.bookProposal.authors);
+    }
 }

@@ -3,43 +3,41 @@
     <p>Please provide the data for the new book</p>
     <mat-form-field>
 
-        <input matInput type="text" placeholder="Title" [(ngModel)]="data.book.title">
+        <input matInput type="text" placeholder="Title" [(ngModel)]="data.bookProposal.title">
     </mat-form-field>
    
+    <mat-form-field>
 
-    <mat-autocomplete #auto="matAutocomplete">
-        <mat-option *ngFor="let author of authors" [value]="author">
-            {{ author }}
-        </mat-option>
-    </mat-autocomplete>
-
+        <input matInput type="number" placeholder="Date Published" [(ngModel)]="data.bookProposal.datePublished">
+    </mat-form-field>
     <form class="example-form">
         <mat-form-field class="example-full-width">
-            <input type="text" placeholder="Author" aria-label="Number" matInput [formControl]="authorFc" [matAutocomplete]="auto">
+            <input matInput placeholder="Authors" aria-label="Authors" [matAutocomplete]="auto"   [formControl]="authorFc">
             <mat-autocomplete #auto="matAutocomplete">
-                <mat-option *ngFor="let author of authors | async" [value]="author">
-                    {{ author.name }}
+                <mat-option *ngFor="let author of filteredAuthors" [value]="author.name" (onSelectionChange)="selectAuthor(author)" >
+                   {{ author.name }} 
                 </mat-option>
             </mat-autocomplete>
         </mat-form-field>
     </form>
+    <div style="background-color:lightgrey" class="flex-container">
+        <div  class="flex-container-item" *ngFor="let selectedAuthor of data.bookProposal.authors" (click)="removeAuthor(selectedAuthor)">{{selectedAuthor.name}} </div>
+    </div>
+  <!-- Ngfor meglévő lista elemek clear clickre -->
+        <mat-form-field>
+            <mat-select placeholder="Tags" [formControl]="tagsFc" multiple>
+                <mat-option *ngFor="let tag of data.tags" [value]="tag">{{tag}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+            <textarea matInput placeholder="Description" [(ngModel)]="data.bookProposal.description"></textarea>
+        </mat-form-field>
 
 
 
-    <mat-form-field>
-        <mat-select placeholder="Tags" [formControl]="tagsFc" multiple>
-            <mat-option *ngFor="let tag of tags" [value]="tag">{{tag}}</mat-option>
-        </mat-select>
-    </mat-form-field>
-
-    <mat-form-field>
-        <textarea matInput placeholder="Description" [(ngModel)]="data.book.description"></textarea>
-    </mat-form-field>
-
-
-    
 </div>
 <div mat-dialog-actions>
-    <button mat-button [mat-dialog-close]="data">Add</button>
+    <button mat-button [mat-dialog-close]="data.bookProposal">Add</button>
     <button mat-button (click)="onNoClick()">Close</button>
 </div>

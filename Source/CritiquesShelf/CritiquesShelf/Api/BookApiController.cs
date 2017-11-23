@@ -8,6 +8,7 @@ using CritiquesShelfBLL.Managers;
 using CritiquesShelfBLL.ViewModels;
 using CritiquesShelfBLL.RepositoryInterfaces;
 using CritiquesShelf.BookApiModels;
+using Microsoft.AspNetCore.Identity;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -16,11 +17,14 @@ namespace CritiquesShelf.Api
     [Route("api/Book")]
     public class BookApiController : Controller
     {
+
+        private readonly UserManager<ApplicationUser> _identityUserManager; 
         IBookRepository _bookManager;
         ITagRepository _tagManager;
-        public BookApiController(IBookRepository bookManager, ITagRepository tagManager)
+        public BookApiController(IBookRepository bookManager, ITagRepository tagManager, UserManager<ApplicationUser> identityUserManager)
         {
             _bookManager = bookManager;
+            _identityUserManager = identityUserManager;
             _tagManager = tagManager;
         }
         // GET: api/values
@@ -38,6 +42,15 @@ namespace CritiquesShelf.Api
             
             return Ok(_bookManager.GetBooks(request.Page, request.PageSize, request.Tags, request.SearchText));
         }
+
+        [Route("postBookProposal")]
+        [HttpPost]
+        public IActionResult PostBookProposal([FromBody] PostBookProposalModel bookProposal)
+        {
+            var userId = _identityUserManager.GetUserId(HttpContext.User);
+            return Ok(_bookManager.MakeNewBookProposal(userId,bookProposal.Title,bookProposal.Description, bookProposal.Authors,bookProposal.Tags,bookProposal.datePublished));
+        }
+
         [Route("getBookProposals")]
         [HttpGet]
         public IActionResult GetBookProposals(int page = 0, int pageSize = 0)

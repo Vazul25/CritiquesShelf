@@ -24,6 +24,15 @@ export class BookService {
 
         return this.http.get(this.rootRoute + "getBookProposals?page=" + page + "&&pageSize=" + pageSize);
     }
+    postBookProposal(title: string, description: string, tags: string[], authors: Author[],datePublished:number): Observable<any> {
+
+        let body = JSON.stringify({ title: title, description: description, tags: tags, authors: authors, datePublished: datePublished });
+
+        return this.http.post(this.rootRoute + "postBookProposal", body, {
+            headers: new HttpHeaders().set('Content-Type', 'application/json'),
+        });
+    }
+
    
     
 }

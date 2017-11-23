@@ -9,7 +9,7 @@
     <div class="no-padding">
         <mat-toolbar color="peru">
             <span>Search</span>
-
+            
             <span class="spacer"></span>
             <mat-form-field>
                 <mat-select placeholder="Tags" [formControl]="tagsFc" multiple>
@@ -25,7 +25,7 @@
             </mat-form-field>
             <span class="spacer"></span>
             <button mat-raised-button color="primary" (click)="refresh()">Search</button>
-            <button mat-fab color="accent" style="margin:auto 10px auto 10px" (click)="newBookProposal()"  >+</button>
+            <button mat-fab color="accent" style="margin:auto 10px auto 10px" (click)="openNewBookDialog()"  >+</button>
 
 
 

@@ -12,5 +12,6 @@ namespace CritiquesShelfBLL.RepositoryInterfaces
         BookModel Find(long id);
         PagedData<List<BookProposalModel>>  GetBookProposals(int page, int pageSize);
         List<Author> GetAuthors();
+        long MakeNewBookProposal(string userId, string title, string description, List<Author> authors, List<string> tags,int? datePublished);
     }
 }

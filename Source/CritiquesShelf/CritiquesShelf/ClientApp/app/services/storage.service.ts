@@ -22,7 +22,12 @@ export class DataStorageService  {
         this._baseUrl = baseUrl;
         this.tagsChanged$ = new EventEmitter();
         this.authorsChanged$ = new EventEmitter();
-        this.getAuthors().subscribe(data => { this.authors = data; console.log(data); console.log(this.authors); this.authorsChanged$.emit(""); });
+        this.getAuthors().subscribe(data => {
+            this.authors = data;
+            console.log(data);
+            console.log(this.authors);
+            this.authorsChanged$.emit("");
+        });
 
         this.getTags().subscribe(data => { this.tags = data; console.log(data); console.log(this.tags); this.tagsChanged$.emit("");});
     }

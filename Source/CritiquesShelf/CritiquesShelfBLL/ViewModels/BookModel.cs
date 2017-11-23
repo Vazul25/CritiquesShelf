@@ -11,5 +11,6 @@ namespace CritiquesShelfBLL.ViewModels
         public List<string> AuthorsNames { get; set; }
         public double Rateing { get; set; }
         public List<string> Tags { get; set; }
+        public int? DatePublished { get; set; }
     }
 }

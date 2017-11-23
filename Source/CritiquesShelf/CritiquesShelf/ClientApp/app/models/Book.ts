@@ -5,5 +5,5 @@
     description: string;
     Tags: string[];
     rateing: number;
-
+    datePublished: number;
 }

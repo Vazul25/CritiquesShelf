@@ -20,7 +20,7 @@ namespace CritiquesShelfBLL
         public DbSet<LikeToReadConnector> LikeToReadConnector { get; set; }
         public DbSet<ReadConnector> ReadConnector { get; set; }
         public DbSet<TagConnector> TagConnector { get; set; }
-
+        public DbSet<TagProposal> TagProposals{ get; set; }
         public CritiquesShelfDbContext(DbContextOptions<CritiquesShelfDbContext> options)
             : base(options)
         {

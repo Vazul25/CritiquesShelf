@@ -39,6 +39,9 @@ import { StarsComponent } from './components/shared/stars/stars.component';
         BookApprovalComponent,
         StarsComponent
     ],
+    entryComponents: [
+        DialogNewBookProposal
+    ],
     imports: [
         CommonModule,
         MatSelectModule,

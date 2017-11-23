@@ -17,7 +17,7 @@ namespace CritiquesShelfBLL.Managers
 
         public List<Author> GetAuthors()
         {
-           return _context.Authors.ToList();
+            return _context.Authors.ToList();
         }
 
         public PagedData<List<BookProposalModel>> GetBookProposals(int page, int pageSize)
@@ -47,37 +47,42 @@ namespace CritiquesShelfBLL.Managers
 
         }
 
-        public PagedData<List<BookModel>> GetBooks(int page, int pageSize,List<string> Tags,string searchText )
+        public PagedData<List<BookModel>> GetBooks(int page, int pageSize, List<string> Tags, string searchText)
         {
- 
 
 
-            IQueryable<Book> query;
 
-            if (pageSize == 0) query = _context.Books.Include(b => b.Authors).Include(b => b.TagConnectors).ThenInclude(tc => tc.Tag).OrderBy(b => b.Id);
-            else query = _context.Books.Include(b => b.Authors).Include(b => b.TagConnectors).ThenInclude(tc => tc.Tag).OrderBy(b => b.Id).Skip(pageSize * page).Take(pageSize);
-            //var teszt10 = query.ToList();
+            IQueryable<Book> query = _context.Books.Include(b => b.Authors).Include(b => b.TagConnectors).ThenInclude(tc => tc.Tag);
             if (!searchText.IsNullOrEmpty())
             {
-                query = query.Where(b=>b.Title.Contains(searchText) || b.Authors.Any(a=>a.Name.Contains(searchText)));
+                query = query.Where(b => b.Title.Contains(searchText) || b.Authors.Any(a => a.Name.Contains(searchText)));
             }
-            if (!Tags.IsNullOrEmpty()) {
-                query = query.Where(b => Tags.All(t=>b.TagConnectors.Any(bt=>bt.Tag.Label==t))) ;
+            if (!Tags.IsNullOrEmpty())
+            {
+                // query = query.Where(b => Tags.All(t => b.TagConnectors.Any(bt => bt.Tag.Label == t)));
+                query = query.Where(b => b.TagConnectors.Count(tc => Tags.Contains(tc.Tag.Label)) == Tags.Count);
+
             }
-          
-            var result= new List<BookModel>();
+            if (pageSize == 0) query = query.OrderBy(b => b.Id);
+            else query = query.OrderBy(b => b.Id).Skip(pageSize * page).Take(pageSize);
+            //var teszt10 = query.ToList();
+
+
+
+            var result = new List<BookModel>();
             query.ToList().ForEach(b => result.Add(
             new BookModel
             {
                 AuthorsNames = b.Authors.Select(a => a.Name).ToList(),
-                Description = b.Description == null || b.Description.Length < 200 ? b.Description : b.Description.Substring(200),
+                Description = (b.Description == null || b.Description.Length < 200) ? b.Description : b.Description.Substring(0, 200),
                 Rateing = b.ReviewScore,
                 Tags = b.TagConnectors.Select(tc => tc.Tag.Label).ToList(),
-                Title = b.Title
+                Title = b.Title,
+                DatePublished = b.DatePublished
             }));
-            
-          
-           
+
+
+
             return new PagedData<List<BookModel>>()
             {
                 Page = page,
@@ -88,6 +93,46 @@ namespace CritiquesShelfBLL.Managers
 
 
 
+
+        }
+
+        public long MakeNewBookProposal(string userId, string title, string description, List<Author> authors, List<string> tags, int? datePublished)
+        {
+            
+            for (int i = 0; i < authors.Count; i++)
+            {
+                if (authors[i].Id == 0)
+                {
+                    var newAuthor = new Author { Name = authors[i].Name };
+                    _context.Authors.Add(newAuthor);
+                    authors[i] = newAuthor;
+                }
+                
+
+            }
+
+            HashSet<TagProposal> tagsToAdd = new HashSet<TagProposal>();
+            tags.ForEach(t =>
+            {
+                var newTagProposal = new TagProposal { Label = t };
+                _context.TagProposals.Add(newTagProposal);
+                tagsToAdd.Add(newTagProposal);
+            });
+             
+            var bookProposalToAdd = new BookProposal()
+            {
+                Title = title,
+                Description = description,
+                
+                Proposer = _context.Users.Find(userId),
+                 
+                DatePublished = datePublished
+            };
+            _context.BookProposals.Add(bookProposalToAdd);
+            bookProposalToAdd.Authors = authors;
+            bookProposalToAdd.Tags = tagsToAdd;
+            _context.SaveChanges();
+            return bookProposalToAdd.Id;
 
         }
 
