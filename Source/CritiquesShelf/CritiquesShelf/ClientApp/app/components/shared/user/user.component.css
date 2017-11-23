@@ -1,0 +1,12 @@
+body {
+}
+.parallel-divs-parent {
+    display: flex;
+}
+.parallel-divs-narrow {
+    width: 400px;
+}
+.parallel-divs-wide {
+    flex: 1;
+    /* Grow to rest of container */
+}

@@ -1,0 +1,12 @@
+<fieldset class="rating" [ngClass]="{ 'ignore-hover' : readOnly }">
+    <input type="radio" [(ngModel)]="rating" [value]="5" /><label class = "full" title="Awesome - 5 stars" (click)="onClick(5)"></label>
+    <input type="radio" [(ngModel)]="rating" [value]="4.5" /><label class="half" title="Pretty good - 4.5 stars" (click)="onClick(4.5)"></label>
+    <input type="radio" [(ngModel)]="rating" [value]="4" /><label class = "full" title="Pretty good - 4 stars" (click)="onClick(4)"></label>
+    <input type="radio" [(ngModel)]="rating" [value]="3.5" /><label class="half" title="Meh - 3.5 stars" (click)="onClick(3.5)"></label>
+    <input type="radio" [(ngModel)]="rating" [value]="3" /><label class = "full" title="Meh - 3 stars" (click)="onClick(3)"></label>
+    <input type="radio" [(ngModel)]="rating" [value]="2.5" /><label class="half" title="Kinda bad - 2.5 stars" (click)="onClick(2.5)"></label>
+    <input type="radio" [(ngModel)]="rating" [value]="2" /><label class = "full" title="Kinda bad - 2 stars" (click)="onClick(2)"></label>
+    <input type="radio" [(ngModel)]="rating" [value]="1.5" /><label class="half" title="Meh - 1.5 stars" (click)="onClick(1.5)"></label>
+    <input type="radio" [(ngModel)]="rating" [value]="1" /><label class = "full" title="Sucks big time - 1 star" (click)="onClick(1)"></label>
+    <input type="radio" [(ngModel)]="rating" [value]="0.5" /><label class="half" title="Sucks big time - 0.5 stars" (click)="onClick(0.5)"></label>
+</fieldset>

@@ -20,6 +20,8 @@ import { DialogNewBookProposal } from './components/bookBrowser/bookBrowser.comp
 
 import { ProfileComponent } from './components/profile/profile.component';
 import { ReviewComponent } from './components/shared/review/review.component';
+import { StarsComponent } from './components/shared/stars/stars.component';
+
 
 @NgModule({
     declarations: [
@@ -34,7 +36,8 @@ import { ReviewComponent } from './components/shared/review/review.component';
         ReviewComponent,
         BookDisplayComponent,
         BookListComponent,
-        BookApprovalComponent
+        BookApprovalComponent,
+        StarsComponent
     ],
     imports: [
         CommonModule,
