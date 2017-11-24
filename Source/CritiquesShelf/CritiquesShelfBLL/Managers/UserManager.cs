@@ -7,6 +7,7 @@ using System.Linq;
 using CritiquesShelfBLL.ConnectionTables;
 using CritiquesShelfBLL.Utility;
 using System;
+using CritiquesShelfBLL.ViewModels;
 
 namespace CritiquesShelfBLL.Managers
 {
@@ -19,13 +20,13 @@ namespace CritiquesShelfBLL.Managers
             _imageStore = imageStore;
         }
 
-        public ApplicationUser Find(string id) 
+        public UserModel Find(string id) 
         {
             var user = _context.Users
                            .Include(x => x.LikeToRead)
                            .Include(x => x.Favourites)
                            .Include(x => x.Read)
-                           .Include(x => x.Reviews)
+                           .Include(x => x.Reviews).ThenInclude(y => y.Book)
                            .Where(x => x.Id == id)
                            .FirstOrDefault();
 
@@ -33,7 +34,32 @@ namespace CritiquesShelfBLL.Managers
 				user.Photo = _imageStore.GetImage(user.PhotoId);
             }
 
-            return user;
+            var reviews = user.Reviews?.Select(x => new ReviewModel
+            {
+                Id = x.Id,
+                Date = x.Date,
+                Description = x.Description,
+                Score = x.Score,
+                BookId = x.BookId,
+                BookTitle = x.Book?.Title,
+                UserId = user.Id,
+                UserName = user.UserName
+            }).ToList();
+
+            return new UserModel {
+                Id = user.Id,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Photo = user.Photo,
+                UserName = user.UserName,
+                Reviews = reviews,
+                ReadingStat = new ReadingStatModel {
+                    FavouritesCount = user.Favourites?.Count() ?? 0,
+                    LikeToReadCount = user.LikeToRead?.Count() ?? 0,
+                    ReadCount = user.Read?.Count() ?? 0
+                }
+            };
         }
 
         public CritiquesShelfRoles GetRole(string userId)
@@ -44,6 +70,26 @@ namespace CritiquesShelfBLL.Managers
                 if(enumValue.GetName() == roleName) return enumValue;
             }
             throw new Exception($"There was no CritiquesShelfRoles enum defined to the roleName in the database: {roleName}");
+        }
+
+        public UserModel Save(UserModel user) 
+        {
+            var entity = _context.Users.Find(user.Id);
+
+            entity.FirstName = user.FirstName;
+            entity.LastName = user.LastName;
+            entity.Email = user.Email;
+            entity.UserName = user.UserName;
+
+            if (user.Photo != null) 
+            {
+                var photoId = _imageStore.SaveImage(user.Photo);
+                entity.PhotoId = photoId;
+            }
+
+            _context.SaveChanges();
+
+            return user;
         }
     }
 }

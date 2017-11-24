@@ -19,8 +19,9 @@ namespace CritiquesShelf.Api
     {
 
         private readonly UserManager<ApplicationUser> _identityUserManager; 
-        IBookRepository _bookManager;
-        ITagRepository _tagManager;
+        private readonly IBookRepository _bookManager;
+        private readonly ITagRepository _tagManager;
+
         public BookApiController(IBookRepository bookManager, ITagRepository tagManager, UserManager<ApplicationUser> identityUserManager)
         {
             _bookManager = bookManager;
@@ -89,6 +90,12 @@ namespace CritiquesShelf.Api
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+        }
+
+        [HttpPost("{id}/review")]
+        public IActionResult Post(long id, [FromBody] ReviewModel review) {
+            var reviewId = _bookManager.AddNewReview(id, review);
+            return Ok(id);
         }
     }
 }

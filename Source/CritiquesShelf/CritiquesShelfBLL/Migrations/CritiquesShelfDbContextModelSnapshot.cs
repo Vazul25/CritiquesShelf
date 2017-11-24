@@ -196,13 +196,13 @@ namespace CritiquesShelfBLL.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<long?>("BookId");
+                    b.Property<long>("BookId");
 
                     b.Property<DateTime>("Date");
 
                     b.Property<string>("Description");
 
-                    b.Property<int>("Score");
+                    b.Property<double>("Score");
 
                     b.Property<string>("UserId");
 
@@ -243,7 +243,7 @@ namespace CritiquesShelfBLL.Migrations
 
                     b.HasIndex("BookProposalId");
 
-                    b.ToTable("TagProposal");
+                    b.ToTable("TagProposals");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -426,9 +426,10 @@ namespace CritiquesShelfBLL.Migrations
 
             modelBuilder.Entity("CritiquesShelfBLL.Entities.Review", b =>
                 {
-                    b.HasOne("CritiquesShelfBLL.Entities.Book")
+                    b.HasOne("CritiquesShelfBLL.Entities.Book", "Book")
                         .WithMany("Reviews")
-                        .HasForeignKey("BookId");
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("CritiquesShelfBLL.Entities.ApplicationUser", "User")
                         .WithMany("Reviews")

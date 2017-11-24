@@ -1,4 +1,5 @@
 ﻿export interface Review {
+	id: number;
 	userId: string;
     userName: string;
     description: string;

@@ -1,5 +1,6 @@
 ﻿import { Injectable, Inject  } from '@angular/core';
 import { Book } from '../models/book';
+import { Review } from '../models/review';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { Headers, RequestOptions } from '@angular/http';
@@ -33,6 +34,11 @@ export class BookService {
         });
     }
 
-   
-    
+    postReviewForBook(review: Review): Observable<any> {
+        let body = JSON.stringify(review); 
+
+        return this.http.post(this.rootRoute + review.bookId + '/review', body, {
+            headers: new HttpHeaders().set('Content-Type', 'application/json'),
+        });
+    }    
 }

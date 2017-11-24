@@ -14,6 +14,10 @@ namespace CritiquesShelfBLL.Entities
 
         public DateTime Date { get; set; }
 
-		public int Score { get; set; }
+        public double Score { get; set; }
+
+        public long BookId { get; set; }
+
+        public Book Book { get; set; }
     }
 }

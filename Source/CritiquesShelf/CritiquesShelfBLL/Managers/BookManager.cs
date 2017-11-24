@@ -105,12 +105,12 @@ namespace CritiquesShelfBLL.Managers
                 if (authors[i].Id == 0)
                 {
                     var newAuthor = new Author { Name = authors[i].Name };
-                    _context.Authors.Add(newAuthor);
+                    //_context.Authors.Add(newAuthor);
                     authors[i] = newAuthor;
                 }
-                
-
             }
+
+            //_context.SaveChanges();
 
             HashSet<TagProposal> tagsToAdd = new HashSet<TagProposal>();
             tags.ForEach(t =>
@@ -149,6 +149,25 @@ namespace CritiquesShelfBLL.Managers
                 Tags = book.TagConnectors.Select(tc => tc.Tag.Label).ToList(),
                 Title = book.Title
             };
+        }
+
+        public long AddNewReview(long bookId, ReviewModel review) {
+            var book = _context.Books.Find(bookId);
+
+            var reviewEntity = new Review
+            {
+                BookId = bookId,
+                Score = review.Score,
+                Description = review.Description,
+                UserId = review.UserId,
+                Date = review.Date
+            };
+
+            book.Reviews.Add(reviewEntity);
+
+            _context.SaveChanges();
+
+            return reviewEntity.Id;
         }
     }
 }

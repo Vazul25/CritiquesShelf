@@ -1,6 +1,8 @@
 ﻿<mat-card class="review">
 	<mat-card-header>
-	    <mat-card-title>{{review.userName}}</mat-card-title>
+	    <mat-card-title>
+        <a [routerLink]="['/userDetails', review.userId]"> {{review.userName}}</a>
+      </mat-card-title>
 		<mat-card-subtitle>{{review.bookTitle}}</mat-card-subtitle>
     	<div class="row header-row">
     		<div class="stars-col col-sm-6">
