@@ -9,18 +9,18 @@ using CritiquesShelfBLL.Utility;
 using System;
 using CritiquesShelfBLL.ViewModels;
 using CritiquesShelfBLL.Mapper;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace CritiquesShelfBLL.Managers
 {
     public class UserManager : RepositoryBase<ApplicationUser>, IUserRepository
     {
         private readonly ImageStore _imageStore;
-        private readonly IMapper _mapper;
 
-        public UserManager(CritiquesShelfDbContext context, ImageStore imageStore, IMapper mapper) : base(context)
+        public UserManager(CritiquesShelfDbContext context, ImageStore imageStore) : base(context)
         {
             _imageStore = imageStore;
-            _mapper = mapper;
         }
 
         public UserModel Find(string id) 
@@ -93,44 +93,6 @@ namespace CritiquesShelfBLL.Managers
             _context.SaveChanges();
 
             return user;
-        }
-
-        public UserBooksModel GetUserBooks(string userId) {
-
-            var reviewedBookEntities = _context.Books
-                                               .Where(x => x.Reviews.Any(y => y.UserId == userId))
-                                               .Include(x => x.Authors)
-                                               .Include(x => x.TagConnectors)
-                                               .ThenInclude(x => x.Tag)
-                                               .ToList();
-
-            var favouriteBookEntities = _context.Books
-                                                .Where(x => x.FavouriteConnectors.Any(y => y.UserId == userId))
-                                                .Include(x => x.Authors)
-                                                .Include(x => x.TagConnectors)
-                                                .ThenInclude(x => x.Tag)
-                                                .ToList();
-
-            var likeToReadBookEntities = _context.Books
-                                                 .Where(x => x.LikeToReadConnectors.Any(y => y.UserId == userId))
-                                                 .Include(x => x.Authors)
-                                                 .Include(x => x.TagConnectors)
-                                                 .ThenInclude(x => x.Tag)
-                                                 .ToList();
-
-            var readBookEntities = _context.Books
-                                           .Where(x => x.ReadConnectors.Any(y => y.UserId == userId))
-                                           .Include(x => x.Authors)
-                                           .Include(x => x.TagConnectors)
-                                           .ThenInclude(x => x.Tag)
-                                           .ToList();
-
-            return new UserBooksModel {
-                Favourites = favouriteBookEntities.Select(x => _mapper.MapBookEntityToModel(x)).ToList(),
-                LikeToRead = likeToReadBookEntities.Select(x => _mapper.MapBookEntityToModel(x)).ToList(),
-                Read = readBookEntities.Select(x => _mapper.MapBookEntityToModel(x)).ToList(),
-                Reviewed = reviewedBookEntities.Select(x => _mapper.MapBookEntityToModel(x)).ToList()
-            };
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using CritiquesShelfBLL.Entities;
 using CritiquesShelfBLL.Utility;
 using CritiquesShelfBLL.ViewModels;
+using System.Collections.Generic;
 
 namespace CritiquesShelfBLL.RepositoryInterfaces
 {
@@ -9,6 +10,5 @@ namespace CritiquesShelfBLL.RepositoryInterfaces
         UserModel Find(string id);
         CritiquesShelfRoles GetRole(string userId);
         UserModel Save(UserModel user);
-        UserBooksModel GetUserBooks(string userId);
     }
 }

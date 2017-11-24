@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Profile</title>
+    </head>
+    <body>
+    <ng-template [ngIf]="user">
+        <div>
+            <user [user]="user" [readOnly]="true"></user>
+        </div>
+    </ng-template>
+    </body>
+</html>
+

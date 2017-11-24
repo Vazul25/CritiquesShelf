@@ -1,0 +1,46 @@
+<ng-template [ngIf]="userBooks">
+	<mat-tab-group [(selectedIndex)]="selectedIndex">
+	  <mat-tab label="Favourites">
+
+	  	<bookList [books]="userBooks.favourites" ></bookList>
+	  	<mat-paginator 
+	  			[length]="userBooks.maxFavouritesCount"
+              	[pageSize]="10"
+	            [pageSizeOptions]="[5, 10, 25, 100]"
+	            (page)="page($event, 'favourites')">
+		</mat-paginator>
+
+	  </mat-tab>
+	  <mat-tab label="Reviewed">
+
+	   	<bookList [books]="userBooks.reviewed" ></bookList>  
+	   	<mat-paginator 
+	   			[length]="userBooks.maxReviewedCount"
+              	[pageSize]="10"
+	            [pageSizeOptions]="[5, 10, 25, 100]"
+				(page)="page($event, 'reviewed')">
+		</mat-paginator>
+	  </mat-tab>
+	  <mat-tab label="Read">
+
+	  	<bookList [books]="userBooks.read" ></bookList>  
+		<mat-paginator 
+				[length]="userBooks.maxReadCount"
+              	[pageSize]="10"
+              	[pageSizeOptions]="[5, 10, 25, 100]"
+              	(page)="page($event, 'read')">
+		</mat-paginator>
+
+	  </mat-tab>
+	  <mat-tab label="Like to read">
+
+	    <bookList [books]="userBooks.likeToRead" ></bookList>
+	    <mat-paginator [length]="userBooks.maxLikeToReadCount"
+              [pageSize]="10"
+              [pageSizeOptions]="[5, 10, 25, 100]"
+              (page)="page($event, 'likeToRead')">
+		</mat-paginator>
+
+	  </mat-tab>
+	</mat-tab-group>
+</ng-template>

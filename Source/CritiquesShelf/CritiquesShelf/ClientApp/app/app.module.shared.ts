@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { MatCommonModule } from '@angular/material';
-import { MatCheckboxModule,MatGridListModule, MatAutocompleteModule,MatSelectModule,MatInputModule, MatFormFieldModule, MatCardModule, MatToolbarModule, MatDialogModule, MatButtonModule, MatTabsModule } from '@angular/material';
+import { MatCheckboxModule,MatGridListModule, MatAutocompleteModule,MatSelectModule,MatInputModule, MatFormFieldModule, MatCardModule, MatToolbarModule, MatDialogModule, MatButtonModule, MatTabsModule, MatPaginatorModule} from '@angular/material';
  
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './components/app/app.component';
@@ -66,6 +66,7 @@ import { UserBooksComponent } from './components/shared/userBooks/userBooks.comp
         MatDialogModule,
         MatToolbarModule,
         MatFormFieldModule,
+        MatPaginatorModule,
         RouterModule.forRoot([
             { path: '', redirectTo: 'home', pathMatch: 'full' },
             { path: 'home', component: HomeComponent },
