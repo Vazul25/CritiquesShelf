@@ -47,7 +47,7 @@ namespace CritiquesShelfBLL.Managers
 
         }
 
-        public PagedData<List<BookModel>> GetBooks(int page, int pageSize, List<string> Tags, string searchText)
+        public PagedData<List<BookModel>> GetBooks(string userId, int page, int pageSize, List<string> Tags, string searchText)
         {
 
 
@@ -68,18 +68,24 @@ namespace CritiquesShelfBLL.Managers
             //var teszt10 = query.ToList();
 
 
-
+            var bookList = query.ToList();
+            var favs = _context.FavouritesConnector.Where(fc => fc.UserId == userId && bookList.Any(b => b.Id == fc.BookId)).Select(f => f.BookId).ToHashSet();
+            var read = _context.ReadConnector.Where(fc => fc.UserId == userId && bookList.Any(b => b.Id == fc.BookId)).Select(f => f.BookId).ToHashSet();
+            var toRead = _context.LikeToReadConnector.Where(fc => fc.UserId == userId && bookList.Any(b => b.Id == fc.BookId)).Select(f => f.BookId).ToHashSet();
             var result = new List<BookModel>();
-            query.ToList().ForEach(b => result.Add(
+            bookList.ForEach(b => result.Add(
             new BookModel
             {
+                Id=b.Id,
                 AuthorsNames = b.Authors.Select(a => a.Name).ToList(),
                 Description = (b.Description == null || b.Description.Length < 200) ? b.Description : b.Description.Substring(0, 200),
                 Rateing = b.ReviewScore,
                 Tags = b.TagConnectors.Select(tc => tc.Tag.Label).ToList(),
                 Title = b.Title,
-                CoverSource = b.CoverId
-          
+                CoverSource = b.CoverId,
+                Favourite = favs.Contains(b.Id),
+                LikeToRead = toRead.Contains(b.Id),
+                Read = read.Contains(b.Id),
                 DatePublished = b.DatePublished
             }));
 
@@ -97,10 +103,48 @@ namespace CritiquesShelfBLL.Managers
 
 
         }
+        public void AddToFavourites(string userId, long bookId)
+        {
+            if (_context.FavouritesConnector.Any(fc => fc.UserId == userId && fc.BookId == bookId)) return;
+            _context.FavouritesConnector.Add(new ConnectionTables.FavouritesConnector { BookId = bookId, UserId = userId });
+            _context.SaveChanges();
+        }
+        public void AddToRead(string userId, long bookId)
+        {
+            if (_context.ReadConnector.Any(fc => fc.UserId == userId && fc.BookId == bookId)) return;
+            _context.ReadConnector.Add(new ConnectionTables.ReadConnector { BookId = bookId, UserId = userId });
+            _context.SaveChanges();
+        }
+        public void AddToLikeToRead(string userId, long bookId)
+        {
+            if (_context.LikeToReadConnector.Any(fc => fc.UserId == userId && fc.BookId == bookId)) return;
+            _context.LikeToReadConnector.Add(new ConnectionTables.LikeToReadConnector { BookId = bookId, UserId = userId });
+            _context.SaveChanges();
+        }
+        public void RemoveFromFavourites(string userId, long bookId)
+        {
+            if (!_context.FavouritesConnector.Any(fc => fc.UserId == userId && fc.BookId == bookId)) return;
+            _context.FavouritesConnector.Remove(new ConnectionTables.FavouritesConnector { BookId = bookId, UserId = userId });
+            _context.SaveChanges();
+        }
+        
+        public void RemoveFromLikeToRead(string userId, long bookId)
+        {
+            if (!_context.LikeToReadConnector.Any(fc => fc.UserId == userId && fc.BookId == bookId)) return;
+            _context.LikeToReadConnector.Remove(new ConnectionTables.LikeToReadConnector { BookId = bookId, UserId = userId });
+            _context.SaveChanges();
+        }
+        public void RemoveFromRead(string userId, long bookId)
+        {
+            if (!_context.ReadConnector.Any(fc => fc.UserId == userId && fc.BookId == bookId)) return;
+            _context.ReadConnector.Remove(new ConnectionTables.ReadConnector { BookId = bookId, UserId = userId });
+            _context.SaveChanges();
+        }
+
 
         public long MakeNewBookProposal(string userId, string title, string description, List<Author> authors, List<string> tags, int? datePublished)
         {
-            
+
             for (int i = 0; i < authors.Count; i++)
             {
                 if (authors[i].Id == 0)
@@ -109,7 +153,7 @@ namespace CritiquesShelfBLL.Managers
                     _context.Authors.Add(newAuthor);
                     authors[i] = newAuthor;
                 }
-                
+
 
             }
 
@@ -120,14 +164,14 @@ namespace CritiquesShelfBLL.Managers
                 _context.TagProposals.Add(newTagProposal);
                 tagsToAdd.Add(newTagProposal);
             });
-             
+
             var bookProposalToAdd = new BookProposal()
             {
                 Title = title,
                 Description = description,
-                
+
                 Proposer = _context.Users.Find(userId),
-                 
+
                 DatePublished = datePublished
             };
             _context.BookProposals.Add(bookProposalToAdd);
@@ -144,6 +188,9 @@ namespace CritiquesShelfBLL.Managers
 
             return new BookModel()
             {
+                CoverSource=book.CoverId,
+                DatePublished=book.DatePublished,
+                Id=book.Id,
                 AuthorsNames = book.Authors.Select(a => a.Name).ToList(),
                 Description = book.Description,
                 Rateing = book.ReviewScore,

@@ -52,6 +52,8 @@ export class BookBrowserComponent implements OnInit {
 
                 this.page = +params['page'] || 0;
                 this.pageSize = +params['pageSize'] || 20;
+                this.searchText = params['searchText'] || "";
+                this.tagsFc.setValue ( params['tags'] || []);
                 this.authors = this.storageService.authors;
                 this.tags = this.storageService.tags;
                 console.log(this.tags); console.log(this.storageService.tags);
@@ -80,6 +82,7 @@ export class BookBrowserComponent implements OnInit {
         for (let i = offset; i < this.page + 5 + Math.abs(Math.min(this.page - 5, 0)); i++) {
             this.numbers[i - offset] = i;
         }
+        
 
 
     }
@@ -105,6 +108,11 @@ export class BookBrowserComponent implements OnInit {
 
             this.reciveResponse(data);
         });
+       
+    }
+    search() {
+        this.router.navigate(['/browse'], { queryParams: { page: 0, pageSize: this.pageSize, searchText: this.searchText, tags: this.tagsFc.value } });
+
     }
 
 

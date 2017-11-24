@@ -1,29 +1,31 @@
-﻿<h1 mat-dialog-title>Propose a new book</h1>
-<div mat-dialog-content>
-    <p>Please provide the data for the new book</p>
-    <mat-form-field>
+﻿ 
 
-        <input matInput type="text" placeholder="Title" [(ngModel)]="data.bookProposal.title">
-    </mat-form-field>
-   
-    <mat-form-field>
+    <h1 mat-dialog-title>Propose a new book</h1>
+    <div mat-dialog-content>
+        <p>Please provide the data for the new book</p>
+        <mat-form-field>
 
-        <input matInput type="number" placeholder="Date Published" [(ngModel)]="data.bookProposal.datePublished">
-    </mat-form-field>
-    <form class="example-form">
-        <mat-form-field class="example-full-width">
-            <input matInput placeholder="Authors" aria-label="Authors" [matAutocomplete]="auto"   [formControl]="authorFc">
-            <mat-autocomplete #auto="matAutocomplete">
-                <mat-option *ngFor="let author of filteredAuthors" [value]="author.name" (onSelectionChange)="selectAuthor(author)" >
-                   {{ author.name }} 
-                </mat-option>
-            </mat-autocomplete>
+            <input matInput type="text" placeholder="Title" [(ngModel)]="data.bookProposal.title">
         </mat-form-field>
-    </form>
-    <div style="background-color:lightgrey" class="flex-container">
-        <div  class="flex-container-item" *ngFor="let selectedAuthor of data.bookProposal.authors" (click)="removeAuthor(selectedAuthor)">{{selectedAuthor.name}} </div>
-    </div>
-  <!-- Ngfor meglévő lista elemek clear clickre -->
+
+        <mat-form-field>
+
+            <input matInput type="number" placeholder="Date Published" [(ngModel)]="data.bookProposal.datePublished">
+        </mat-form-field>
+        <form class="example-form">
+            <mat-form-field class="example-full-width">
+                <input matInput placeholder="Authors" aria-label="Authors" [matAutocomplete]="auto" [formControl]="authorFc">
+                <mat-autocomplete #auto="matAutocomplete">
+                    <mat-option *ngFor="let author of filteredAuthors" [value]="author.name" (onSelectionChange)="selectAuthor(author)">
+                        {{ author.name }}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+        </form>
+        <div style="background-color:lightgrey" class="flex-container">
+            <div class="flex-container-item" *ngFor="let selectedAuthor of data.bookProposal.authors" (click)="removeAuthor(selectedAuthor)">{{selectedAuthor.name}} </div>
+        </div>
+        <!-- Ngfor meglévő lista elemek clear clickre -->
         <mat-form-field>
             <mat-select placeholder="Tags" [formControl]="tagsFc" multiple>
                 <mat-option *ngFor="let tag of data.tags" [value]="tag">{{tag}}</mat-option>
@@ -36,8 +38,10 @@
 
 
 
-</div>
-<div mat-dialog-actions>
-    <button mat-button [mat-dialog-close]="data.bookProposal">Add</button>
-    <button mat-button (click)="onNoClick()">Close</button>
-</div>
+    </div>
+    <div mat-dialog-actions>
+        <button mat-button [mat-dialog-close]="data.bookProposal">Add</button>
+        <button mat-button (click)="onNoClick()">Close</button>
+    </div>
+
+ 

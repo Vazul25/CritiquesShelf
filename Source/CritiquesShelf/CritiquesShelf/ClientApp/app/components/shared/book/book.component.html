@@ -1,6 +1,6 @@
 <div class="container-fluid" style="height:100px;width:400px">
     <div class="row">
-        <div class="col-md-6"><img style="height:150px;width:100px" src="{{book.cover}}" /></div>
+        <div class="col-md-6"><img style="height:150px;width:100px" src="{{book.coverSource}}" /></div>
         <div class="col-md-6">
             <div class="row">Title:{{book.title}}</div>
             <div class="row">Published in:{{book.datePublished}}</div>
@@ -12,9 +12,17 @@
             <div class="row">Score:{{book.score}}</div>
 
         </div>
-        <span class="spacer" ></span>
+    </div>
+    <div class="row">
+        <mat-checkbox class="example-margin" [disabled]="requestInProgress"  [checked]="book.favourite"(change)="favouritesToggled()"  >Favourite</mat-checkbox>
+        <mat-checkbox class="example-margin" [checked]="book.read"  (change)="readToggled()" [disabled]="book.likeToRead===true || requestInProgress"  >Read</mat-checkbox>
+        <mat-checkbox class="example-margin" [checked]="book.likeToRead" (change)="likeToReadToggled()" [disabled]="book.read===true || requestInProgress"  >Like to read</mat-checkbox>
+    </div>
+    <div class="row">
+        <span class="spacer" style="margin-bottom:20px"></span>
         <div class="col-md-12">
-             {{book.description}}
+            {{book.description}}
         </div>
     </div>
 </div>
+

@@ -33,6 +33,39 @@ export class BookService {
         });
     }
 
+
+   addToFavourites(bookId: number ): Observable<any> {
+       let body = JSON.stringify({dummy:bookId });
+       return this.http.post(this.rootRoute + "addToFavourites/" + bookId, body, {
+           headers: new HttpHeaders().set('Content-Type', 'application/json'),
+       });
+    }
+   addToLikeToRead(bookId: number): Observable<any> {
+       let body = JSON.stringify({ dummy: bookId });
+       return this.http.post(this.rootRoute + "addToLikeToRead/" + bookId, body, {
+           headers: new HttpHeaders().set('Content-Type', 'application/json'),
+       });
+   }
+   addToRead(bookId: number): Observable<any> {
+       let body = JSON.stringify({ dummy: bookId });
+       return this.http.post(this.rootRoute + "addToRead/" + bookId, body, {
+           headers: new HttpHeaders().set('Content-Type', 'application/json'),
+       });
+   }
+   removeFromFavourites(bookId: number): Observable<any> {
+
+       return this.http.delete(this.rootRoute + "removeFromFavourites/" + bookId );
+   }
+   removeFromLikeToRead(bookId: number): Observable<any> {
+
+       return this.http.delete(this.rootRoute + "removeFromLikeToRead/" + bookId   );
+   }
+   removeFromRead(bookId: number): Observable<any> {
+
+       return this.http.delete(this.rootRoute + "removeFromRead/" + bookId );
+   }
+   
+
    
     
 }

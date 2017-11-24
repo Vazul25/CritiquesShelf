@@ -33,14 +33,15 @@ namespace CritiquesShelf.Api
         [HttpGet]
         public IActionResult Get(  int page=0, int pageSize=0)
         {
-            return Ok(_bookManager.GetBooks(page,pageSize));
+            var userId = _identityUserManager.GetUserId(HttpContext.User);
+            return Ok(_bookManager.GetBooks(userId,page, pageSize));
         }
         [Route("getBooks")]
         [HttpPost]
         public IActionResult GetFiltered([FromBody] GetFilteredRequest request)
         {
-            
-            return Ok(_bookManager.GetBooks(request.Page, request.PageSize, request.Tags, request.SearchText));
+            var userId = _identityUserManager.GetUserId(HttpContext.User);
+            return Ok(_bookManager.GetBooks(userId, request.Page, request.PageSize, request.Tags, request.SearchText));
         }
 
         [Route("postBookProposal")]
@@ -90,5 +91,51 @@ namespace CritiquesShelf.Api
         public void Delete(int id)
         {
         }
+
+
+        [HttpDelete("removeFromLikeToRead/{bookId}")]
+        public IActionResult DeleteFromLikeToRead(long bookId)
+        {
+            var userId = _identityUserManager.GetUserId(HttpContext.User);
+            _bookManager.RemoveFromLikeToRead(userId, bookId);
+            return Ok(new { message = "ok" });
+        }
+        [HttpDelete("removeFromRead/{bookId}")]
+        public IActionResult DeleteFromRead(long bookId)
+        {
+            var userId = _identityUserManager.GetUserId(HttpContext.User);
+            _bookManager.RemoveFromRead(userId, bookId);
+            return Ok(new { message = "ok" });
+        }
+        [HttpDelete("removeFromFavourites/{bookId}")]
+        public IActionResult DeleteFromFavourite(long bookId)
+        {
+            var userId = _identityUserManager.GetUserId(HttpContext.User);
+            _bookManager.RemoveFromFavourites(userId, bookId);
+            return Ok(new { message = "ok" });
+        }
+
+        [HttpPost("addToLikeToRead/{bookId}")]
+        public IActionResult AddToLikeToRead( long bookId)
+        {
+            var userId = _identityUserManager.GetUserId(HttpContext.User);
+            _bookManager.AddToLikeToRead(userId, bookId);
+            return Ok(new { message = "ok" });
+        }
+        [HttpPost("addToRead/{bookId}")]
+        public IActionResult AddToRead( long bookId)
+        {
+            var userId = _identityUserManager.GetUserId(HttpContext.User);
+            _bookManager.AddToRead(userId, bookId);
+            return Ok(new { message = "ok" });
+        }
+        [HttpPost("addToFavourites/{bookId}")]
+        public IActionResult AddToFavourites( long bookId)
+        {
+            var userId = _identityUserManager.GetUserId(HttpContext.User);
+            _bookManager.AddToFavourites(userId, bookId);
+            return Ok(new{message="ok" });
+        }
+
     }
 }

@@ -8,15 +8,15 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class UserService implements OnInit {
     ngOnInit(): void {
-        if (!this.user || !this.userRole) {
-            this.getCurrentUser().subscribe(data => { this.user = data; });
-            this.getCurrentUserRole().subscribe(data => { this.userRole = data; });
-        }
+      
     }
     public userRole: string;
     public user: User;
     constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-
+       
+            this.getCurrentUser().subscribe(data => { this.user = data; });
+            this.getCurrentUserRole().subscribe(data => { this.userRole = data; });
+         
     }
 
     rootRoute: string = "api/User/";

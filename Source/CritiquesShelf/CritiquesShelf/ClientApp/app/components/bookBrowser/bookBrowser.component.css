@@ -66,3 +66,7 @@
     background-color: white;
     /*//width: 20px;*/
 }
+ 
+.md-dialog-container {
+    background: url("/black-bumpy-old-book-cover-texture-14.jpg");
+}

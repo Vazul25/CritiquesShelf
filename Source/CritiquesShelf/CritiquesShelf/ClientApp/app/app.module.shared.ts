@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { MatCommonModule } from '@angular/material';
-import { MatGridListModule, MatAutocompleteModule,MatSelectModule,MatInputModule, MatFormFieldModule, MatCardModule, MatToolbarModule, MatDialogModule, MatButtonModule, MatTabsModule } from '@angular/material';
+import { MatCheckboxModule,MatGridListModule, MatAutocompleteModule,MatSelectModule,MatInputModule, MatFormFieldModule, MatCardModule, MatToolbarModule, MatDialogModule, MatButtonModule, MatTabsModule } from '@angular/material';
  
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './components/app/app.component';
@@ -45,7 +45,7 @@ import { UserComponent } from './components/shared/user/user.component';
         DialogNewBookProposal
     ],
     imports: [
-        CommonModule,
+        CommonModule, MatCheckboxModule,
         MatSelectModule,
         MatAutocompleteModule,
         MatInputModule,

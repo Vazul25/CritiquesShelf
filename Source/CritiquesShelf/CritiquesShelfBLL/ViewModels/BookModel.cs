@@ -7,6 +7,7 @@ namespace CritiquesShelfBLL.ViewModels
 {
     public class BookModel
     {
+        public long Id { get; set; }
         public string Title{ get; set; }
         public string Description { get; set; }
         public List<string> AuthorsNames { get; set; }
@@ -14,5 +15,8 @@ namespace CritiquesShelfBLL.ViewModels
         public List<string> Tags { get; set; }
         public int? DatePublished { get; set; }
         public string CoverSource { get; set; }
+        public bool LikeToRead{ get; set; }
+        public bool Read { get; set; }
+        public bool Favourite { get; set; }
     }
 }
