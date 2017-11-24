@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using CritiquesShelfBLL.Utility;
 using CritiquesShelfBLL.Mapper;
+using CritiquesShelfBLL.ConnectionTables;
 
 namespace CritiquesShelfBLL.Managers
 {
@@ -20,7 +21,7 @@ namespace CritiquesShelfBLL.Managers
 
         public List<Author> GetAuthors()
         {
-            return _context.Authors.Select(a=>a.Name).Distinct().ToList().Select(a=>new Author { Id=0,Name=a}).ToList();
+            return _context.Authors.Select(a => a.Name).Distinct().ToList().Select(a => new Author { Id = 0, Name = a }).ToList();
         }
 
         public PagedData<List<BookProposalModel>> GetBookProposals(int page, int pageSize)
@@ -28,7 +29,6 @@ namespace CritiquesShelfBLL.Managers
             IQueryable<BookProposal> query;
 
             if (pageSize == 0) query = _context.BookProposals.Include(b => b.Proposer).Include(b => b.Tags).OrderBy(b => b.Id);
-            else if (page == 0) query = _context.BookProposals.Include(b => b.Proposer).Include(b => b.Tags).OrderBy(b => b.Id).Take(pageSize);
             else query = _context.BookProposals.Include(b => b.Proposer).Include(b => b.Tags).OrderBy(b => b.Id).Skip(pageSize * page).Take(pageSize);
             var data = query.Select(b => new BookProposalModel
             {
@@ -50,7 +50,7 @@ namespace CritiquesShelfBLL.Managers
 
         }
 
-        public PagedData<List<BookModel>> GetBooks(string userId, int page, int pageSize, List<string> Tags, string searchText)
+        public PagedData<List<BookModel>> GetBooks(string userId, int page, int pageSize, List<string> Tags, string searchText, string orderBy)
         {
 
 
@@ -66,8 +66,25 @@ namespace CritiquesShelfBLL.Managers
                 query = query.Where(b => b.TagConnectors.Count(tc => Tags.Contains(tc.Tag.Label)) == Tags.Count);
 
             }
-            if (pageSize == 0) query = query.OrderBy(b => b.Id);
-            else query = query.OrderBy(b => b.Id).Skip(pageSize * page).Take(pageSize);
+
+            switch (orderBy)
+            {
+                case "Title":
+                    query = query.OrderBy(o => o.Title);
+                    break;
+                case "Rateing":
+                    query = query.OrderBy(o => o.ReviewScore);
+                    break;
+                case "Date":
+                    query = query.OrderBy(o => o.DatePublished);
+                    break;
+                default:
+                    query = query.OrderBy(o => o.Id);
+
+                    break;
+            }
+
+            if (pageSize != 0) query = query.Skip(pageSize * page).Take(pageSize);
             //var teszt10 = query.ToList();
 
 
@@ -77,21 +94,21 @@ namespace CritiquesShelfBLL.Managers
             var toRead = _context.LikeToReadConnector.Where(fc => fc.UserId == userId && bookList.Any(b => b.Id == fc.BookId)).Select(f => f.BookId).ToHashSet();
             var result = new List<BookModel>();
             bookList.ForEach(b => result.Add(
-            new BookModel
-            {
-                Id = b.Id,
-                AuthorsNames = b.Authors.Select(a => a.Name).ToList(),
-                Description = (b.Description == null || b.Description.Length < 200) ? b.Description : b.Description.Substring(0, 200),
-                Rateing = b.ReviewScore,
-                Tags = b.TagConnectors.Select(tc => tc.Tag.Label).ToList(),
-                Title = b.Title,
+                new BookModel
+                {
+                    Id = b.Id,
+                    AuthorsNames = b.Authors.Select(a => a.Name).ToList(),
+                    Description = (b.Description == null || b.Description.Length < 200) ? b.Description : b.Description.Substring(0, 200),
+                    Rateing = b.ReviewScore,
+                    Tags = b.TagConnectors.Select(tc => tc.Tag.Label).ToList(),
+                    Title = b.Title,
 
-                Favourite = favs.Contains(b.Id),
-                LikeToRead = toRead.Contains(b.Id),
-                Read = read.Contains(b.Id),
-                Cover = b.CoverId,
-                DatePublished = b.DatePublished
-            }));
+                    Favourite = favs.Contains(b.Id),
+                    LikeToRead = toRead.Contains(b.Id),
+                    Read = read.Contains(b.Id),
+                    Cover = b.CoverId,
+                    DatePublished = b.DatePublished
+                }));
 
 
 
@@ -174,6 +191,37 @@ namespace CritiquesShelfBLL.Managers
             _context.SaveChanges();
             return bookProposalToAdd.Id;
 
+        }
+        public void ApproveBookProposal(long id)
+        {
+            var proposalToAccept = _context.BookProposals.Include(bp => bp.Authors).Include(bp => bp.Tags).First(b => b.Id == id);
+
+
+            var newBook = new Book
+            {
+                DatePublished = proposalToAccept.DatePublished,
+                Authors = proposalToAccept.Authors.Select(a => new Author { Name = a.Name }).ToList(),
+                Description = proposalToAccept.Description,
+                Title = proposalToAccept.Title,
+                 
+
+            };
+            var tagConnectors = _context.Tags.Where(tc => proposalToAccept.Tags.Select(t => t.Label).Contains(tc.Label)).ToList().Select(t=>new TagConnector {Book=newBook,TagId=t.Id }).ToHashSet();
+            newBook.TagConnectors = tagConnectors;
+            _context.Books.Add(newBook);
+            removeProposal(proposalToAccept);
+            _context.SaveChanges();
+        }
+        private void removeProposal(BookProposal proposalToRemove) {
+            if(proposalToRemove.Authors!=null) _context.Authors.RemoveRange(proposalToRemove.Authors);
+            _context.BookProposals.Remove(proposalToRemove);
+            if (proposalToRemove.Tags != null) _context.TagProposals.RemoveRange(proposalToRemove.Tags);
+        }
+        public void RejectBookProposal(long id)
+        {
+            var proposalToRemove = _context.BookProposals.Include(bp=>bp.Authors).Include(bp=>bp.Tags).First(b=>b.Id==id);
+            removeProposal(proposalToRemove);
+            _context.SaveChanges();
         }
 
         BookModel IBookRepository.Find(long id)

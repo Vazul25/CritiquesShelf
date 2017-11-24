@@ -2,6 +2,7 @@
 import { Http } from '@angular/http';
 import { BookService } from '../../services/book.service';
 import { Book } from '../../models/book';
+import { BookProposal } from '../../models/BookProposal';
 import { UserService } from '../../services/user.service';
 import { CritiquesShelfRoles } from '../../models/CritiquesShelfRoles';
 
@@ -16,7 +17,7 @@ export class BookApprovalComponent implements OnInit {
 
     page: number;
     pageSize: number;
-    books: Book[];
+    books: BookProposal[];
     hasNext: boolean;
     requestInProgress: boolean;
     numbers: number[] = Array(10);
@@ -38,7 +39,7 @@ export class BookApprovalComponent implements OnInit {
                             this.page = +params['page'] || 0;
                             this.pageSize = +params['pageSize'] || 20;
 
-                          
+
 
                             this.refresh();
 
@@ -75,8 +76,8 @@ export class BookApprovalComponent implements OnInit {
     nextPage() {
         if (this.hasNext) {
             this.requestInProgress = true;
-            this.router.navigate(['/bookApproval'], { queryParams: { page: this.page+1, pageSize: this.pageSize } })
-           
+            this.router.navigate(['/bookApproval'], { queryParams: { page: this.page + 1, pageSize: this.pageSize } })
+
         }
     }
     prevPage() {
@@ -93,9 +94,9 @@ export class BookApprovalComponent implements OnInit {
         this.hasNext = data["hasNext"];
         this.page = data["page"];
         this.pageSize = data["pageSize"];
-         
+
         this.requestInProgress = false;
-        this.refreshPageNumbers();
+
     }
 
     refresh(): void {
@@ -105,7 +106,37 @@ export class BookApprovalComponent implements OnInit {
             this.reciveResponse(data);
         });
     }
+    private findIndexById(id: number) {
+        for (var i = 0; i < this.books.length; i++) {
+            if (this.books[i].id == id) return i;
+        }
+        return -1;
 
+    }
+    approve(bookProposalId: number) {
+        this.requestInProgress = true;
+        this.bookService.approveBookProposal(bookProposalId).subscribe(
+            s => {
+                let index = this.findIndexById(bookProposalId)
+                if (index !== -1) {
+                    this.books.splice(index, 1);
+                }
+                this.requestInProgress = false;
+            },
+            e => { this.requestInProgress = false; });
+    }
+    reject(bookProposalId: number) {
+        this.requestInProgress = true;
+        this.bookService.rejectBookProposal(bookProposalId).subscribe(
+            s => {
+                let index = this.findIndexById(bookProposalId)
+                if (index !== -1) {
+                    this.books.splice(index, 1);
+                }
+                this.requestInProgress = false;
+            },
+            e => { this.requestInProgress = false; });
+    }
     constructor(http: Http, @Inject('BASE_URL') baseUrl: string, private bookService: BookService, private route: ActivatedRoute,
         private router: Router, private userService: UserService) {
 

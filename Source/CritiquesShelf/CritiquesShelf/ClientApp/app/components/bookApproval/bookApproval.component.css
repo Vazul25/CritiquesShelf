@@ -11,12 +11,13 @@
     margin-left: auto;
 }
 .reject-button {
-    background-color: darkred;
-    margin: auto 10px auto 10px
+    /*//background-color: darkred;*/
+    margin: auto 10px auto 10px;
+    
 }
 .approve-button {
-    background-color: forestgreen;
-    margin: auto 10px auto 10px
+  /*//  background-color: forestgreen;*/
+    margin: auto 10px auto 10px    ;
 }
 
 .book-container {

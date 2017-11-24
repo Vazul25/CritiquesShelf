@@ -9,7 +9,16 @@
     <div class="no-padding">
         <mat-toolbar color="peru">
             <span>Search</span>
-            
+
+            <span class="spacer"></span>
+            <mat-form-field>
+                <mat-select placeholder="OrderBy" [(value)]="orderBy">
+                    <mat-option>Default</mat-option>
+                    <mat-option value="Title">Title</mat-option>
+                    <mat-option value="Date">Publish Date</mat-option>
+                    <mat-option value="Rateing">Rateing</mat-option>
+                </mat-select>
+            </mat-form-field>
             <span class="spacer"></span>
             <mat-form-field>
                 <mat-select placeholder="Tags" [formControl]="tagsFc" multiple>
@@ -25,7 +34,7 @@
             </mat-form-field>
             <span class="spacer"></span>
             <button mat-raised-button color="primary" (click)="search()">Search</button>
-            <button mat-fab color="accent" style="margin:auto 10px auto 10px" (click)="openNewBookDialog()"  >+</button>
+            <button mat-fab color="accent" style="margin:auto 10px auto 10px" (click)="openNewBookDialog()">+</button>
 
 
 
@@ -36,7 +45,7 @@
     <span class="page-bar">
 
         <button mat-fab color="accent" style="margin:auto 10px auto 10px" (click)="prevPage()" [disabled]="page==0 || requestInProgress"><</button>
-        <a *ngFor="let pageNumber of numbers" [routerLink]="['/browse']" [queryParams]="{page:pageNumber,pageSize:this.pageSize}" class="page-link"> {{pageNumber}}</a>
+        <!-- <a *ngFor="let pageNumber of numbers" [routerLink]="['/browse']" [queryParams]="{page:pageNumber,pageSize:this.pageSize}" class="page-link"> {{pageNumber}}</a>-->
         <button mat-fab color="accent" style="margin:auto 10px auto 10px" (click)="nextPage()" [disabled]="!hasNext || requestInProgress">></button>
     </span>
 </body>

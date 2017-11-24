@@ -7,19 +7,30 @@
 <body>
     <div class="book-container">
         <div *ngFor="let book of books" class="book-container-item">
-            <bookDisplay [book]="book"></bookDisplay>
-            <span>
-                <button (click)="Approve(book.id)" class="approve-button" mat-raised-button>Approve</button>
-                <button mat-raised-button class="reject-button" (click)="reject(book.id)">Reject</button>
-            </span>
-
+            <div class="table">
+                <div class="row">
+                    <h1>User {{book.proposerName}} proposed book:</h1>
+                </div>
+                <div class="row">
+                    <div class="book-container-item">
+                        <bookDisplay [book]="book" [showCheckbox]="false"></bookDisplay>
+                    </div>
+                </div>
+                <div class="row page-bar">
+                    <span>
+                        <button (click)="approve(book.id)" class="approve-button" color="accent" mat-raised-button [disabled]="requestInProgress">Approve</button>
+                        <button mat-raised-button class="reject-button" color="warn" (click)="reject(book.id)" [disabled]="requestInProgress">Reject</button>
+                    </span>
+                </div>
+            </div>
         </div>
     </div>
+
     <span class="page-bar">
-      
-        <button mat-fab color="accent" style="margin:auto 10px auto 10px" (click)="prevPage()" [disabled]="page!=0"><</button>
-         <a *ngFor="let pageNumber of numbers" [routerLink]="['/bookAproval']"  [queryParams]="{page:pageNumber,pageSize:this.pageSize}" class="page-link" > {{pageNumber}}</a> 
-      <button mat-fab color="accent" style="margin:auto 10px auto 10px" (click)="nextPage()" [disabled]="!hasNext && !requestInProgress">></button>
+
+        <button mat-fab color="accent" style="margin:auto 10px auto 10px" (click)="prevPage()" [disabled]="page==0 || requestInProgress"><</button>
+
+        <button mat-fab color="accent" style="margin:auto 10px auto 10px" (click)="nextPage()" [disabled]="!hasNext || requestInProgress">></button>
     </span>
 </body>
 </html>

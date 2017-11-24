@@ -15,7 +15,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 })
 export class BookBrowserComponent implements OnInit {
 
-    tagsFc: FormControl = new FormControl();
+   
 
     constructor(http: Http, @Inject('BASE_URL') baseUrl: string, private bookService: BookService, private route: ActivatedRoute, private storageService: DataStorageService,
         private router: Router, public dialog: MatDialog) {
@@ -30,6 +30,9 @@ export class BookBrowserComponent implements OnInit {
             console.log(this.authors);
         });
     }
+    orderByCategories = ["Title", "Date", "Rateing", "Default"];
+    tagsFc: FormControl = new FormControl();
+    orderBy: string;
     authors: Author[];
     tags: string[];
     page: number;
@@ -89,14 +92,15 @@ export class BookBrowserComponent implements OnInit {
     nextPage() {
         if (this.hasNext) {
             this.requestInProgress = true;
-            this.router.navigate(['/browse'], { queryParams: { page: this.page + 1, pageSize: this.pageSize } });
+             
+            this.router.navigate(['/browse'], { queryParams: { page: this.page + 1, pageSize: this.pageSize, searchText: this.searchText, tags: this.tagsFc.value,orderBy:this.orderBy } });
 
         }
     }
     prevPage() {
         if (this.page > 0) {
             this.requestInProgress = true;
-            this.router.navigate(['/browse'], { queryParams: { page: this.page - 1, pageSize: this.pageSize } });
+            this.router.navigate(['/browse'], { queryParams: { page: this.page - 1, pageSize: this.pageSize , searchText: this.searchText, tags: this.tagsFc.value,orderBy:this.orderBy} });
 
 
         }
@@ -104,14 +108,14 @@ export class BookBrowserComponent implements OnInit {
     refresh(): void {
         this.requestInProgress = true;
         console.log(this.tagsFc.value);
-        this.bookService.getBooks(this.page, this.pageSize, this.tagsFc.value, this.searchText).subscribe(data => {
+        this.bookService.getBooks(this.page, this.pageSize, this.tagsFc.value, this.searchText, this.orderBy).subscribe(data => {
 
             this.reciveResponse(data);
         });
        
     }
     search() {
-        this.router.navigate(['/browse'], { queryParams: { page: 0, pageSize: this.pageSize, searchText: this.searchText, tags: this.tagsFc.value } });
+        this.router.navigate(['/browse'], { queryParams: { page: 0, pageSize: this.pageSize, searchText: this.searchText, tags: this.tagsFc.value, orderBy: this.orderBy } });
 
     }
 

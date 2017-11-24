@@ -10,11 +10,11 @@ export class BookService {
      constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) { }
     rootRoute: string = "api/Book/";
     //TODO baseurlel
-    getBooks(page: number = 0, pageSize: number = 20, tags: string[], searchText: string): Observable<any> {
+    getBooks(page: number = 0, pageSize: number = 20, tags: string[], searchText: string,orderBy:string): Observable<any> {
          
 
-     
-        let body = JSON.stringify({ page: page, pageSize: pageSize, tags: tags, searchText: searchText });
+
+        let body = JSON.stringify({ page: page, pageSize: pageSize, tags: tags, searchText: searchText, orderBy: orderBy });
 
         return this.http.post(this.rootRoute + "getBooks", body, {
             headers: new HttpHeaders().set('Content-Type', 'application/json'),
@@ -67,8 +67,14 @@ export class BookService {
    }
    
 
-   
-    
+   approveBookProposal(bookId: number) {
+       let body = JSON.stringify({ dummy: bookId });
+       return this.http.put(this.rootRoute + "approveBookProposal/" + bookId, body);
+   }
+
+   rejectBookProposal(bookId: number) {
+       return this.http.delete(this.rootRoute + "rejectBookProposal/" + bookId);
+   }
     postReviewForBook(review: Review): Observable<any> {
         let body = JSON.stringify(review); 
 

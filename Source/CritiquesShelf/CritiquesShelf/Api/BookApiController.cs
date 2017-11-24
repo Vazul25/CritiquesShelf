@@ -9,6 +9,7 @@ using CritiquesShelfBLL.ViewModels;
 using CritiquesShelfBLL.RepositoryInterfaces;
 using CritiquesShelf.BookApiModels;
 using Microsoft.AspNetCore.Identity;
+using CritiquesShelfBLL.Utility;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -18,7 +19,7 @@ namespace CritiquesShelf.Api
     public class BookApiController : Controller
     {
 
-        private readonly UserManager<ApplicationUser> _identityUserManager; 
+        private readonly UserManager<ApplicationUser> _identityUserManager;
         private readonly IBookRepository _bookManager;
         private readonly ITagRepository _tagManager;
 
@@ -32,17 +33,17 @@ namespace CritiquesShelf.Api
 
         [Route("getBooks")]
         [HttpGet]
-        public IActionResult Get(  int page=0, int pageSize=0)
+        public IActionResult Get(int page = 0, int pageSize = 0)
         {
             var userId = _identityUserManager.GetUserId(HttpContext.User);
-            return Ok(_bookManager.GetBooks(userId,page, pageSize));
+            return Ok(_bookManager.GetBooks(userId, page, pageSize));
         }
         [Route("getBooks")]
         [HttpPost]
         public IActionResult GetFiltered([FromBody] GetFilteredRequest request)
         {
             var userId = _identityUserManager.GetUserId(HttpContext.User);
-            return Ok(_bookManager.GetBooks(userId, request.Page, request.PageSize, request.Tags, request.SearchText));
+            return Ok(_bookManager.GetBooks(userId, request.Page, request.PageSize, request.Tags, request.SearchText,request.OrderBy));
         }
 
         [Route("postBookProposal")]
@@ -50,7 +51,7 @@ namespace CritiquesShelf.Api
         public IActionResult PostBookProposal([FromBody] PostBookProposalModel bookProposal)
         {
             var userId = _identityUserManager.GetUserId(HttpContext.User);
-            return Ok(_bookManager.MakeNewBookProposal(userId,bookProposal.Title,bookProposal.Description, bookProposal.Authors,bookProposal.Tags,bookProposal.datePublished));
+            return Ok(_bookManager.MakeNewBookProposal(userId, bookProposal.Title, bookProposal.Description, bookProposal.Authors, bookProposal.Tags, bookProposal.datePublished));
         }
 
         [Route("getBookProposals")]
@@ -67,7 +68,7 @@ namespace CritiquesShelf.Api
         }
         [Route("getTags")]
         [HttpGet]
- 
+
         // GET api/values/5
         [HttpGet("{id}")]
         public BookModel Get(long id)
@@ -117,32 +118,62 @@ namespace CritiquesShelf.Api
         }
 
         [HttpPost("addToLikeToRead/{bookId}")]
-        public IActionResult AddToLikeToRead( long bookId)
+        public IActionResult AddToLikeToRead(long bookId)
         {
             var userId = _identityUserManager.GetUserId(HttpContext.User);
             _bookManager.AddToLikeToRead(userId, bookId);
             return Ok(new { message = "ok" });
         }
         [HttpPost("addToRead/{bookId}")]
-        public IActionResult AddToRead( long bookId)
+        public IActionResult AddToRead(long bookId)
         {
             var userId = _identityUserManager.GetUserId(HttpContext.User);
             _bookManager.AddToRead(userId, bookId);
             return Ok(new { message = "ok" });
         }
         [HttpPost("addToFavourites/{bookId}")]
-        public IActionResult AddToFavourites( long bookId)
+        public IActionResult AddToFavourites(long bookId)
         {
             var userId = _identityUserManager.GetUserId(HttpContext.User);
             _bookManager.AddToFavourites(userId, bookId);
-            return Ok(new{message="ok" });
+            return Ok(new { message = "ok" });
         }
 
 
         [HttpPost("{id}/review")]
-        public IActionResult Post(long id, [FromBody] ReviewModel review) {
+        public IActionResult Post(long id, [FromBody] ReviewModel review)
+        {
             var reviewId = _bookManager.AddNewReview(id, review);
             return Ok(id);
         }
+
+        [HttpPut("approveBookProposal/{bookId}")]
+        public async Task<IActionResult> ApproveBookProposal(long bookId)
+        {
+            var user = await _identityUserManager.GetUserAsync(HttpContext.User);
+            var roles = await _identityUserManager.GetRolesAsync(user);
+            if (roles.Contains(CritiquesShelfRoles.Admin.GetName()))
+            {
+                _bookManager.ApproveBookProposal(bookId);
+                return Ok(new { message = "ok" });
+            }
+            else return Unauthorized();
+
+        }
+        [HttpDelete("rejectBookProposal/{bookId}")]
+        public async Task<IActionResult> RejectBookProposal(long bookId)
+        {
+            var user = await _identityUserManager.GetUserAsync(HttpContext.User);
+            var roles = await _identityUserManager.GetRolesAsync(user);
+            if (roles.Contains(CritiquesShelfRoles.Admin.GetName()))
+            {
+                _bookManager.RejectBookProposal(bookId);
+                return Ok(new { message = "ok" });
+            }
+            else return Unauthorized();
+
+
+        }
+
     }
 }

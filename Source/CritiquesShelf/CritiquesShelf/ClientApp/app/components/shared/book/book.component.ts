@@ -10,11 +10,11 @@ export class BookDisplayComponent implements OnInit {
         console.log(this.book);
     }
     @Input() book: Book;
-
+    @Input() showCheckbox: boolean=true;
     requestInProgress: boolean = false;
 
     constructor(private bookService: BookService) {
-
+    
     }
 
     favouritesToggled() {
