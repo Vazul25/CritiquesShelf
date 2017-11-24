@@ -18,7 +18,7 @@ namespace CritiquesShelfBLL.Managers
 
         public List<Author> GetAuthors()
         {
-            return _context.Authors.ToList();
+            return _context.Authors.Select(a=>a.Name).Distinct().ToList().Select(a=>new Author { Id=0,Name=a}).ToList();
         }
 
         public PagedData<List<BookProposalModel>> GetBookProposals(int page, int pageSize)
@@ -77,13 +77,13 @@ namespace CritiquesShelfBLL.Managers
             bookList.ForEach(b => result.Add(
             new BookModel
             {
-                Id=b.Id,
+                Id = b.Id,
                 AuthorsNames = b.Authors.Select(a => a.Name).ToList(),
                 Description = (b.Description == null || b.Description.Length < 200) ? b.Description : b.Description.Substring(0, 200),
                 Rateing = b.ReviewScore,
                 Tags = b.TagConnectors.Select(tc => tc.Tag.Label).ToList(),
                 Title = b.Title,
-             
+
                 Favourite = favs.Contains(b.Id),
                 LikeToRead = toRead.Contains(b.Id),
                 Read = read.Contains(b.Id),
@@ -129,7 +129,7 @@ namespace CritiquesShelfBLL.Managers
             _context.FavouritesConnector.Remove(new ConnectionTables.FavouritesConnector { BookId = bookId, UserId = userId });
             _context.SaveChanges();
         }
-        
+
         public void RemoveFromLikeToRead(string userId, long bookId)
         {
             if (!_context.LikeToReadConnector.Any(fc => fc.UserId == userId && fc.BookId == bookId)) return;
@@ -146,16 +146,8 @@ namespace CritiquesShelfBLL.Managers
 
         public long MakeNewBookProposal(string userId, string title, string description, List<Author> authors, List<string> tags, int? datePublished)
         {
+            authors.ForEach(a => a.Id = 0);
 
-            for (int i = 0; i < authors.Count; i++)
-            {
-                if (authors[i].Id == 0)
-                {
-                    var newAuthor = new Author { Name = authors[i].Name };
-                    //_context.Authors.Add(newAuthor);
-                    authors[i] = newAuthor;
-                }
-            }
 
             //_context.SaveChanges();
 
@@ -166,19 +158,17 @@ namespace CritiquesShelfBLL.Managers
                 _context.TagProposals.Add(newTagProposal);
                 tagsToAdd.Add(newTagProposal);
             });
-             
+
             var bookProposalToAdd = new BookProposal()
             {
                 Title = title,
                 Description = description,
-                
+                Authors = authors,
                 Proposer = _context.Users.Find(userId),
-                 
+                Tags = tagsToAdd,
                 DatePublished = datePublished
             };
             _context.BookProposals.Add(bookProposalToAdd);
-            bookProposalToAdd.Authors = authors;
-            bookProposalToAdd.Tags = tagsToAdd;
             _context.SaveChanges();
             return bookProposalToAdd.Id;
 
@@ -190,9 +180,9 @@ namespace CritiquesShelfBLL.Managers
 
             return new BookModel()
             {
-                Cover=book.CoverId,
-                DatePublished=book.DatePublished,
-                Id=book.Id,
+                Cover = book.CoverId,
+                DatePublished = book.DatePublished,
+                Id = book.Id,
                 AuthorsNames = book.Authors.Select(a => a.Name).ToList(),
                 Description = book.Description,
                 Rateing = book.ReviewScore,
@@ -201,7 +191,8 @@ namespace CritiquesShelfBLL.Managers
             };
         }
 
-        public long AddNewReview(long bookId, ReviewModel review) {
+        public long AddNewReview(long bookId, ReviewModel review)
+        {
             var book = _context.Books.Find(bookId);
 
             var reviewEntity = new Review
