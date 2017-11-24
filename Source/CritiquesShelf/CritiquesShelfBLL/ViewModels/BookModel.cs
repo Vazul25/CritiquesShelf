@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.EntityFrameworkCore.ValueGeneration.Internal;
@@ -14,9 +14,10 @@ namespace CritiquesShelfBLL.ViewModels
         public double Rateing { get; set; }
         public List<string> Tags { get; set; }
         public int? DatePublished { get; set; }
-        public string CoverSource { get; set; }
+       
         public bool LikeToRead{ get; set; }
         public bool Read { get; set; }
         public bool Favourite { get; set; }
+        public string Cover { get; set; }
     }
 }

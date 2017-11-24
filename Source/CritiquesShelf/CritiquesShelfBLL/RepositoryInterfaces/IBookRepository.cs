@@ -10,9 +10,9 @@ namespace CritiquesShelfBLL.RepositoryInterfaces
     {
         PagedData<List<BookModel>> GetBooks(string userId,int page = 0, int pageSize = 0, List<string> Tags = null,string searchText=null);
         BookModel Find(long id);
-        PagedData<List<BookProposalModel>>  GetBookProposals(int page, int pageSize);
+        PagedData<List<BookProposalModel>> GetBookProposals(int page, int pageSize);
         List<Author> GetAuthors();
-        long MakeNewBookProposal(string userId, string title, string description, List<Author> authors, List<string> tags,int? datePublished);
+        
 
 
         void AddToFavourites(string userId, long bookId);
@@ -30,5 +30,7 @@ namespace CritiquesShelfBLL.RepositoryInterfaces
        
 
 
+        long MakeNewBookProposal(string userId, string title, string description, List<Author> authors, List<string> tags, int? datePublished);
+        long AddNewReview(long bookId, ReviewModel review);
     }
 }

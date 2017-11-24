@@ -4,12 +4,17 @@ body {
     display: flex;
 }
 .parallel-divs-narrow {
-    width: 400px;
+    width: 500px;
     border-right-style: groove;
 }
 .parallel-divs-wide {
     flex: 1;
+    margin-left: 10px;
     /* Grow to rest of container */
+}
+
+.parallel-divs-wide > mat-card {
+	margin-bottom: 5px;
 }
 
 .img {

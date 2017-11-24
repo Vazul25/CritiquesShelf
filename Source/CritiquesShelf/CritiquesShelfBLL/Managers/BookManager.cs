@@ -10,6 +10,7 @@ namespace CritiquesShelfBLL.Managers
 {
     public class BookManager : RepositoryBase<Book>, IBookRepository
     {
+
         public BookManager(CritiquesShelfDbContext context) : base(context)
         {
 
@@ -82,10 +83,11 @@ namespace CritiquesShelfBLL.Managers
                 Rateing = b.ReviewScore,
                 Tags = b.TagConnectors.Select(tc => tc.Tag.Label).ToList(),
                 Title = b.Title,
-                CoverSource = b.CoverId,
+             
                 Favourite = favs.Contains(b.Id),
                 LikeToRead = toRead.Contains(b.Id),
                 Read = read.Contains(b.Id),
+                Cover = b.CoverId,
                 DatePublished = b.DatePublished
             }));
 
@@ -150,12 +152,12 @@ namespace CritiquesShelfBLL.Managers
                 if (authors[i].Id == 0)
                 {
                     var newAuthor = new Author { Name = authors[i].Name };
-                    _context.Authors.Add(newAuthor);
+                    //_context.Authors.Add(newAuthor);
                     authors[i] = newAuthor;
                 }
-
-
             }
+
+            //_context.SaveChanges();
 
             HashSet<TagProposal> tagsToAdd = new HashSet<TagProposal>();
             tags.ForEach(t =>
@@ -164,14 +166,14 @@ namespace CritiquesShelfBLL.Managers
                 _context.TagProposals.Add(newTagProposal);
                 tagsToAdd.Add(newTagProposal);
             });
-
+             
             var bookProposalToAdd = new BookProposal()
             {
                 Title = title,
                 Description = description,
-
+                
                 Proposer = _context.Users.Find(userId),
-
+                 
                 DatePublished = datePublished
             };
             _context.BookProposals.Add(bookProposalToAdd);
@@ -188,7 +190,7 @@ namespace CritiquesShelfBLL.Managers
 
             return new BookModel()
             {
-                CoverSource=book.CoverId,
+                Cover=book.CoverId,
                 DatePublished=book.DatePublished,
                 Id=book.Id,
                 AuthorsNames = book.Authors.Select(a => a.Name).ToList(),
@@ -197,6 +199,25 @@ namespace CritiquesShelfBLL.Managers
                 Tags = book.TagConnectors.Select(tc => tc.Tag.Label).ToList(),
                 Title = book.Title
             };
+        }
+
+        public long AddNewReview(long bookId, ReviewModel review) {
+            var book = _context.Books.Find(bookId);
+
+            var reviewEntity = new Review
+            {
+                BookId = bookId,
+                Score = review.Score,
+                Description = review.Description,
+                UserId = review.UserId,
+                Date = review.Date
+            };
+
+            book.Reviews.Add(reviewEntity);
+
+            _context.SaveChanges();
+
+            return reviewEntity.Id;
         }
     }
 }

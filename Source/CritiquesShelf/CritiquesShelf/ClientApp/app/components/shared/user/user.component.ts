@@ -1,8 +1,6 @@
 import { Inject, OnInit, Component, Input } from '@angular/core';
 import { User } from '../../../models/User';
 import { UserService } from '../../../services/user.service';
-import { ActivatedRoute } from '@angular/router';
-import { Http } from '@angular/http';
 
 @Component({
     selector: 'user',
@@ -11,14 +9,15 @@ import { Http } from '@angular/http';
     styleUrls: ['./user.component.css'],
 })
 
-export class UserComponent {
+export class UserComponent implements OnInit {
     @Input() user: User;
     @Input() readOnly: boolean = false;
 
     private photoSource: any;
     private isEditing: boolean = false;
+    private beforeEditUser: User;
 
-    constructor(private route: ActivatedRoute,http: Http, @Inject('BASE_URL') baseUrl: string, private userService: UserService) { }
+    constructor(private userService: UserService) { }
 
     ngOnInit() {
         if (this.user.photo != null && this.user.photo != "") {
@@ -32,17 +31,22 @@ export class UserComponent {
     }
 
     onEditClick() {
-        console.log("OnEditClick! editing:", this.isEditing);
+        console.log("OnEditClick! editing:", this.beforeEditUser);
+        this.beforeEditUser = JSON.parse(JSON.stringify(this.user));
         this.isEditing = true;
     }
 
     onSaveClick() {
         console.log("OnSaveClick! editing:", this.isEditing);
+        this.userService.saveUser(this.user).subscribe(data => {
+            this.user = data as User;
+        });
         this.isEditing = false;
     }
 
     onCancelClick() {
-        console.log("OnCancelClick! editing:", this.isEditing);
+        console.log("OnCancelClick! editing:", this.beforeEditUser);
+        this.user = JSON.parse(JSON.stringify(this.beforeEditUser));
         this.isEditing = false;
     }
 

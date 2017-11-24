@@ -1,4 +1,4 @@
-﻿export interface Book {
+export interface Book {
     id: number;
     title: string;
     authorsNames: string[];
@@ -6,8 +6,9 @@
     Tags: string[];
     rateing: number;
     datePublished: number;
-    coverSource: string;
+   
     favourite: boolean;
     likeToRead: boolean;
     read: boolean;
+    cover: string;
 }

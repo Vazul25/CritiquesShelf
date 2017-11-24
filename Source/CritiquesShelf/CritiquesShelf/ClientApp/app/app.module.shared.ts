@@ -8,21 +8,24 @@ import { MatCheckboxModule,MatGridListModule, MatAutocompleteModule,MatSelectMod
  
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './components/app/app.component';
+
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
 import { HomeComponent } from './components/home/home.component';
 import { FetchDataComponent } from './components/fetchdata/fetchdata.component';
 import { CounterComponent } from './components/counter/counter.component';
 import { BookBrowserComponent } from './components/bookBrowser/bookBrowser.component';
-import { BookListComponent } from './components/shared/bookList/bookList.component';
-import { BookDisplayComponent } from './components/shared/book/book.component';
 import { BookApprovalComponent } from './components/bookApproval/bookApproval.component';
 import { DialogNewBookProposal } from './components/bookBrowser/bookBrowser.component';
-
 import { ProfileComponent } from './components/profile/profile.component';
+import { UserDetailsComponent } from './components/userDetails/userDetails.component';
+import { UserDetailsBooksComponent } from './components/userDetailsBooks/userDetailsBooks.component';
+
+import { BookListComponent } from './components/shared/bookList/bookList.component';
+import { BookDisplayComponent } from './components/shared/book/book.component';
 import { ReviewComponent } from './components/shared/review/review.component';
 import { StarsComponent } from './components/shared/stars/stars.component';
 import { UserComponent } from './components/shared/user/user.component';
-
+import { UserBooksComponent } from './components/shared/userBooks/userBooks.component';
 
 @NgModule({
     declarations: [
@@ -39,7 +42,10 @@ import { UserComponent } from './components/shared/user/user.component';
         BookListComponent,
         BookApprovalComponent,
         StarsComponent,
-        UserComponent
+        UserComponent,
+        UserDetailsComponent,
+        UserBooksComponent,
+        UserDetailsBooksComponent
     ],
     entryComponents: [
         DialogNewBookProposal
@@ -67,6 +73,8 @@ import { UserComponent } from './components/shared/user/user.component';
             { path: 'bookApproval', component: BookApprovalComponent },
             //{ path: 'bookDetails/:id', component: BookDetailsComponent },
             { path: 'profile', component: ProfileComponent },
+            { path: 'userDetails/:id', component: UserDetailsComponent },
+            { path: 'userDetails/:id/books', component: UserDetailsBooksComponent },
             { path: 'counter', component: CounterComponent },
             { path: 'fetch-data', component: FetchDataComponent },
             { path: '**', redirectTo: 'home' }

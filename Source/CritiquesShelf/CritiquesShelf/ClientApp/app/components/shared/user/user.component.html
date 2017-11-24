@@ -36,15 +36,14 @@
                     <div class="col-md-6" ng-disabled="true">
                         <form>    
                             <mat-form-field>
-                                <input matInput placeholder="First Name" ng-model="user.firstName" value="{{user.firstName}}"/>
+                                <input matInput placeholder="First Name" [(ngModel)]="user.firstName" name="firstName"/>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <input matInput placeholder="Last Name" [(ngModel)]="user.lastName" name="lastName" />
                             </mat-form-field>
 
                             <mat-form-field>
-                                <input matInput placeholder="Last Name" ng-model="user.lastName" value="{{user.lastName}}" />
-                            </mat-form-field>
-
-                            <mat-form-field>
-                                <input matInput placeholder="E-mail" ng-model="user.email" value="{{user.email}}" />
+                                <input matInput placeholder="E-mail" [(ngModel)]="user.email" name="email" />
                             </mat-form-field>
                         </form>
                     </div>
@@ -53,13 +52,27 @@
             </fieldset>
      </div>
     <div class="parallel-divs-wide">
-        favourites grid
+        <mat-card>
+            <!-- <a [routerLink]="['/books', user.id, '']"><span class="glyphicon glyphicon-star"></span></a> -->
+            <a [routerLink]="['/userDetails', user.id, 'books']" [queryParams]="{ collection: 'favourites' }"><span class="glyphicon glyphicon-heart"></span></a>
+            <label>Favourite books: </label> {{user.readingStat.favouritesCount}}
+        </mat-card>
+        <mat-card>
+            <!-- <a [routerLink]="['/books', user.id, 'liketo']"><span class="glyphicon glyphicon-sunglasses"></span></a> -->
+            <a [routerLink]="['/userDetails', user.id, 'books']" [queryParams]="{ collection: 'likeToRead' }"><span class="glyphicon glyphicon-sunglasses"></span></a>
+            <label>Like to read books: </label> {{user.readingStat.likeToReadCount}}
+        </mat-card>
+        <mat-card>
+            <!-- <a [routerLink]="['/books', user.id, 'read']"><span class="glyphicon glyphicon-book"></span></a> -->
+            <a [routerLink]="['/userDetails', user.id, 'books']" [queryParams]="{ collection: 'read' }"><span class="glyphicon glyphicon-book"></span></a>
+            <label>Already Read books: </label> {{user.readingStat.readCount}}
+        </mat-card>
     </div>
 </div>
 
 
 <div class="reviews">
-    <h3>Reviews</h3>
+    <h3> <a [routerLink]="['/userDetails', user.id, 'books']" [queryParams]="{ collection: 'reviewed' }"><span class="glyphicon glyphicon-star"></span></a> Reviews</h3>
     <div *ngFor="let review of user.reviews">
         <div>
             <review [review]="review" [readOnly]="true"></review>    
