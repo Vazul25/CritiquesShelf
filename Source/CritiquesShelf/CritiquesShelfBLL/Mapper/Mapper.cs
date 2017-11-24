@@ -24,5 +24,40 @@ namespace CritiquesShelfBLL.Mapper
                 DatePublished = book.DatePublished
             };
         }
+
+        public ReviewModel MapReviewEntityToModel(Review review)
+        {
+            return new ReviewModel
+            {
+                Id = review.Id,
+                Date = review.Date,
+                Description = review.Description,
+                Score = review.Score,
+                BookId = review.BookId,
+                BookTitle = review.Book?.Title,
+                UserId = review.UserId,
+                UserName = review.User?.UserName
+            };
+        }
+
+        public UserModel MapUserEntityToModel(ApplicationUser user)
+        {
+            return new UserModel
+            {
+                Id = user.Id,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Photo = user.Photo,
+                UserName = user.UserName,
+                Reviews = user.Reviews?.Select(x => MapReviewEntityToModel(x)).ToList(),
+                ReadingStat = new ReadingStatModel
+                {
+                    FavouritesCount = user.Favourites?.Count() ?? 0,
+                    LikeToReadCount = user.LikeToRead?.Count() ?? 0,
+                    ReadCount = user.Read?.Count() ?? 0
+                }
+            };
+        }
     }
 }

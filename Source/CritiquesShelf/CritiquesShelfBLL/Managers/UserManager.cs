@@ -1,26 +1,23 @@
 ﻿using CritiquesShelfBLL.RepositoryInterfaces;
 using CritiquesShelfBLL.Entities;
 using Microsoft.EntityFrameworkCore;
-using System.Xml.Linq;
-using System.Runtime.CompilerServices;
 using System.Linq;
-using CritiquesShelfBLL.ConnectionTables;
 using CritiquesShelfBLL.Utility;
 using System;
 using CritiquesShelfBLL.ViewModels;
 using CritiquesShelfBLL.Mapper;
-using System.Collections.Generic;
-using System.Linq.Expressions;
 
 namespace CritiquesShelfBLL.Managers
 {
     public class UserManager : RepositoryBase<ApplicationUser>, IUserRepository
     {
         private readonly ImageStore _imageStore;
+        private readonly IMapper _mapper;
 
-        public UserManager(CritiquesShelfDbContext context, ImageStore imageStore) : base(context)
+        public UserManager(CritiquesShelfDbContext context, ImageStore imageStore, IMapper mapper) : base(context)
         {
             _imageStore = imageStore;
+            _mapper = mapper;
         }
 
         public UserModel Find(string id) 
@@ -37,32 +34,7 @@ namespace CritiquesShelfBLL.Managers
 				user.Photo = _imageStore.GetImage(user.PhotoId);
             }
 
-            var reviews = user.Reviews?.Select(x => new ReviewModel
-            {
-                Id = x.Id,
-                Date = x.Date,
-                Description = x.Description,
-                Score = x.Score,
-                BookId = x.BookId,
-                BookTitle = x.Book?.Title,
-                UserId = user.Id,
-                UserName = user.UserName
-            }).ToList();
-
-            return new UserModel {
-                Id = user.Id,
-                Email = user.Email,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Photo = user.Photo,
-                UserName = user.UserName,
-                Reviews = reviews,
-                ReadingStat = new ReadingStatModel {
-                    FavouritesCount = user.Favourites?.Count() ?? 0,
-                    LikeToReadCount = user.LikeToRead?.Count() ?? 0,
-                    ReadCount = user.Read?.Count() ?? 0
-                }
-            };
+            return _mapper.MapUserEntityToModel(user);
         }
 
         public CritiquesShelfRoles GetRole(string userId)
