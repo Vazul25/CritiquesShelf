@@ -5,15 +5,17 @@ using System.Linq;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using CritiquesShelfBLL.Utility;
+using CritiquesShelfBLL.Mapper;
 
 namespace CritiquesShelfBLL.Managers
 {
     public class BookManager : RepositoryBase<Book>, IBookRepository
     {
+        private readonly IMapper _mapper;
 
-        public BookManager(CritiquesShelfDbContext context) : base(context)
+        public BookManager(CritiquesShelfDbContext context, IMapper mapper) : base(context)
         {
-
+            _mapper = mapper;
         }
 
         public List<Author> GetAuthors()
@@ -218,6 +220,89 @@ namespace CritiquesShelfBLL.Managers
             _context.SaveChanges();
 
             return reviewEntity.Id;
+        }
+
+        public UserBooksModel GetUserBooks(string userId)
+        {
+
+            var reviewedBookQuery = _context.Books
+                                           .Where(x => x.Reviews.Any(y => y.UserId == userId))
+                                           .Include(x => x.Authors)
+                                           .Include(x => x.TagConnectors)
+                                           .ThenInclude(x => x.Tag)
+                                           .OrderBy(x => x.Title);
+
+
+            var favouriteBookQuery = _context.Books
+                                                .Where(x => x.FavouriteConnectors.Any(y => y.UserId == userId))
+                                                .Include(x => x.Authors)
+                                                .Include(x => x.TagConnectors)
+                                                .ThenInclude(x => x.Tag)
+                                                .OrderBy(x => x.Title);
+
+            var likeToReadBookQuery = _context.Books
+                                                 .Where(x => x.LikeToReadConnectors.Any(y => y.UserId == userId))
+                                                 .Include(x => x.Authors)
+                                                 .Include(x => x.TagConnectors)
+                                                 .ThenInclude(x => x.Tag)
+                                                 .OrderBy(x => x.Title);
+
+            var readBookQuery = _context.Books
+                                           .Where(x => x.ReadConnectors.Any(y => y.UserId == userId))
+                                           .Include(x => x.Authors)
+                                           .Include(x => x.TagConnectors)
+                                           .ThenInclude(x => x.Tag)
+                                           .OrderBy(x => x.Title);
+
+            return new UserBooksModel
+            {
+                MaxFavouritesCount = favouriteBookQuery.Count(),
+                Favourites = favouriteBookQuery.Take(10).ToList().Select(x => _mapper.MapBookEntityToModel(x)).ToList(),
+
+                MaxLikeToReadCount = likeToReadBookQuery.Count(),
+                LikeToRead = likeToReadBookQuery.Take(10).ToList().Select(x => _mapper.MapBookEntityToModel(x)).ToList(),
+
+                MaxReadCount = readBookQuery.Count(),
+                Read = readBookQuery.Take(10).ToList().Select(x => _mapper.MapBookEntityToModel(x)).ToList(),
+
+                MaxReviewedCount = reviewedBookQuery.Count(),
+                Reviewed = reviewedBookQuery.Take(10).ToList().Select(x => _mapper.MapBookEntityToModel(x)).ToList()
+            };
+        }
+
+        public List<BookModel> GetPagedUserBooksByCollection(string id, string collection, int page, int pageSize)
+        {
+            IQueryable<Book> query = _context.Books.Where(x => false);
+
+            switch (collection)
+            {
+                case "favourites":
+                    query = _context.Books
+                                    .Where(x => x.FavouriteConnectors.Any(y => y.UserId == id));
+                    break;
+                case "reviewed":
+                    query = _context.Books
+                                    .Where(x => x.Reviews.Any(y => y.UserId == id));
+                    break;
+                case "likeToRead":
+                    query = _context.Books
+                                    .Where(x => x.LikeToReadConnectors.Any(y => y.UserId == id));
+                    break;
+                case "read":
+                    query = _context.Books
+                                    .Where(x => x.ReadConnectors.Any(y => y.UserId == id));
+                    break;
+            }
+
+            var entities = query.Include(x => x.Authors)
+                                .Include(x => x.TagConnectors)
+                                .ThenInclude(x => x.Tag)
+                                .OrderBy(x => x.Title)
+                                .Skip((page) * pageSize)
+                                .Take(pageSize)
+                                .ToList();
+
+            return entities.Select(x => _mapper.MapBookEntityToModel(x)).ToList();
         }
     }
 }

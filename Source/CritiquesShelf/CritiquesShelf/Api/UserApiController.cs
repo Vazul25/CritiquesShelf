@@ -15,11 +15,13 @@ namespace CritiquesShelf.Api
     public class UserApiController : Controller
     {
         private readonly IUserRepository _userRepository;
+        private readonly IBookRepository _bookRepository;
         private readonly UserManager<ApplicationUser> _identityUserManager;
 
-        public UserApiController(IUserRepository userRepository, UserManager<ApplicationUser> identityUserManager)
+        public UserApiController(IUserRepository userRepository, IBookRepository bookRepository, UserManager<ApplicationUser> identityUserManager)
         {
             _userRepository = userRepository;
+            _bookRepository = bookRepository;
             _identityUserManager = identityUserManager;
         }
 
@@ -54,10 +56,15 @@ namespace CritiquesShelf.Api
 
         [HttpGet("{id}/books")]
         public IActionResult GetUserBooks(string id) {
-            var userBooks = _userRepository.GetUserBooks(id);
+            var userBooks = _bookRepository.GetUserBooks(id);
 
             return Ok(userBooks);
         }
 
+        [HttpGet("{id}/{collection}")]
+        public IActionResult GetPagedUserBooksByCollection(string id, string collection, [FromQuery]int page, [FromQuery]int pageSize) {
+            var books = _bookRepository.GetPagedUserBooksByCollection(id, collection, page, pageSize);
+            return Ok(books);
+        }
     }
 }
