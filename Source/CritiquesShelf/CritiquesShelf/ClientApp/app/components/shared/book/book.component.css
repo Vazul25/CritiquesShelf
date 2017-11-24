@@ -3,3 +3,17 @@ body {
 .spacer {
     flex: 1 1 auto;
 }
+
+.list-div {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-height: 65px;
+    max-width: 200px;
+}
+
+.description {
+	height: 80px; 
+	width: 370px; 
+	text-overflow: ellipsis; 
+	overflow: hidden;
+}
