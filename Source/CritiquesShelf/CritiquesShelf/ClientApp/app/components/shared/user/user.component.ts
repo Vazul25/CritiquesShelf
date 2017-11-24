@@ -1,8 +1,6 @@
 import { Inject, OnInit, Component, Input } from '@angular/core';
 import { User } from '../../../models/User';
 import { UserService } from '../../../services/user.service';
-import { ActivatedRoute } from '@angular/router';
-import { Http } from '@angular/http';
 
 @Component({
     selector: 'user',
@@ -11,7 +9,7 @@ import { Http } from '@angular/http';
     styleUrls: ['./user.component.css'],
 })
 
-export class UserComponent {
+export class UserComponent implements OnInit {
     @Input() user: User;
     @Input() readOnly: boolean = false;
 
@@ -19,7 +17,7 @@ export class UserComponent {
     private isEditing: boolean = false;
     private beforeEditUser: User;
 
-    constructor(private route: ActivatedRoute,http: Http, @Inject('BASE_URL') baseUrl: string, private userService: UserService) { }
+    constructor(private userService: UserService) { }
 
     ngOnInit() {
         if (this.user.photo != null && this.user.photo != "") {

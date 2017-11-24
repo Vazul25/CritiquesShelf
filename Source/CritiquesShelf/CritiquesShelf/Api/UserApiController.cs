@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 using CritiquesShelfBLL.Utility;
 using CritiquesShelfBLL.ViewModels;
+using System.Reflection.Metadata;
 
 namespace CritiquesShelf.Api
 {
@@ -42,7 +43,6 @@ namespace CritiquesShelf.Api
         public IActionResult Get(string id) 
         {
             var user = _userRepository.Find(id);
-
             return Ok(user);
         }
         [HttpGet("Role")]
@@ -50,6 +50,13 @@ namespace CritiquesShelf.Api
         {
             var userid = _identityUserManager.GetUserId(HttpContext.User);
             return Ok(new {Role= _userRepository.GetRole(userid).GetName() } );
+        }
+
+        [HttpGet("{id}/books")]
+        public IActionResult GetUserBooks(string id) {
+            var userBooks = _userRepository.GetUserBooks(id);
+
+            return Ok(userBooks);
         }
 
     }

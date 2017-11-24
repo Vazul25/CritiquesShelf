@@ -18,6 +18,7 @@
   <ItemGroup>
     <Folder Include="Migrations\" />
     <Folder Include="Entities\ConnectionTables\" />
+    <Folder Include="Mapper\" />
   </ItemGroup>
 
 </Project>

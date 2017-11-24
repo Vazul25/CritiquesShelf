@@ -42,4 +42,8 @@ export class UserService {
             headers: new HttpHeaders().set('Content-Type', 'application/json'),
         });
     }
+
+    getUserBooks(id: string) {
+        return this.http.get(this.rootRoute + id + '/books');
+    }
 }

@@ -11,6 +11,8 @@ import { OnInit, OnDestroy } from '@angular/core';
 export class NavMenuComponent implements OnInit {
     role: string;
     isAdmin: boolean=false;
+    currentUserId: string;
+
     ngOnInit(): void {
         
         if (this.userService.userRole) {
@@ -22,9 +24,7 @@ export class NavMenuComponent implements OnInit {
             this.role = data["role"];
             console.log(this.role);
             this.isAdmin = this.checkIsAdmin();
-            
-        });
-  
+        });        
     }
     checkIsAdmin(): boolean {
        
@@ -33,5 +33,13 @@ export class NavMenuComponent implements OnInit {
     }
 
 
-    constructor(private userService: UserService) { }
+    constructor(private userService: UserService) {
+        if (this.userService.user) {
+            this.currentUserId = this.userService.user.id;    
+        } else {
+            this.userService.getCurrentUser().subscribe(data => {
+                this.currentUserId = this.userService.user.id;    
+            });
+        }
+    }
 }

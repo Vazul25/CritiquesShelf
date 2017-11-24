@@ -18,12 +18,14 @@ import { BookApprovalComponent } from './components/bookApproval/bookApproval.co
 import { DialogNewBookProposal } from './components/bookBrowser/bookBrowser.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { UserDetailsComponent } from './components/userDetails/userDetails.component';
+import { UserDetailsBooksComponent } from './components/userDetailsBooks/userDetailsBooks.component';
 
 import { BookListComponent } from './components/shared/bookList/bookList.component';
 import { BookDisplayComponent } from './components/shared/book/book.component';
 import { ReviewComponent } from './components/shared/review/review.component';
 import { StarsComponent } from './components/shared/stars/stars.component';
 import { UserComponent } from './components/shared/user/user.component';
+import { UserBooksComponent } from './components/shared/userBooks/userBooks.component';
 
 @NgModule({
     declarations: [
@@ -41,7 +43,9 @@ import { UserComponent } from './components/shared/user/user.component';
         BookApprovalComponent,
         StarsComponent,
         UserComponent,
-        UserDetailsComponent
+        UserDetailsComponent,
+        UserBooksComponent,
+        UserDetailsBooksComponent
     ],
     entryComponents: [
         DialogNewBookProposal
@@ -70,6 +74,7 @@ import { UserComponent } from './components/shared/user/user.component';
             //{ path: 'bookDetails/:id', component: BookDetailsComponent },
             { path: 'profile', component: ProfileComponent },
             { path: 'userDetails/:id', component: UserDetailsComponent },
+            { path: 'userDetails/:id/books', component: UserDetailsBooksComponent },
             { path: 'counter', component: CounterComponent },
             { path: 'fetch-data', component: FetchDataComponent },
             { path: '**', redirectTo: 'home' }

@@ -53,15 +53,18 @@
      </div>
     <div class="parallel-divs-wide">
         <mat-card>
-            <a [routerLink]="['/books', user.id, 'favourite']"><span class="glyphicon glyphicon-star"></span></a>
+            <!-- <a [routerLink]="['/books', user.id, '']"><span class="glyphicon glyphicon-star"></span></a> -->
+            <a [routerLink]="['/userDetails', user.id, 'books']" [queryParams]="{ collection: 'favourites' }"><span class="glyphicon glyphicon-heart"></span></a>
             <label>Favourite books: </label> {{user.readingStat.favouritesCount}}
         </mat-card>
         <mat-card>
-            <a [routerLink]="['/books', user.id, 'liketo']"><span class="glyphicon glyphicon-sunglasses"></span></a>
+            <!-- <a [routerLink]="['/books', user.id, 'liketo']"><span class="glyphicon glyphicon-sunglasses"></span></a> -->
+            <a [routerLink]="['/userDetails', user.id, 'books']" [queryParams]="{ collection: 'likeToRead' }"><span class="glyphicon glyphicon-sunglasses"></span></a>
             <label>Like to read books: </label> {{user.readingStat.likeToReadCount}}
         </mat-card>
         <mat-card>
-            <a [routerLink]="['/books', user.id, 'read']"><span class="glyphicon glyphicon-book"></span></a>
+            <!-- <a [routerLink]="['/books', user.id, 'read']"><span class="glyphicon glyphicon-book"></span></a> -->
+            <a [routerLink]="['/userDetails', user.id, 'books']" [queryParams]="{ collection: 'read' }"><span class="glyphicon glyphicon-book"></span></a>
             <label>Already Read books: </label> {{user.readingStat.readCount}}
         </mat-card>
     </div>
@@ -69,7 +72,7 @@
 
 
 <div class="reviews">
-    <h3>Reviews</h3>
+    <h3> <a [routerLink]="['/userDetails', user.id, 'books']" [queryParams]="{ collection: 'reviewed' }"><span class="glyphicon glyphicon-star"></span></a> Reviews</h3>
     <div *ngFor="let review of user.reviews">
         <div>
             <review [review]="review" [readOnly]="true"></review>    

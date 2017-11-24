@@ -9,5 +9,6 @@ namespace CritiquesShelfBLL.RepositoryInterfaces
         UserModel Find(string id);
         CritiquesShelfRoles GetRole(string userId);
         UserModel Save(UserModel user);
+        UserBooksModel GetUserBooks(string userId);
     }
 }

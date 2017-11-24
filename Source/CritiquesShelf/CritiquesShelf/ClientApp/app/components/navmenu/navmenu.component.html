@@ -28,6 +28,11 @@
                         <span class='glyphicon glyphicon-user'></span> Profile
                     </a>
                 </li>
+                <li [routerLinkActive]="['link-active']">
+                    <a [routerLink]="['/userDetails', currentUserId, 'books']" [queryParams]="{ collection: 'favourites' }">
+                        <span class='glyphicon glyphicon-bookmark'></span> My Books
+                    </a>
+                </li>
                 <!--<li [routerLinkActive]="['link-active']">
                     <a [routerLink]="['/fetch-data']">
                         <span class='glyphicon glyphicon-th-list'></span> Fetch data

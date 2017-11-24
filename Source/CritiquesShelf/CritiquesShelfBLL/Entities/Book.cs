@@ -11,6 +11,12 @@ namespace CritiquesShelfBLL.Entities
 
         public HashSet<TagConnector> TagConnectors { get; set; }
 
+        public HashSet<FavouritesConnector> FavouriteConnectors { get; set; }
+
+        public HashSet<LikeToReadConnector> LikeToReadConnectors { get; set; }
+
+        public HashSet<ReadConnector> ReadConnectors { get; set; }
+
         #region Computed Properties
 
         [NotMapped]

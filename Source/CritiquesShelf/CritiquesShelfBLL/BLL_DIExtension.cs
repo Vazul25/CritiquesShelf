@@ -2,10 +2,8 @@
 using CritiquesShelfBLL.RepositoryInterfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using CritiquesShelfBLL.Utility;
+using CritiquesShelfBLL.Mapper;
 
 namespace CritiquesShelfBLL
 {
@@ -24,6 +22,7 @@ namespace CritiquesShelfBLL
             services.AddScoped<IReviewRepository, ReviewManager>();
             services.AddScoped<IBookRepository, BookManager>();
             services.AddScoped<ImageStore, ImageStore>();
+            services.AddScoped<IMapper, Mapper.Mapper>();
 
             return services;
 
