@@ -61,9 +61,9 @@ namespace CritiquesShelf.Api
             return Ok(userBooks);
         }
 
-        [HttpGet("{id}/{collection}")]
-        public IActionResult GetPagedUserBooksByCollection(string id, string collection, [FromQuery]int page, [FromQuery]int pageSize) {
-            var books = _bookRepository.GetPagedUserBooksByCollection(id, collection, page, pageSize);
+        [HttpGet("{id}/books/{collection}")]
+        public IActionResult GetPagedUserBooksByCollection(string id, string collection, [FromQuery]Paging paging) {
+            var books = _bookRepository.GetPagedUserBooksByCollection(id, collection, paging.Page, paging.PageSize);
             return Ok(books);
         }
     }

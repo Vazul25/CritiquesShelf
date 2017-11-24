@@ -7,5 +7,9 @@ namespace CritiquesShelfBLL.Mapper
     public interface IMapper
     {
         BookModel MapBookEntityToModel(Book book);
+
+        ReviewModel MapReviewEntityToModel(Review review);
+
+        UserModel MapUserEntityToModel(ApplicationUser user);
     }
 }

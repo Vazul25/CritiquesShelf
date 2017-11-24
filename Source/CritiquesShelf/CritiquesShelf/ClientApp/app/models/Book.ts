@@ -6,7 +6,6 @@ export interface Book {
     Tags: string[];
     rateing: number;
     datePublished: number;
-   
     favourite: boolean;
     likeToRead: boolean;
     read: boolean;

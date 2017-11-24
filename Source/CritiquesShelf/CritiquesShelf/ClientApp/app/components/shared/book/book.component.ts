@@ -4,6 +4,7 @@ import { BookService } from '../../../services/book.service';
 @Component({
     selector: 'bookDisplay',
     templateUrl: './book.component.html',
+    styleUrls: ['./book.component.css']
 })
 export class BookDisplayComponent implements OnInit {
     ngOnInit(): void {
