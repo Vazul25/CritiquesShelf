@@ -75,8 +75,8 @@ namespace CritiquesShelfBLL.Mapper
 
         public static Func<Book, BookModel> MapBookEntityToModelExpression()
         {
-            
-            return(book=> new BookModel
+
+            return (book => new BookModel
             {
                 AuthorsNames = book.Authors?.Select(a => a.Name).ToList(),
                 Description = (book.Description == null || book.Description.Length < 200) ? book.Description : book.Description.Substring(0, 200),
@@ -84,7 +84,8 @@ namespace CritiquesShelfBLL.Mapper
                 Tags = book.TagConnectors?.Select(tc => tc.Tag.Label).ToList(),
                 Title = book.Title,
                 Cover = book.CoverId,
-                DatePublished = book.DatePublished
+                DatePublished = book.DatePublished,
+                Id = book.Id
             });
         }
 
