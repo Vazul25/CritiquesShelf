@@ -71,9 +71,9 @@ namespace CritiquesShelf.Api
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public BookModel Get(long id)
+        public IActionResult GetBookDetails(long id)
         {
-            return _bookManager.Find(id);
+            return Ok( _bookManager.GetBookDetails(id));
         }
 
         // POST api/values

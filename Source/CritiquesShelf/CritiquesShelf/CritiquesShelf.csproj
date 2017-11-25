@@ -23,6 +23,7 @@
   <ItemGroup>
     <None Remove="ClientApp\app\models\Author.ts" />
     <None Remove="ClientApp\app\models\Book.ts" />
+    <None Remove="ClientApp\app\models\BookDetail.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -40,6 +41,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\app\models\Author.ts" />
     <TypeScriptCompile Include="ClientApp\app\models\Book.ts" />
+    <TypeScriptCompile Include="ClientApp\app\models\BookDetail.ts" />
     <TypeScriptCompile Include="ClientApp\app\models\CritiquesShelfRoles.ts" />
     <TypeScriptCompile Include="ClientApp\app\models\BookProposal.ts" />
     <TypeScriptCompile Include="ClientApp\app\services\storage.service.ts" />

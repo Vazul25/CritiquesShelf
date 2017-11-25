@@ -59,5 +59,19 @@ namespace CritiquesShelfBLL.Mapper
                 }
             };
         }
+        public static Func<Review, ReviewModel> MapReviewToModelExpression() {
+            return (review => new ReviewModel
+            {
+                Id = review.Id,
+                Date = review.Date,
+                Description = review.Description,
+                Score = review.Score,
+                BookId = review.BookId,
+                BookTitle = review.Book?.Title,
+                UserId = review.UserId,
+                UserName = review.User?.UserName
+            });
+        }
     }
+
 }

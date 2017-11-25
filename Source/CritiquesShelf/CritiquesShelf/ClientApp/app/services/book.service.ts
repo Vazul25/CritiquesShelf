@@ -25,6 +25,10 @@ export class BookService {
 
         return this.http.get(this.rootRoute + "getBookProposals?page=" + page + "&&pageSize=" + pageSize);
     }
+    getBookDetails(id:number): Observable<any> {
+
+        return this.http.get(this.rootRoute + id);
+    }
     postBookProposal(title: string, description: string, tags: string[], authors: Author[],datePublished:number): Observable<any> {
 
         let body = JSON.stringify({ title: title, description: description, tags: tags, authors: authors, datePublished: datePublished });

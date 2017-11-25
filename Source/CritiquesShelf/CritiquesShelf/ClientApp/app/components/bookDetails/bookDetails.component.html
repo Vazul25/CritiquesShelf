@@ -2,9 +2,83 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title></title>
+    <title>Book Details</title>
 </head>
 <body>
+    <ng-template [ngIf]="bookRecived">
+        <div>
+            <h2>Book details</h2>
 
+
+            <div class="parallel-divs-parent">
+                <div class="parallel-divs-narrow">
+                    <fieldset [disabled]="readOnly || !isEditing">
+                        <div class="container-fluid">
+                            <div class="row profile-data-div">
+                                <div class="col-md-6 center-Content">
+
+                                    <div class="img row">
+                                        <img style="height:300px" src="{{book.cover}}" />
+
+                                    </div>
+                                    <div class="row center-Content">
+                                        <stars [rating]="book.reviewScore" [readOnly]="true"></stars>
+                                    </div>
+                                </div>
+                                <div class="col-md-6" ng-disabled="true">
+                                    <div class="table">
+                                        <span class="row padded-div"><label>Title:</label> {{book.title}}</span>
+                                        <span class="row padded-div"><label>Year of publication:</label>{{book.datePublished}}</span>
+                                        <span class="row padded-div"><label>Favourited by:</label> {{book.favouriteCount}} users</span>
+
+
+                                        <div class="row padded-div" style="margin-left:-0px">
+                                            <label>Authors:</label>
+                                            <div class="list-div">
+                                                <div *ngFor="let author of book.authorsNames">{{author}} </div>
+                                            </div>
+                                        </div>
+                                        <div class="row padded-div" style="margin-left:-0px">
+                                            <label>Tags:</label>
+                                            <div class="list-div">
+                                                <div *ngFor="let tag of book.tags">{{tag}} </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 description">
+                                    {{book.description}}
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+
+            </div>
+            <mat-card>
+                <h3>Add review</h3>
+                <ng-template [ngIf]="userParsed&&bookParsed">
+                     
+                    <review [review]="newReview" [readOnly]="false"></review>
+                </ng-template>
+            </mat-card>
+
+            <h3>Reviews</h3>
+            <div class="reviews">
+
+                <div *ngFor="let review of book.reviews">
+                    <div>
+                        <review [review]="review" [readOnly]="true"></review>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </ng-template>
 </body>
 </html>
+

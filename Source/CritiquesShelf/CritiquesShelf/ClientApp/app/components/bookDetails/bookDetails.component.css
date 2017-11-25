@@ -1,2 +1,40 @@
 ﻿body {
 }
+
+.list-div {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-height: 65px;
+    max-width: 200px;
+}
+
+.parallel-divs-parent {
+    display: flex;
+}
+
+.parallel-divs-narrow {
+}
+.padded-div{
+    padding:1px;
+}
+.parallel-divs-wide {
+    flex: 1;
+    /* Grow to rest of container */
+}
+
+.description {
+    height: 80px;
+    width: 370px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.spacer {
+    flex: 1 1 auto;
+}
+
+.center-Content {
+    display: table;
+    margin-right: auto;
+    margin-left: auto;
+}

@@ -73,10 +73,10 @@ namespace CritiquesShelfBLL.Managers
                     query = query.OrderBy(o => o.Title);
                     break;
                 case "Rateing":
-                    query = query.OrderBy(o => o.ReviewScore);
+                    query = query.OrderByDescending(o => o.ReviewScore);
                     break;
                 case "Date":
-                    query = query.OrderBy(o => o.DatePublished);
+                    query = query.OrderByDescending(o => o.DatePublished);
                     break;
                 default:
                     query = query.OrderBy(o => o.Id);
@@ -203,23 +203,24 @@ namespace CritiquesShelfBLL.Managers
                 Authors = proposalToAccept.Authors.Select(a => new Author { Name = a.Name }).ToList(),
                 Description = proposalToAccept.Description,
                 Title = proposalToAccept.Title,
-                 
+
 
             };
-            var tagConnectors = _context.Tags.Where(tc => proposalToAccept.Tags.Select(t => t.Label).Contains(tc.Label)).ToList().Select(t=>new TagConnector {Book=newBook,TagId=t.Id }).ToHashSet();
+            var tagConnectors = _context.Tags.Where(tc => proposalToAccept.Tags.Select(t => t.Label).Contains(tc.Label)).ToList().Select(t => new TagConnector { Book = newBook, TagId = t.Id }).ToHashSet();
             newBook.TagConnectors = tagConnectors;
             _context.Books.Add(newBook);
             removeProposal(proposalToAccept);
             _context.SaveChanges();
         }
-        private void removeProposal(BookProposal proposalToRemove) {
-            if(proposalToRemove.Authors!=null) _context.Authors.RemoveRange(proposalToRemove.Authors);
+        private void removeProposal(BookProposal proposalToRemove)
+        {
+            if (proposalToRemove.Authors != null) _context.Authors.RemoveRange(proposalToRemove.Authors);
             _context.BookProposals.Remove(proposalToRemove);
             if (proposalToRemove.Tags != null) _context.TagProposals.RemoveRange(proposalToRemove.Tags);
         }
         public void RejectBookProposal(long id)
         {
-            var proposalToRemove = _context.BookProposals.Include(bp=>bp.Authors).Include(bp=>bp.Tags).First(b=>b.Id==id);
+            var proposalToRemove = _context.BookProposals.Include(bp => bp.Authors).Include(bp => bp.Tags).First(b => b.Id == id);
             removeProposal(proposalToRemove);
             _context.SaveChanges();
         }
@@ -243,7 +244,7 @@ namespace CritiquesShelfBLL.Managers
 
         public long AddNewReview(long bookId, ReviewModel review)
         {
-            var book = _context.Books.Find(bookId);
+            var book = _context.Books.Include(b=>b.Reviews).First(b=>b.Id==bookId);
 
             var reviewEntity = new Review
             {
@@ -253,7 +254,7 @@ namespace CritiquesShelfBLL.Managers
                 UserId = review.UserId,
                 Date = review.Date
             };
-
+            
             book.Reviews.Add(reviewEntity);
 
             _context.SaveChanges();
@@ -342,6 +343,24 @@ namespace CritiquesShelfBLL.Managers
                                 .ToList();
 
             return entities.Select(x => _mapper.MapBookEntityToModel(x)).ToList();
+        }
+
+        public BookDetailsModel GetBookDetails(long id)
+        {
+            var book = _context.Books.Include(b => b.Authors).Include(b => b.TagConnectors).ThenInclude(tc => tc.Tag).Include(b => b.Reviews).ThenInclude(r=>r.User).Include(b => b.FavouriteConnectors).First(b => b.Id == id);
+            return new BookDetailsModel
+            {
+                AuthorsNames = book.Authors.Select(a => a.Name).ToList(),
+                Cover = book.CoverId,
+                DatePublished = book.DatePublished,
+                Description = book.Description,
+                FavouriteCount = book.FavouriteConnectors.Count,
+                Id = book.Id,
+                Rateing = book.ReviewScore,
+                Reviews = book.Reviews.Select(Mapper.Mapper.MapReviewToModelExpression()).ToList(),
+                Tags = book.TagConnectors.Select(tc => tc.Tag.Label).ToList(),
+                Title = book.Title
+            };
         }
     }
 }

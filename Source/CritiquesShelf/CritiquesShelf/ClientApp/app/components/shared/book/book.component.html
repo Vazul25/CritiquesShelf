@@ -1,10 +1,11 @@
 <mat-card style="width: 400px">
     <mat-card-header style="height: 64px">
-        <mat-card-title>{{book.title}}</mat-card-title>
+        
+        <mat-card-title><a [routerLink]="['/bookDetails',book.id]">{{book.title}}</a></mat-card-title>
         <mat-card-subtitle>{{book.datePublished}}</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-        <div class="container-fluid" style="height:220;width:400px">
+        <div class="container-fluid" style="height:220px;width:400px">
             <div class="row">
                 <div class="col-md-4"><img style="height:150px;width:100px" src="{{book.cover}}" /></div>
                 <div class="col-md-6">

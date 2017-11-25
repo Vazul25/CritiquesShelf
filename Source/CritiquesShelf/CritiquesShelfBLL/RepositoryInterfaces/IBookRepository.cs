@@ -34,5 +34,6 @@ namespace CritiquesShelfBLL.RepositoryInterfaces
         long AddNewReview(long bookId, ReviewModel review);
         UserBooksModel GetUserBooks(string userId);
         List<BookModel> GetPagedUserBooksByCollection(string id, string collection, int page, int pageSize);
+        BookDetailsModel GetBookDetails(long id);
     }
 }
