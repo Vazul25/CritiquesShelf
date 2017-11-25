@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using CritiquesShelfBLL.Utility;
 using CritiquesShelfBLL.ViewModels;
 using System.Reflection.Metadata;
+using CritiquesShelf.Controllers;
 
 namespace CritiquesShelf.Api
 {
@@ -17,12 +18,14 @@ namespace CritiquesShelf.Api
         private readonly IUserRepository _userRepository;
         private readonly IBookRepository _bookRepository;
         private readonly UserManager<ApplicationUser> _identityUserManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public UserApiController(IUserRepository userRepository, IBookRepository bookRepository, UserManager<ApplicationUser> identityUserManager)
+        public UserApiController(IUserRepository userRepository, IBookRepository bookRepository, UserManager<ApplicationUser> identityUserManager, SignInManager<ApplicationUser> signInManager)
         {
             _userRepository = userRepository;
             _bookRepository = bookRepository;
             _identityUserManager = identityUserManager;
+            _signInManager = signInManager;
         }
 
         [HttpPost]
@@ -65,6 +68,21 @@ namespace CritiquesShelf.Api
         public IActionResult GetPagedUserBooksByCollection(string id, string collection, [FromQuery]Paging paging) {
             var books = _bookRepository.GetPagedUserBooksByCollection(id, collection, paging.Page, paging.PageSize);
             return Ok(books);
+        }
+
+        [HttpGet("{id}/reviews")]
+        public IActionResult GetPagedUserReviews(string id, [FromQuery]Paging paging)
+        {
+            var reviews = _userRepository.GetPagedUserReviews(id, paging.Page, paging.PageSize);
+            return Ok(reviews);
+        }
+
+        [HttpGet]
+        [Route("Logout")]
+        public async Task<IActionResult> LogOut()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction(nameof(HomeController.Index), "Home");
         }
     }
 }

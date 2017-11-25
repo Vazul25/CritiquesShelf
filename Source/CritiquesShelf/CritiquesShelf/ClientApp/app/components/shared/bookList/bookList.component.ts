@@ -8,4 +8,5 @@ import { BookService } from '../../../services/book.service';
 })
 export class BookListComponent {
      @Input() books: Book[];
+     @Input() showCheckboxes: boolean = true;
 }

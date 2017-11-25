@@ -50,4 +50,8 @@ export class UserService {
     getPagedUserBooksByCollection(id: string, collection: string, page: number, pageSize: number) {
         return this.http.get(this.rootRoute + id + '/books/' + collection + "?page=" + page + "&&pageSize=" + pageSize);
     }
+
+    getPagedUserReviews(id: string, page: number, pageSize: number) {
+        return this.http.get(this.rootRoute + id + '/reviews?page=' + page + '&&pageSize=' + pageSize);
+    }
 }

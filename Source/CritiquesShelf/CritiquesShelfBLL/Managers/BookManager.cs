@@ -244,7 +244,7 @@ namespace CritiquesShelfBLL.Managers
 
         public long AddNewReview(long bookId, ReviewModel review)
         {
-            var book = _context.Books.Include(b=>b.Reviews).First(b=>b.Id==bookId);
+            var book = _context.Books.Include(x => x.Reviews).First(x => x.Id == bookId);
 
             var reviewEntity = new Review
             {
@@ -256,7 +256,7 @@ namespace CritiquesShelfBLL.Managers
             };
             
             book.Reviews.Add(reviewEntity);
-
+            book.ReviewScore = book.Reviews.Average(x => x.Score);
             _context.SaveChanges();
 
             return reviewEntity.Id;

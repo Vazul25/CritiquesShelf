@@ -67,6 +67,11 @@
             <a [routerLink]="['/userDetails', user.id, 'books']" [queryParams]="{ collection: 'read' }"><span class="glyphicon glyphicon-book"></span></a>
             <label>Already Read books: </label> {{user.readingStat.readCount}}
         </mat-card>
+        <mat-card>
+            <!-- <a [routerLink]="['/books', user.id, 'read']"><span class="glyphicon glyphicon-book"></span></a> -->
+            <a><span class="glyphicon glyphicon-star"></span></a>
+            <label>Reviewed books: </label> {{user.readingStat.maxReviewCount}}
+        </mat-card>
     </div>
 </div>
 
@@ -77,6 +82,11 @@
         <div>
             <review [review]="review" [readOnly]="true"></review>    
         </div>
-        
-    </div>    
+    </div>
+    <mat-paginator 
+        [length]="user.readingStat.maxReviewCount"
+        [pageSize]="10"
+        [pageSizeOptions]="[5, 10, 25, 100]"
+        (page)="page($event)">
+    </mat-paginator>
 </div>
