@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Collections.Generic;
 using CritiquesShelfBLL.ConnectionTables;
+using System.Linq;
 
 namespace CritiquesShelfBLL.Entities
 {
@@ -17,16 +18,6 @@ namespace CritiquesShelfBLL.Entities
 
         public HashSet<ReadConnector> ReadConnectors { get; set; }
 
-        #region Computed Properties
-
-        [NotMapped]
-        public double ReviewScore
-        {
-            get
-            {
-                return 0;
-            }
-        }
-        #endregion
+		public double ReviewScore { get; set; }
     }
 }

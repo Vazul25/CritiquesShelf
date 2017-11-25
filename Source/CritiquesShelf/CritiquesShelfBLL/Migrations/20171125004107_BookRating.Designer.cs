@@ -11,9 +11,10 @@ using System;
 namespace CritiquesShelfBLL.Migrations
 {
     [DbContext(typeof(CritiquesShelfDbContext))]
-    partial class CritiquesShelfDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171125004107_BookRating")]
+    partial class BookRating
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

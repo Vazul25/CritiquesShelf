@@ -2,7 +2,7 @@
 	<mat-tab-group [(selectedIndex)]="selectedIndex">
 	  <mat-tab label="Favourites">
 
-	  	<bookList [books]="userBooks.favourites" ></bookList>
+	  	<bookList [books]="userBooks.favourites" [showCheckboxes]="false" ></bookList>
 	  	<mat-paginator 
 	  			[length]="userBooks.maxFavouritesCount"
               	[pageSize]="10"
@@ -13,7 +13,7 @@
 	  </mat-tab>
 	  <mat-tab label="Reviewed">
 
-	   	<bookList [books]="userBooks.reviewed" ></bookList>  
+	   	<bookList [books]="userBooks.reviewed" [showCheckboxes]="false" ></bookList>  
 	   	<mat-paginator 
 	   			[length]="userBooks.maxReviewedCount"
               	[pageSize]="10"
@@ -23,7 +23,7 @@
 	  </mat-tab>
 	  <mat-tab label="Read">
 
-	  	<bookList [books]="userBooks.read" ></bookList>  
+	  	<bookList [books]="userBooks.read" [showCheckboxes]="false" ></bookList>  
 		<mat-paginator 
 				[length]="userBooks.maxReadCount"
               	[pageSize]="10"
@@ -34,7 +34,7 @@
 	  </mat-tab>
 	  <mat-tab label="Like to read">
 
-	    <bookList [books]="userBooks.likeToRead" ></bookList>
+	    <bookList [books]="userBooks.likeToRead" [showCheckboxes]="false" ></bookList>
 	    <mat-paginator [length]="userBooks.maxLikeToReadCount"
               [pageSize]="10"
               [pageSizeOptions]="[5, 10, 25, 100]"

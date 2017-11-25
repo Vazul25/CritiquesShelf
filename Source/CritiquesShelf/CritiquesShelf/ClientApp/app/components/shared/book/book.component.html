@@ -1,4 +1,4 @@
-<mat-card style="width: 400px">
+<mat-card style="width: 400px; height: 420px">
     <mat-card-header style="height: 64px">
         <mat-card-title>{{book.title}}</mat-card-title>
         <mat-card-subtitle>{{book.datePublished}}</mat-card-subtitle>
@@ -22,7 +22,10 @@
 
                     </div>
                     <div class="row">
-                        <label>Score:</label> {{book.score}}
+                        <label>Score:</label>
+                        <div>
+                            <stars style="font-size: 75%" [rating]="book.rateing" [readOnly]="true"></stars> <span>( {{book.rateing}} )</span>
+                        </div>
                     </div>
                 </div>
             </div>
