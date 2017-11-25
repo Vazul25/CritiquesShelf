@@ -44,6 +44,7 @@
     <TypeScriptCompile Include="ClientApp\app\models\BookDetail.ts" />
     <TypeScriptCompile Include="ClientApp\app\models\CritiquesShelfRoles.ts" />
     <TypeScriptCompile Include="ClientApp\app\models\BookProposal.ts" />
+    <TypeScriptCompile Include="ClientApp\app\services\modal.service.ts" />
     <TypeScriptCompile Include="ClientApp\app\services\storage.service.ts" />
   </ItemGroup>
 

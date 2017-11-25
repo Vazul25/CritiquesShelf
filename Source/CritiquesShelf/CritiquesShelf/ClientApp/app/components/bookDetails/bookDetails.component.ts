@@ -7,6 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BookDetails } from '../../models/BookDetail';
 import { Review } from '../../models/Review';
 import { User } from '../../models/User';
+import { PageEvent } from '@angular/material';
 @Component({
     selector: 'bookDetails',
     providers: [BookService],
@@ -60,11 +61,16 @@ export class BookDetailsComponent {
         });
 
     }
-
+    page(paging: PageEvent) {
+        this.bookService.getPagedBookReviews(this.book.id, paging.pageIndex, paging.pageSize).subscribe(data => {
+            this.book.reviews = data as Review[];
+        });
+    }
     constructor(private route: ActivatedRoute, http: Http, @Inject('BASE_URL') baseUrl: string, private bookService: BookService,
         private userService: UserService) {
 
     }
+    
 }
 
 

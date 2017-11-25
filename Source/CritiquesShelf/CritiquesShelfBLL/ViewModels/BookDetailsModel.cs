@@ -14,7 +14,7 @@ namespace CritiquesShelfBLL.ViewModels
         public List<string> Tags { get; set; }
         public int? DatePublished { get; set; }
 
-        
+        public int ReviewCount { get; set; }
         public int FavouriteCount { get; set; }
         public string Cover { get; set; }
         public List<ReviewModel> Reviews { get; set; }

@@ -174,6 +174,25 @@ namespace CritiquesShelf.Api
 
 
         }
+        [HttpGet("getBookReviews/{id}")]
+        public IActionResult GetPagedUserReviews(long id, [FromQuery]Paging paging)
+        {
+            var reviews = _bookManager.GetPagedBookReviews(id, paging.Page, paging.PageSize);
+            return Ok(reviews);
+        }
+        [HttpGet("getTrendingBooks")]
+        public IActionResult GetTrendingBooks( )
+        {
+            var reviews = _bookManager.GetTrendingBooks( );
+            return Ok(reviews);
+        }
+        [HttpGet("getTrendingReviews")]
+        public IActionResult GetTrendingReviews( )
+        {
+            var reviews = _bookManager.GetTrendingReviews( );
+            return Ok(reviews);
+        }
+
 
     }
 }

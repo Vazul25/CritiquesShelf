@@ -85,5 +85,14 @@ export class BookService {
         return this.http.post(this.rootRoute + review.bookId + '/review', body, {
             headers: new HttpHeaders().set('Content-Type', 'application/json'),
         });
-    }    
+   } 
+    getPagedBookReviews(bookId: number, page: number, pageSize: number): Observable<any> {
+        return this.http.get(this.rootRoute + "getBookReviews/" + bookId+"?page=" + page + "&&pageSize=" + pageSize); 
+    }
+    getTrendingReviews( ): Observable<any> {
+        return this.http.get(this.rootRoute + "getTrendingReviews/" );
+    }
+    getTrendingBooks( ): Observable<any> {
+        return this.http.get(this.rootRoute + "getTrendingBooks/" );
+    }
 }

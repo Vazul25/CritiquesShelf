@@ -8,7 +8,7 @@ export interface BookDetails {
     rateing: number;
     datePublished: number;
     favouriteCount: number;
-  
+    reviewCount: number;
     cover: string;
     reviews: Review[];
 } 

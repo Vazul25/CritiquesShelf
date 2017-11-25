@@ -72,6 +72,22 @@ namespace CritiquesShelfBLL.Mapper
                 UserName = review.User?.UserName
             });
         }
+
+        public static Func<Book, BookModel> MapBookEntityToModelExpression()
+        {
+            
+            return(book=> new BookModel
+            {
+                AuthorsNames = book.Authors?.Select(a => a.Name).ToList(),
+                Description = (book.Description == null || book.Description.Length < 200) ? book.Description : book.Description.Substring(0, 200),
+                Rateing = book.ReviewScore,
+                Tags = book.TagConnectors?.Select(tc => tc.Tag.Label).ToList(),
+                Title = book.Title,
+                Cover = book.CoverId,
+                DatePublished = book.DatePublished
+            });
+        }
+
     }
 
 }

@@ -16,10 +16,14 @@ import { CounterComponent } from './components/counter/counter.component';
 import { BookBrowserComponent } from './components/bookBrowser/bookBrowser.component';
 import { BookApprovalComponent } from './components/bookApproval/bookApproval.component';
 import { DialogNewBookProposal } from './components/bookBrowser/bookBrowser.component';
+
+import {  SimpleModalComponent} from './components/shared/simpleModal/modal.component';
+
 import { ProfileComponent } from './components/profile/profile.component';
 import { UserDetailsComponent } from './components/userDetails/userDetails.component';
 import { BookDetailsComponent } from './components/bookDetails/bookDetails.component';
 import { UserDetailsBooksComponent } from './components/userDetailsBooks/userDetailsBooks.component';
+
 
 import { BookListComponent } from './components/shared/bookList/bookList.component';
 import { BookDisplayComponent } from './components/shared/book/book.component';
@@ -47,10 +51,12 @@ import { UserBooksComponent } from './components/shared/userBooks/userBooks.comp
         UserDetailsComponent,
         UserBooksComponent,
         UserDetailsBooksComponent,
-        BookDetailsComponent
+        BookDetailsComponent,
+        SimpleModalComponent
     ],
     entryComponents: [
-        DialogNewBookProposal
+        DialogNewBookProposal,
+        SimpleModalComponent
     ],
     imports: [
         CommonModule, MatCheckboxModule,

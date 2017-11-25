@@ -22,7 +22,7 @@
 
                                     </div>
                                     <div class="row center-Content">
-                                        <stars [rating]="book.reviewScore" [readOnly]="true"></stars>
+                                        <stars [rating]="book.rateing" [readOnly]="true"></stars>
                                     </div>
                                 </div>
                                 <div class="col-md-6" ng-disabled="true">
@@ -59,24 +59,31 @@
                 </div>
 
             </div>
-            <mat-card>
-                <h3>Add review</h3>
-                <ng-template [ngIf]="userParsed&&bookParsed">
-                     
-                    <review [review]="newReview" [readOnly]="false"></review>
-                </ng-template>
-            </mat-card>
+         
 
-            <h3>Reviews</h3>
+
             <div class="reviews">
-
+                <h3>Reviews</h3>
                 <div *ngFor="let review of book.reviews">
                     <div>
                         <review [review]="review" [readOnly]="true"></review>
                     </div>
-
                 </div>
+                <mat-paginator [length]="book.reviewCount"
+                               [pageSize]="10"
+                               [pageSizeOptions]="[5, 10, 25, 100]"
+                               (page)="page($event)">
+                </mat-paginator>
             </div>
+            
+            <mat-card>
+                <h3>Write review</h3>
+                <ng-template [ngIf]="userParsed&&bookParsed">
+
+                    <review [review]="newReview" [readOnly]="false"></review>
+                </ng-template>
+            </mat-card>
+
         </div>
     </ng-template>
 </body>

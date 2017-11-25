@@ -35,5 +35,10 @@ namespace CritiquesShelfBLL.RepositoryInterfaces
         UserBooksModel GetUserBooks(string userId);
         List<BookModel> GetPagedUserBooksByCollection(string id, string collection, int page, int pageSize);
         BookDetailsModel GetBookDetails(long id);
+       
+        List<ReviewModel> GetPagedBookReviews(long id, int page, int pageSize);
+        List<BookModel> GetTrendingBooks();
+        List<ReviewModel> GetTrendingReviews();
+        
     }
 }
