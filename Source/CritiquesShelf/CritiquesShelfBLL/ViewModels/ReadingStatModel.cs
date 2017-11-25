@@ -6,5 +6,6 @@ namespace CritiquesShelfBLL.ViewModels
         public int FavouritesCount { get; set; }
         public int LikeToReadCount { get; set; }   
         public int ReadCount { get; set; }
+        public int MaxReviewCount { get; set; }
     }
 }

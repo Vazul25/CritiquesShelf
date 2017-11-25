@@ -6,6 +6,7 @@ using CritiquesShelfBLL.Utility;
 using System;
 using CritiquesShelfBLL.ViewModels;
 using CritiquesShelfBLL.Mapper;
+using System.Collections.Generic;
 
 namespace CritiquesShelfBLL.Managers
 {
@@ -34,7 +35,29 @@ namespace CritiquesShelfBLL.Managers
 				user.Photo = _imageStore.GetImage(user.PhotoId);
             }
 
-            return _mapper.MapUserEntityToModel(user);
+            var reviewCount = user.Reviews.Count;
+
+            user.Reviews.OrderByDescending(x => x.Date).Take(10);
+
+            var model = _mapper.MapUserEntityToModel(user);
+
+            model.ReadingStat.MaxReviewCount = reviewCount;
+
+            return model;
+        }
+
+        public List<ReviewModel> GetPagedUserReviews(string userId, int page, int pageSize)
+        {
+            var reviews = _context.Reviews
+                                  .Where(x => x.UserId == userId)
+                                  .Include(x => x.Book)
+                                  .Include(x => x.User)
+                                  .OrderByDescending(x => x.Date)
+                                  .Skip(page * pageSize)
+                                  .Take(pageSize)
+                                  .ToList();
+
+            return reviews.Select(x => _mapper.MapReviewEntityToModel(x)).ToList();
         }
 
         public CritiquesShelfRoles GetRole(string userId)

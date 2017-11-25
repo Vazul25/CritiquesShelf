@@ -70,6 +70,13 @@ namespace CritiquesShelf.Api
             return Ok(books);
         }
 
+        [HttpGet("{id}/reviews")]
+        public IActionResult GetPagedUserReviews(string id, [FromQuery]Paging paging)
+        {
+            var reviews = _userRepository.GetPagedUserReviews(id, paging.Page, paging.PageSize);
+            return Ok(reviews);
+        }
+
         [HttpGet]
         [Route("Logout")]
         public async Task<IActionResult> LogOut()

@@ -1,6 +1,8 @@
 import { Inject, OnInit, Component, Input } from '@angular/core';
 import { User } from '../../../models/User';
+import { Review } from '../../../models/Review';
 import { UserService } from '../../../services/user.service';
+import { PageEvent } from '@angular/material';
 
 @Component({
     selector: 'user',
@@ -48,6 +50,12 @@ export class UserComponent implements OnInit {
         console.log("OnCancelClick! editing:", this.beforeEditUser);
         this.user = JSON.parse(JSON.stringify(this.beforeEditUser));
         this.isEditing = false;
+    }
+
+    page(paging: PageEvent) {
+      this.userService.getPagedUserReviews(this.user.id, paging.pageIndex, paging.pageSize).subscribe( data => {
+          this.user.reviews = data as Review[];
+      });
     }
 
     private getBase64(file: any) {
