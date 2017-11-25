@@ -3,7 +3,7 @@
 	    <mat-card-title>
         <a [routerLink]="['/userDetails', review.userId]"> {{review.userName}}</a>
       </mat-card-title>
-		<mat-card-subtitle>{{review.bookTitle}}</mat-card-subtitle>
+		<mat-card-subtitle><a [routerLink]="['/bookDetails',review.bookId]">{{review.bookTitle}}</a></mat-card-subtitle>
     	<div class="row header-row">
     		<div class="stars-col col-sm-6">
     			<stars [rating]="review.score" [readOnly]="readOnly" (ratingChange)="onRatingChanged($event)"></stars>	

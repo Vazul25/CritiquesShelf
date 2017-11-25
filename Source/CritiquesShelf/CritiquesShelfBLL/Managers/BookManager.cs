@@ -375,7 +375,7 @@ namespace CritiquesShelfBLL.Managers
         public List<BookModel> GetTrendingBooks()
         {
             var Date =  System.DateTime.Today.AddDays(-7);
-           return _context.Books.OrderByDescending(b => b.Reviews.Where(r => r.Date > Date).Count()).Take(10).Select(Mapper.Mapper.MapBookEntityToModelExpression()).ToList();
+           return _context.Books.Include(b=>b.Reviews).ThenInclude(r=>r.User).OrderByDescending(b => b.Reviews.Where(r => r.Date > Date).Count()).Take(10).Select(Mapper.Mapper.MapBookEntityToModelExpression()).ToList();
         }
         public List<ReviewModel> GetTrendingReviews()
 
