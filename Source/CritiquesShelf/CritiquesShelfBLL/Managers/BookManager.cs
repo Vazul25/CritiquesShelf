@@ -363,7 +363,7 @@ namespace CritiquesShelfBLL.Managers
                 Tags = book.TagConnectors.Select(tc => tc.Tag.Label).ToList(),
                 Title = book.Title
             };
-            result.Reviews = _context.Reviews.Where(r => r.BookId ==  id &&  r.Description.Length > 1).OrderByDescending(r => r.Date).Take(10).Select(Mapper.Mapper.MapReviewToModelExpression()).ToList();
+            result.Reviews = _context.Reviews.Include(r=>r.User).Where(r => r.BookId ==  id &&  r.Description.Length > 1).OrderByDescending(r => r.Date).Take(10).Select(Mapper.Mapper.MapReviewToModelExpression()).ToList();
             var myReview = _context.Reviews.FirstOrDefault(r => r.UserId == userId && r.BookId == id);
             if (myReview != null) result.MyReview = _mapper.MapReviewEntityToModel(myReview);
             else { result.MyReview = new ReviewModel { Date = DateTime.Now ,BookId=id,UserId=userId,BookTitle=result.Title};  }
