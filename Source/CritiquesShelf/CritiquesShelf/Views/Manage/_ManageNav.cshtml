@@ -1,5 +1,5 @@
 ﻿@using Test.Views.Manage
-@inject SignInManager<ApplicationUser> SignInManager
+@inject Microsoft.AspNetCore.Identity.SignInManager<CritiquesShelfBLL.Entities.ApplicationUser> SignInManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }

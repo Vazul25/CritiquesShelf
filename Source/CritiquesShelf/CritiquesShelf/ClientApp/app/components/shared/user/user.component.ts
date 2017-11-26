@@ -15,9 +15,9 @@ export class UserComponent implements OnInit {
     @Input() user: User;
     @Input() readOnly: boolean = false;
 
-    private photoSource: any;
-    private isEditing: boolean = false;
-    private beforeEditUser: User;
+    public photoSource: any;
+    public isEditing: boolean = false;
+    public beforeEditUser: User;
 
     constructor(private userService: UserService) { }
 

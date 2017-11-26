@@ -70,7 +70,7 @@
         <mat-card>
             <!-- <a [routerLink]="['/books', user.id, 'read']"><span class="glyphicon glyphicon-book"></span></a> -->
             <a><span class="glyphicon glyphicon-star"></span></a>
-            <label>Reviewed books: </label> {{user.readingStat.maxReviewCount}}
+            <label>Reviewed books: </label> {{user.readingStat.MaxReviewCount}}
         </mat-card>
     </div>
 </div>
@@ -84,7 +84,7 @@
         </div>
     </div>
     <mat-paginator 
-        [length]="user.readingStat.maxReviewCount"
+        [length]="user.readingStat.MaxReviewCount"
         [pageSize]="10"
         [pageSizeOptions]="[5, 10, 25, 100]"
         (page)="page($event)">
