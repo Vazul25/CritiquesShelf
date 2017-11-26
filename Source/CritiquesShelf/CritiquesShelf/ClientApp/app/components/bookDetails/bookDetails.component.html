@@ -78,9 +78,9 @@
             
             <mat-card>
                 <h3>Write review</h3>
-                <ng-template [ngIf]="userParsed&&bookParsed">
+                <ng-template [ngIf]="userParsed&&bookParsed&&bookRecived">
 
-                    <review [review]="newReview" [readOnly]="false"></review>
+                    <review [review]="book.myReview" [readOnly]="false"></review>
                 </ng-template>
             </mat-card>
 

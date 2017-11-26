@@ -73,7 +73,8 @@ namespace CritiquesShelf.Api
         [HttpGet("{id}")]
         public IActionResult GetBookDetails(long id)
         {
-            return Ok( _bookManager.GetBookDetails(id));
+            var userId = _identityUserManager.GetUserId(HttpContext.User);
+            return Ok( _bookManager.GetBookDetails(userId,id));
         }
 
         // POST api/values
@@ -145,6 +146,14 @@ namespace CritiquesShelf.Api
         {
             var reviewId = _bookManager.AddNewReview(id, review);
             return Ok(id);
+        }
+        [HttpPut("updateReview")]
+        public IActionResult UpdateReview([FromBody] ReviewModel review)
+        {
+            var userId = _identityUserManager.GetUserId(HttpContext.User);
+            if (userId != review.UserId) return Unauthorized();
+           _bookManager.UpdateReview(review);
+            return Ok(new { message = "Update success" });
         }
 
         [HttpPut("approveBookProposal/{bookId}")]

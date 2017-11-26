@@ -5,32 +5,49 @@
     <title></title>
 </head>
 <body>
-    <div class="book-container">
-        <div *ngFor="let book of books" class="book-container-item">
-            <div class="table">
-                <div class="row">
-                    <h1>User {{book.proposerName}} proposed book:</h1>
-                </div>
-                <div class="row">
-                    <div class="book-container-item">
-                        <bookDisplay [book]="book" [showCheckbox]="false"></bookDisplay>
+    <mat-card>
+        <h2>Add tag</h2>
+        <mat-form-field class="example-form-field">
+            <input matInput type="text" placeholder="Label" [(ngModel)]="newTagLabel">
+            <button mat-button *ngIf="newTagLabel" matSuffix mat-icon-button aria-label="Clear" (click)="newTagLabel=''">
+                <mat-icon>X</mat-icon>
+            </button>
+          
+        </mat-form-field>
+        <button mat-raised-button color="primary" (click)="addTag()">Add</button>
+
+        
+       
+    </mat-card>
+    <mat-card>
+        <h2>Approve books</h2>
+        <div class="book-container">
+            <div *ngFor="let book of books" class="book-container-item">
+                <div class="table">
+                    <div class="row">
+                        <h3>User {{book.proposerName}} proposed book:</h3>
                     </div>
-                </div>
-                <div class="row page-bar">
-                    <span>
-                        <button (click)="approve(book.id)" class="approve-button" color="accent" mat-raised-button [disabled]="requestInProgress">Approve</button>
-                        <button mat-raised-button class="reject-button" color="warn" (click)="reject(book.id)" [disabled]="requestInProgress">Reject</button>
-                    </span>
+                    <div class="row">
+                        <div class="book-container-item">
+                            <bookDisplay [book]="book" [showCheckbox]="false"></bookDisplay>
+                        </div>
+                    </div>
+                    <div class="row page-bar">
+                        <span>
+                            <button (click)="approve(book.id)" class="approve-button" color="accent" mat-raised-button [disabled]="requestInProgress">Approve</button>
+                            <button mat-raised-button class="reject-button" color="warn" (click)="reject(book.id)" [disabled]="requestInProgress">Reject</button>
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <span class="page-bar">
+        <span class="page-bar">
 
-        <button mat-fab color="accent" style="margin:auto 10px auto 10px" (click)="prevPage()" [disabled]="page==0 || requestInProgress"><</button>
+            <button mat-fab color="accent" style="margin:auto 10px auto 10px" (click)="prevPage()" [disabled]="page==0 || requestInProgress"><</button>
 
-        <button mat-fab color="accent" style="margin:auto 10px auto 10px" (click)="nextPage()" [disabled]="!hasNext || requestInProgress">></button>
-    </span>
+            <button mat-fab color="accent" style="margin:auto 10px auto 10px" (click)="nextPage()" [disabled]="!hasNext || requestInProgress">></button>
+        </span>
+    </mat-card>
 </body>
 </html>

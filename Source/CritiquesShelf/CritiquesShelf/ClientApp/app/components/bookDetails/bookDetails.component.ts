@@ -43,7 +43,8 @@ export class BookDetailsComponent {
                 this.book = data;
                 this.newReview.bookTitle = this.book.title;
                 this.newReview.bookId = this.book.id;
-               
+                console.log(data);
+                console.log(this.book);
                 this.bookRecived = true;
                 this.bookParsed = true;
 

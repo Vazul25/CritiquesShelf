@@ -11,6 +11,7 @@ export interface BookDetails {
     reviewCount: number;
     cover: string;
     reviews: Review[];
+    myReview: Review;
 } 
  
         

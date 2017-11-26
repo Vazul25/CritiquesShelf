@@ -7,5 +7,6 @@ namespace CritiquesShelfBLL.RepositoryInterfaces
     public interface ITagRepository
     {
         List<string> GetTags();
+        void addTag(string label);
     }
 }

@@ -23,6 +23,7 @@ export class BookApprovalComponent implements OnInit {
     numbers: number[] = Array(10);
     private sub: any;
     private sub3: any;
+    newTagLabel: string;
     ngOnInit() {
 
 
@@ -58,6 +59,7 @@ export class BookApprovalComponent implements OnInit {
 
 
     }
+    addTag() { this.bookService.addTag(this.newTagLabel).subscribe(d => this.newTagLabel=''); }
     ngOnDestroy() {
         console.log("Destroyed");
         if (this.sub)

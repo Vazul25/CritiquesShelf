@@ -34,11 +34,11 @@ namespace CritiquesShelfBLL.RepositoryInterfaces
         long AddNewReview(long bookId, ReviewModel review);
         UserBooksModel GetUserBooks(string userId);
         List<BookModel> GetPagedUserBooksByCollection(string id, string collection, int page, int pageSize);
-        BookDetailsModel GetBookDetails(long id);
+        BookDetailsModel GetBookDetails(string userId, long id);
        
         List<ReviewModel> GetPagedBookReviews(long id, int page, int pageSize);
         List<BookModel> GetTrendingBooks();
         List<ReviewModel> GetTrendingReviews();
-        
+        void UpdateReview(ReviewModel review);
     }
 }

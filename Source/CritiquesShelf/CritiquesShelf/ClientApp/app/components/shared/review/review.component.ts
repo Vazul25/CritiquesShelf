@@ -20,15 +20,31 @@ export class ReviewComponent {
     }
 
     onSendClick() {
-        this.requestInProgress    = true;
-    	this.bookService.postReviewForBook(this.review).subscribe(data => {
-            console.log("PostReviewForBook: ", data);
-            this.requestInProgress = false;
-            this.review.description = "";
-            this.review.score = 0;
-            
-            this.modalSerivce.openSimpleMessageDialog("Success","Your review was added, thank you.")
-        }, err => { console.log(err); this.requestInProgress = false; this.modalSerivce.openSimpleMessageDialog("Error", "Something bad happened, please try again later")});
+        this.requestInProgress = true;
+        if (this.review.id == undefined || this.review.id == 0) {
+            this.bookService.postReviewForBook(this.review).subscribe(data => {
+                console.log("PostReviewForBook: ", data);
+                this.requestInProgress = false;
+                this.review.description = "";
+                this.review.score = 0;
+
+                this.modalSerivce.openSimpleMessageDialog("Success", "Your review was added, thank you.")
+            }, err => {
+                console.log(err); this.requestInProgress = false; this.modalSerivce.openSimpleMessageDialog("Error", "Something bad happened, please try again later")
+            });
+        } else {
+            this.bookService.updateMyReviewForBook(this.review).subscribe(data => {
+               
+                this.requestInProgress = false;
+                this.review.description = "";
+                this.review.score = 0;
+
+                this.modalSerivce.openSimpleMessageDialog("Success", "Your review was added, thank you.")
+            }, err => {
+                console.log(err); this.requestInProgress = false; this.modalSerivce.openSimpleMessageDialog("Error", "Something bad happened, please try again later")
+            });
+        }
+    
     }
 
     onCancelClick() {

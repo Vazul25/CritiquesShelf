@@ -29,6 +29,7 @@ namespace CritiquesShelfBLL.Mapper
         {
             return new ReviewModel
             {
+                
                 Id = review.Id,
                 Date = review.Date,
                 Description = review.Description,

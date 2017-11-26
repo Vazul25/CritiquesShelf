@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using CritiquesShelfBLL.Utility;
 using CritiquesShelfBLL.Mapper;
 using CritiquesShelfBLL.ConnectionTables;
+using System;
 
 namespace CritiquesShelfBLL.Managers
 {
@@ -345,7 +346,7 @@ namespace CritiquesShelfBLL.Managers
             return entities.Select(x => _mapper.MapBookEntityToModel(x)).ToList();
         }
 
-        public BookDetailsModel GetBookDetails(long id)
+        public BookDetailsModel GetBookDetails(string userId,long id)
         {
             var book = _context.Books.Include(b => b.Authors).Include(b => b.TagConnectors).ThenInclude(tc => tc.Tag).Include(b => b.FavouriteConnectors).First(b => b.Id == id);
 
@@ -358,17 +359,21 @@ namespace CritiquesShelfBLL.Managers
                 FavouriteCount = book.FavouriteConnectors.Count,
                 Id = book.Id,
                 Rateing = book.ReviewScore,
-                ReviewCount = _context.Reviews.Where(r => r.BookId == id).Count(),
+                ReviewCount = _context.Reviews.Where(r => r.BookId == id && r.Description.Length>1).Count(),
                 Tags = book.TagConnectors.Select(tc => tc.Tag.Label).ToList(),
                 Title = book.Title
             };
-            result.Reviews = _context.Reviews.Where(r => r.BookId ==  id).OrderByDescending(r => r.Date).Take(10).Select(Mapper.Mapper.MapReviewToModelExpression()).ToList();  
+            result.Reviews = _context.Reviews.Where(r => r.BookId ==  id &&  r.Description.Length > 1).OrderByDescending(r => r.Date).Take(10).Select(Mapper.Mapper.MapReviewToModelExpression()).ToList();
+            var myReview = _context.Reviews.FirstOrDefault(r => r.UserId == userId && r.BookId == id);
+            if (myReview != null) result.MyReview = _mapper.MapReviewEntityToModel(myReview);
+            else { result.MyReview = new ReviewModel { Date = DateTime.Now ,BookId=id,UserId=userId,BookTitle=result.Title};  }
+            
             return result;
         }
 
         public List<ReviewModel> GetPagedBookReviews(long id, int page, int pageSize)
         {
-         return   _context.Reviews.Where(r => r.BookId == id).Include(r=>r.User).OrderByDescending(r => r.Date).Skip(page*pageSize).Take(pageSize).Select(Mapper.Mapper.MapReviewToModelExpression()).ToList();
+         return   _context.Reviews.Where(r => r.BookId == id && r.Description.Length > 1).Include(r=>r.User).OrderByDescending(r => r.Date).Skip(page*pageSize).Take(pageSize).Select(Mapper.Mapper.MapReviewToModelExpression()).ToList();
 
         }
 
@@ -382,6 +387,15 @@ namespace CritiquesShelfBLL.Managers
         {
             var Date = System.DateTime.Today.AddDays(-7);
             return   _context.Reviews.Where( r => r.Date > Date && r.Score>=3.9).Include(r=>r.User).Include(r=>r.Book).OrderByDescending(r=>r.User.Reviews.Count).Take(10).Select(Mapper.Mapper.MapReviewToModelExpression()).ToList();
+        }
+
+        public void UpdateReview(ReviewModel review)
+        {
+            var reviewToUpdate=_context.Reviews.Find(review.Id);
+            reviewToUpdate.Score = review.Score;
+            reviewToUpdate.Description = review.Description;
+            reviewToUpdate.Date = review.Date;
+            _context.SaveChanges();
         }
     }
 }

@@ -95,4 +95,19 @@ export class BookService {
     getTrendingBooks( ): Observable<any> {
         return this.http.get(this.rootRoute + "getTrendingBooks/" );
     }
+    updateMyReviewForBook(review: Review): Observable<any> {
+        let body = JSON.stringify(review);
+
+        return this.http.put(this.rootRoute  + 'updateReview', body, {
+            headers: new HttpHeaders().set('Content-Type', 'application/json'),
+        });
+    }
+    addTag(label: string): Observable<any> {
+        let body = JSON.stringify({dummy:'dummy'});
+
+        return this.http.put('api/Tag/addTag?label=' + label, body, {
+            headers: new HttpHeaders().set('Content-Type', 'application/json'),
+        });
+    }
+    
 }

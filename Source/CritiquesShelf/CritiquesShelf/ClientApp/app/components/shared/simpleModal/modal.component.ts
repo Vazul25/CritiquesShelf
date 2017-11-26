@@ -17,6 +17,13 @@ export class SimpleModalComponent {
 
         this.title = data.title;
         this.message = data.message;
-    }}
+
+    }
+    onNoClick(): void {
+        
+        this.dialogRef.close();
+    }
+
+}
 
  
